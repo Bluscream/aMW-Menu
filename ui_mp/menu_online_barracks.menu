@@ -1,0 +1,1422 @@
+/*********************************************************
+***************** Dumped by aerosoul94 *******************
+*********************************************************/
+
+{
+	menuDef
+	{
+		name "menu_online_barracks"
+		rect 0 0 640 480 0 0
+		style 1
+		forecolor 1 1 1 1
+		focuscolor 1 1 1 1
+		fullscreen 1
+		fadeCycle 1
+		fadeClamp 1
+		fadeAmount 0.1
+		soundLoop "music_mainmenu_mp"
+		onOpen
+		{
+			focusfirst;
+			setLocalVarInt "menu_ui_setxp" 0;
+		}
+		onClose
+		{
+			setDvar "menu_ui_setrank" 0;
+			setLocalVarInt "menu_ui_setxp" 0;
+		}
+		onEsc
+		{
+			close self;
+		}
+		itemDef
+		{
+			rect 0 0 640 480 4 4
+			decoration
+			visible 1
+			style 3
+			forecolor 1 1 1 1
+			background "mw2_main_sp_image"
+			textscale 0.55
+		}
+		itemDef
+		{
+			rect 0 0 1708 480 0 0
+			decoration
+			visible 1
+			style 3
+			forecolor 1 1 1 0.5
+			background "mw2_main_cloud_overlay"
+			textscale 0.55
+			exp rect x ( ( 0 - 107 ) - ( ( float( milliseconds( ) % 60000 ) / 60000 ) * ( 854 ) ) )
+		}
+		itemDef
+		{
+			rect 0 0 -1708 -480 0 0
+			decoration
+			visible 1
+			style 3
+			forecolor 1 1 1 0.5
+			background "mw2_main_cloud_overlay"
+			textscale 0.55
+			exp rect x ( ( - 107 + 854 ) + ( ( float( milliseconds( ) % 50000 ) / 50000 ) * ( 854 ) ) )
+		}
+		itemDef
+		{
+			rect 0 0 640 480 4 4
+			decoration
+			visible 1
+			style 3
+			forecolor 1 1 1 0
+			background "mockup_bg_glow"
+			textscale 0.55
+			exp forecolor a ( ( ( sin( milliseconds( ) / 1500 ) + 1 ) * 0.25 ) + 0.25 )
+		}
+		itemDef
+		{
+			rect 0 0 640 480 4 4
+			decoration
+			visible 1
+			style 3
+			forecolor 1 1 1 0
+			background "mockup_bg_glow"
+			textscale 0.55
+			exp forecolor a ( ( ( sin( milliseconds( ) / 480 ) + 1 ) * 0.25 ) + 0.25 )
+		}
+		itemDef
+		{
+			rect -64 0 280 480 1 0
+			decoration
+			visible 1
+			style 3
+			forecolor 1 1 1 0.1
+			background "gradient_fadein_fadebottom"
+			textscale 0.55
+		}
+		#define MENU_CHOICE_TITLE_VIS( textArg, viswhenArg) \
+		itemDef \
+		{ \
+			rect 0 0 272 28 1 1 \
+			decoration \
+			visible 1 \
+			forecolor 1 1 1 1 \
+			textfont 9 \
+			textalign 6 \
+			textalignx -60 \
+			textscale 0.5 \
+			text textArg \
+			visible 1 \
+			visible when ( viswhenArg ) \
+		} \
+
+		MENU_CHOICE_TITLE_VIS( "@MPUI_BARRACKS_CAP", 	!dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0)
+		MENU_CHOICE_TITLE_VIS( "Choose a Prestige", 	dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0)
+		MENU_CHOICE_TITLE_VIS( "Choose a level (1/5)", 	!dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 1)
+		MENU_CHOICE_TITLE_VIS( "Choose a level (2/5)", 	!dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 2)
+		MENU_CHOICE_TITLE_VIS( "Choose a level (3/5)", 	!dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 3)
+		MENU_CHOICE_TITLE_VIS( "Choose a level (4/5)", 	!dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 4)
+		MENU_CHOICE_TITLE_VIS( "Choose a level (5/5)", 	!dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 5)
+		
+		itemDef
+		{
+			rect -272 0 0 18 3 1
+			decoration
+			visible 1
+			style 1
+			forecolor 1 1 1 0.65
+			background "white"
+			textfont 3
+			textalign 4
+			textalignx 20
+			textscale 0.375
+			dvar "party_statusString"
+			visible when ( !dvarint( "xblive_privatematch" ) && inlobby( ) )
+		}
+
+#define CHOICE_Y(i) ( 28 + ( i * 20 ) )
+#define HR_ORIGIN(i) 0 ( CHOICE_Y(i) - 0.5 )
+#define CHOICE_ORIGIN(i) -64 CHOICE_Y(i)
+#define CHOICE_RECT(i) CHOICE_ORIGIN(i) 336 20 1 1
+#define HR_RECT(i) HR_ORIGIN(i) 216 1 1 1
+
+#define MENU_CHOICE_BUTTON_VIS( itemIndex, buttonName, textArg, focusArg, actionArg, viswhenArg) \
+      itemDef \
+      { \
+         name buttonName \
+         rect CHOICE_RECT(itemIndex) \
+         foreColor 1 1 1 1 \
+         backColor 0 0 0 0 \
+         style 1 \
+         origin 0 0 \
+         background menu_button_selection_bar \
+         group mw2_button \
+         type 1 \
+         textAlign 6 \
+         textAlignX -60 \
+         textScale 0.375 \
+         textFont 3 \
+         text textArg \
+         onFocus \
+         { \
+            play mouse_over; \
+				if ( dvarstring( "gameMode" ) != "mp" ) \
+				{ \
+					setItemColor "mw2_button" backcolor 0 0 0 0; \
+				} \
+				setItemColor self backcolor 0 0 0 1; \
+				setLocalVarBool "ui_menuAButton" ( 1 ); \
+				focusArg; \
+         } \
+         leaveFocus \
+         { \
+				setItemColor self backcolor 0 0 0 "0.0"; \
+				setLocalVarString "ui_hint_text" ( "@NULL_EMPTY" ); \
+				setLocalVarBool "ui_menuAButton" ( 0 ); \
+         } \
+         action \
+         { \
+            play mouse_click; \
+			actionArg; \
+		} \
+		visible 1 \
+		visible when ( viswhenArg ) \
+      }
+
+#define MENU_CHOICE_BUTTON_INV( itemIndex, buttonName, textArg, focusArg, actionArg, viswhenArg, diswhenArg) \
+      itemDef \
+      { \
+         name buttonName \
+         rect CHOICE_RECT(itemIndex) \
+         foreColor 1 1 1 1 \
+         backColor 0 0 0 0 \
+		 disablecolor 0.6 0.55 0.55 1 \
+         style 1 \
+         origin 0 0 \
+         background menu_button_selection_bar \
+         group mw2_button \
+         type 1 \
+         textAlign 6 \
+         textAlignX -60 \
+         textScale 0.375 \
+         textFont 3 \
+         text textArg \
+         onFocus \
+         { \
+            play mouse_over; \
+				if ( dvarstring( "gameMode" ) != "mp" ) \
+				{ \
+					setItemColor "mw2_button" backcolor 0 0 0 0; \
+				} \
+				setItemColor self backcolor 0 0 0 1; \
+				setLocalVarBool "ui_menuAButton" ( 1 ); \
+				setLocalVarFloat "ui_popupYPos" ( getfocuseditemy( ) ); \
+				setLocalVarString "ui_hint_text" ( hintText ); \
+				focusArg; \
+         } \
+         leaveFocus \
+         { \
+				setItemColor self backcolor 0 0 0 "0.0"; \
+				setLocalVarString "ui_hint_text" ( "@NULL_EMPTY" ); \
+				setLocalVarBool "ui_menuAButton" ( 0 ); \
+         } \
+         action \
+         { \
+            play mouse_click; \
+			actionArg; \
+		} \
+		visible 1 \
+		visible when ( viswhenArg ) \
+		disabled when ( diswhenArg ) \
+      } \
+	  
+#define ICON(posArg, bgArg, viswhenArg) \
+		itemDef \
+		{ \
+			rect posArg \
+			decoration \
+			visible 1 \
+			style 3 \
+			forecolor 1 1 1 1 \
+			background bgArg \
+			textscale 0.55 \
+			visible when ( viswhenArg ) \
+		} \
+
+#define HORIZONTAL_LINE(itemIndex, viswhenArg) \
+   itemDef \
+      { \
+         rect HR_RECT(itemIndex) \
+         style 3 \
+         border 0 \
+         ownerdraw 0 \
+         ownerdrawFlag 0 \
+         borderSize 0 \
+         foreColor 1 1 1 0.65 \
+         backColor 0 0 0 0 \
+         borderColor 0 0 0 0 \
+         outlineColor 0 0 0 0 \
+         background gradient_fadein \
+         decoration \
+         type 0 \
+         align 0 \
+         textAlign 0 \
+         textAlignX 0 \
+         textAlignY 0 \
+         textScale 0.55 \
+         textStyle 0 \
+         textFont 0 \
+         feeder 0 \
+         visible 1 \
+		 visible when ( viswhenArg ) \
+	} \
+	
+	MENU_CHOICE_BUTTON_VIS( 0, "button_create_a_class", "@MENU_CREATE_A_CLASS_CAPS", setLocalVarString "ui_hint_text" ( "Edit your custom classes." ) , open "cac_popup", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0 )
+	HORIZONTAL_LINE(1, !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0 )
+	MENU_CHOICE_BUTTON_VIS( 1, "button_callsign_title_emblem", "@MENU_PLAYERCARD_CAPS",setLocalVarString "ui_hint_text" ( "Change your emblem, title and callsign.") , open "popup_callsign", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0 )
+	HORIZONTAL_LINE(2, !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0 )
+	MENU_CHOICE_BUTTON_INV( 2, "button_challenges", "@MPUI_CHALLENGES_CAPS", if ( isitemunlocked( "challenges" ) )	{ setLocalVarString "ui_hint_text" ( "@MPUI_DESC_CHALLENGES" );	} else { if ( tablelookup( "mp/unlockTable.csv" , 0 , "challenges" , 2 ) == 9999 ) { setLocalVarString "ui_hint_text" ( "@PERKS_UNLOCKED_AT_NONE" ); } else { if ( tablelookup( "mp/unlockTable.csv" , 0 , "challenges" , 3 ) != "" ) { setLocalVarString "ui_hint_text" ( "@PERKS_UNLOCKED_BY_CHALLENGE" ); } else	{ setLocalVarString "ui_hint_text" ( "@" + tablelookup( "mp/rankTable.csv" , 0 , tablelookup( "mp/unlockTable.csv" , 0 , "challenges" , 2 ) , 17 ) ); }	} exec "set ui_hint_text THIS MENU SHOULD BE UPDATED TO USE setLocalVarString ui_hint_text;"; }, setPlayerData( "featureNew" , "challenges" , "false" ); open "menu_challenges";, !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0, !isitemunlocked( "challenges" ) )
+    ICON(232 68 40 20 1 1, "specialty_new", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0 ) && ( ( getplayerdataanybooltrue( "challengeTierNew" ) || getplayerdata( "featureNew" , "challenges" ) ) && isitemunlocked( "challenges" ) ) )
+	MENU_CHOICE_BUTTON_VIS( 3, "button_accolades", "@MPUI_HIGHLIGHTS_CAPS", setLocalVarString "ui_hint_text" ( "@MPUI_DESC_HIGHLIGHTS" ), open "menu_records", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0)
+	HORIZONTAL_LINE(4, !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0 )
+	MENU_CHOICE_BUTTON_VIS( 4, "button_setrank", "SET PRESTIGE", setLocalVarString "ui_hint_text" ( "Set your prestige." ) , setDvar "menu_ui_setrank" 1, !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0 )
+	MENU_CHOICE_BUTTON_VIS( 5, "button_setxp", "SET LEVEL", setLocalVarString "ui_hint_text" ( "Set your level." ) , setLocalVarInt "menu_ui_setxp" 1;, !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0 )
+	HORIZONTAL_LINE(6, !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0 )
+	MENU_CHOICE_BUTTON_VIS( 6, "button_uploadstats", "^3UPLOAD STATS", setLocalVarString "ui_hint_text" ( "Upload your stats to the server." ) , exec "uploadStats", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0 )
+	// MENU_CHOICE_BUTTON_VIS( 6, "button_unlock_titles", "UNLOCK TITLES", setLocalVarString "ui_hint_text" ( "Unlock all titles." ) , setPlayerData "iconUnlocked" "cardtitle_140x32" 1;setPlayerData "iconUnlocked" "cardtitle_208x48" 1;setPlayerData "iconUnlocked" "cardtitle_248x20" 1;setPlayerData "iconUnlocked" "cardtitle_248x48" 1;setPlayerData "iconUnlocked" "cardtitle_4thofjuly_1" 1;setPlayerData "iconUnlocked" "cardtitle_abstract3" 1;setPlayerData "iconUnlocked" "cardtitle_ac130_1" 1;setPlayerData "iconUnlocked" "cardtitle_aircraft_carriers" 1;setPlayerData "iconUnlocked" "cardtitle_angry_dragon" 1;setPlayerData "iconUnlocked" "cardtitle_apocalypse" 1;setPlayerData "iconUnlocked" "cardtitle_assault_expert" 1;setPlayerData "iconUnlocked" "cardtitle_assault_marksman" 1;setPlayerData "iconUnlocked" "cardtitle_assault_master" 1;setPlayerData "iconUnlocked" "cardtitle_assault_sharpshooter" 1;setPlayerData "iconUnlocked" "cardtitle_assault_veteran" 1;setPlayerData "iconUnlocked" "cardtitle_at4_rocket" 1;setPlayerData "iconUnlocked" "cardtitle_bandaid" 1;setPlayerData "iconUnlocked" "cardtitle_benjamins" 1;setPlayerData "iconUnlocked" "cardtitle_blackcat" 1;setPlayerData "iconUnlocked" "cardtitle_blimp_1" 1;setPlayerData "iconUnlocked" "cardtitle_bloodsplat" 1;setPlayerData "iconUnlocked" "cardtitle_bloodysword" 1;setPlayerData "iconUnlocked" "cardtitle_bomber_pinup_girl" 1;setPlayerData "iconUnlocked" "cardtitle_bombs2" 1;setPlayerData "iconUnlocked" "cardtitle_buckshot" 1;setPlayerData "iconUnlocked" "cardtitle_buggy" 1;setPlayerData "iconUnlocked" "cardtitle_bullet" 1;setPlayerData "iconUnlocked" "cardtitle_butterfly_1" 1;setPlayerData "iconUnlocked" "cardtitle_butterfly_2" 1;setPlayerData "iconUnlocked" "cardtitle_camo_arctic" 1;setPlayerData "iconUnlocked" "cardtitle_camo_bluetiger" 1;setPlayerData "iconUnlocked" "cardtitle_camo_desert" 1;setPlayerData "iconUnlocked" "cardtitle_camo_digital" 1;setPlayerData "iconUnlocked" "cardtitle_camo_fall" 1;setPlayerData "iconUnlocked" "cardtitle_camo_redtiger" 1;setPlayerData "iconUnlocked" "cardtitle_camo_urban" 1;setPlayerData "iconUnlocked" "cardtitle_camo_woodland" 1;setPlayerData "iconUnlocked" "cardtitle_cemetary" 1;setPlayerData "iconUnlocked" "cardtitle_cheese" 1;setPlayerData "iconUnlocked" "cardtitle_chicken" 1;setPlayerData "iconUnlocked" "cardtitle_cobra" 1;setPlayerData "iconUnlocked" "cardtitle_cowboy" 1;setPlayerData "iconUnlocked" "cardtitle_cripple" 1;setPlayerData "iconUnlocked" "cardtitle_cutegirl_v1_1" 1;setPlayerData "iconUnlocked" "cardtitle_cutegirl_v1_2" 1;setPlayerData "iconUnlocked" "cardtitle_cutegirl_v1_3" 1;setPlayerData "iconUnlocked" "cardtitle_cutegirl_v2_1" 1;setPlayerData "iconUnlocked" "cardtitle_cutegirl_v2_2" 1;setPlayerData "iconUnlocked" "cardtitle_cutegirl_v2_3" 1;setPlayerData "iconUnlocked" "cardtitle_dragon_kick" 1;setPlayerData "iconUnlocked" "cardtitle_drifting" 1;setPlayerData "iconUnlocked" "cardtitle_dynamite" 1;setPlayerData "iconUnlocked" "cardtitle_endofline_red" 1;setPlayerData "iconUnlocked" "cardtitle_explosion" 1;setPlayerData "iconUnlocked" "cardtitle_eyeball_3" 1;setPlayerData "iconUnlocked" "cardtitle_flag_australia" 1;setPlayerData "iconUnlocked" "cardtitle_flag_austria" 1;setPlayerData "iconUnlocked" "cardtitle_flag_belgium" 1;setPlayerData "iconUnlocked" "cardtitle_flag_brazil" 1;setPlayerData "iconUnlocked" "cardtitle_flag_canada" 1;setPlayerData "iconUnlocked" "cardtitle_flag_china" 1;setPlayerData "iconUnlocked" "cardtitle_flag_czech" 1;setPlayerData "iconUnlocked" "cardtitle_flag_denmark" 1;setPlayerData "iconUnlocked" "cardtitle_flag_elsalvador" 1;setPlayerData "iconUnlocked" "cardtitle_flag_finland" 1;setPlayerData "iconUnlocked" "cardtitle_flag_france" 1;setPlayerData "iconUnlocked" "cardtitle_flag_germany" 1;setPlayerData "iconUnlocked" "cardtitle_flag_greece" 1;setPlayerData "iconUnlocked" "cardtitle_flag_hongkong" 1;setPlayerData "iconUnlocked" "cardtitle_flag_india" 1;setPlayerData "iconUnlocked" "cardtitle_flag_iran" 1;setPlayerData "iconUnlocked" "cardtitle_flag_ireland" 1;setPlayerData "iconUnlocked" "cardtitle_flag_italy" 1;setPlayerData "iconUnlocked" "cardtitle_flag_japan" 1;setPlayerData "iconUnlocked" "cardtitle_flag_luxemburg" 1;setPlayerData "iconUnlocked" "cardtitle_flag_mexico" 1;setPlayerData "iconUnlocked" "cardtitle_flag_netherlands" 1;setPlayerData "iconUnlocked" "cardtitle_flag_newzealand" 1;setPlayerData "iconUnlocked" "cardtitle_flag_norway" 1;setPlayerData "iconUnlocked" "cardtitle_flag_philippines" 1;setPlayerData "iconUnlocked" "cardtitle_flag_poland" 1;setPlayerData "iconUnlocked" "cardtitle_flag_portugal" 1;setPlayerData "iconUnlocked" "cardtitle_flag_russia" 1;setPlayerData "iconUnlocked" "cardtitle_flag_saudiarabia" 1;setPlayerData "iconUnlocked" "cardtitle_flag_singapore" 1;setPlayerData "iconUnlocked" "cardtitle_flag_southafrica" 1;setPlayerData "iconUnlocked" "cardtitle_flag_southkorea" 1;setPlayerData "iconUnlocked" "cardtitle_flag_spain" 1;setPlayerData "iconUnlocked" "cardtitle_flag_sweden" 1;setPlayerData "iconUnlocked" "cardtitle_flag_swiss" 1;setPlayerData "iconUnlocked" "cardtitle_flag_taiwan" 1;setPlayerData "iconUnlocked" "cardtitle_flag_turkey" 1;setPlayerData "iconUnlocked" "cardtitle_flag_uk" 1;setPlayerData "iconUnlocked" "cardtitle_flag_united_arab_emirates" 1;setPlayerData "iconUnlocked" "cardtitle_flag_unitedstates" 1;setPlayerData "iconUnlocked" "cardtitle_flames_1" 1;setPlayerData "iconUnlocked" "cardtitle_flower_3" 1;setPlayerData "iconUnlocked" "cardtitle_gears_03" 1;setPlayerData "iconUnlocked" "cardtitle_general" 1;setPlayerData "iconUnlocked" "cardtitle_ghillie" 1;setPlayerData "iconUnlocked" "cardtitle_glass_hispeed" 1;setPlayerData "iconUnlocked" "cardtitle_graff" 1;setPlayerData "iconUnlocked" "cardtitle_graffiti_1" 1;setPlayerData "iconUnlocked" "cardtitle_graffiti_2" 1;setPlayerData "iconUnlocked" "cardtitle_harrier" 1;setPlayerData "iconUnlocked" "cardtitle_hazard_3" 1;setPlayerData "iconUnlocked" "cardtitle_heartbeatsensor" 1;setPlayerData "iconUnlocked" "cardtitle_helicopters_1" 1;setPlayerData "iconUnlocked" "cardtitle_hello_sticker" 1;setPlayerData "iconUnlocked" "cardtitle_horsemen" 1;setPlayerData "iconUnlocked" "cardtitle_horsemen_death" 1;setPlayerData "iconUnlocked" "cardtitle_horsemen_famine" 1;setPlayerData "iconUnlocked" "cardtitle_horsemen_war" 1;setPlayerData "iconUnlocked" "cardtitle_hotdog_high" 1;setPlayerData "iconUnlocked" "cardtitle_iss01" 1;setPlayerData "iconUnlocked" "cardtitle_jason_nvg" 1;setPlayerData "iconUnlocked" "cardtitle_joint" 1;setPlayerData "iconUnlocked" "cardtitle_kingsnake" 1;setPlayerData "iconUnlocked" "cardtitle_lingerie_1" 1;setPlayerData "iconUnlocked" "cardtitle_lingerie_2" 1;setPlayerData "iconUnlocked" "cardtitle_locked" 1;setPlayerData "iconUnlocked" "cardtitle_machinegun" 1;setPlayerData "iconUnlocked" "cardtitle_magic" 1;setPlayerData "iconUnlocked" "cardtitle_make_it_rain" 1;setPlayerData "iconUnlocked" "cardtitle_mig15" 1;setPlayerData "iconUnlocked" "cardtitle_moab" 1;setPlayerData "iconUnlocked" "cardtitle_mw2_black" 1;setPlayerData "iconUnlocked" "cardtitle_night_vision_hi" 1;setPlayerData "iconUnlocked" "cardtitle_operations" 1;setPlayerData "iconUnlocked" "cardtitle_pavelow" 1;setPlayerData "iconUnlocked" "cardtitle_pavelow_side" 1;setPlayerData "iconUnlocked" "cardtitle_pinkscar" 1;setPlayerData "iconUnlocked" "cardtitle_pushindaisies" 1;setPlayerData "iconUnlocked" "cardtitle_rainbows_3" 1;setPlayerData "iconUnlocked" "cardtitle_rice_rocket" 1;setPlayerData "iconUnlocked" "cardtitle_roll_hard_six" 1;setPlayerData "iconUnlocked" "cardtitle_rpg" 1;setPlayerData "iconUnlocked" "cardtitle_samurai_lv3" 1;setPlayerData "iconUnlocked" "cardtitle_satellite" 1;setPlayerData "iconUnlocked" "cardtitle_schooled" 1;setPlayerData "iconUnlocked" "cardtitle_shark" 1;setPlayerData "iconUnlocked" "cardtitle_silencer" 1;setPlayerData "iconUnlocked" "cardtitle_skateboard" 1;setPlayerData "iconUnlocked" "cardtitle_smoke_em" 1;setPlayerData "iconUnlocked" "cardtitle_sniper_1" 1;setPlayerData "iconUnlocked" "cardtitle_sniper_2" 1;setPlayerData "iconUnlocked" "cardtitle_sniper_3" 1;setPlayerData "iconUnlocked" "cardtitle_sniper_4" 1;setPlayerData "iconUnlocked" "cardtitle_snowmobile" 1;setPlayerData "iconUnlocked" "cardtitle_snubnose" 1;setPlayerData "iconUnlocked" "cardtitle_spankpaddle" 1;setPlayerData "iconUnlocked" "cardtitle_spider" 1;setPlayerData "iconUnlocked" "cardtitle_spy_1" 1;setPlayerData "iconUnlocked" "cardtitle_stpatricks_3" 1;setPlayerData "iconUnlocked" "cardtitle_straight_blast" 1;setPlayerData "iconUnlocked" "cardtitle_sunbather" 1;setPlayerData "iconUnlocked" "cardtitle_swordmaster_1" 1;setPlayerData "iconUnlocked" "cardtitle_swordmaster_2" 1;setPlayerData "iconUnlocked" "cardtitle_swordmaster_3" 1;setPlayerData "iconUnlocked" "cardtitle_tank" 1;setPlayerData "iconUnlocked" "cardtitle_thebomb" 1;setPlayerData "iconUnlocked" "cardtitle_tiger" 1;setPlayerData "iconUnlocked" "cardtitle_tomahawk" 1;setPlayerData "iconUnlocked" "cardtitle_tsunami" 1;setPlayerData "iconUnlocked" "cardtitle_weed_3" 1;setPlayerData "iconUnlocked" "cardtitle_zero" 1;setPlayerData "iconUnlocked" "cardtitle_zombie_3" 1;, !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0 )
+	// MENU_CHOICE_BUTTON_VIS( 7, "button_unlock_emblems", "UNLOCK EMBLEMS", setLocalVarString "ui_hint_text" ( "Unlock all emblems" ) , setPlayerData "iconUnlocked" "cardicon_prestige10_02" 1;  setPlayerData "iconUnlocked" "cardicon_prestige10_01" 1; setPlayerData "iconUnlocked" "cardicon_prestige10_02" 1; setPlayerData "iconUnlocked" "cardicon_8_bit_price" 1; setPlayerData "iconUnlocked" "cardicon_8ball" 1; setPlayerData "iconUnlocked" "cardicon_abduction" 1; setPlayerData "iconUnlocked" "cardicon_abrams" 1; setPlayerData "iconUnlocked" "cardicon_ac130_angelflare" 1; setPlayerData "iconUnlocked" "cardicon_aircraft_01" 1; setPlayerData "iconUnlocked" "cardicon_animal" 1; setPlayerData "iconUnlocked" "cardicon_assad" 1; setPlayerData "iconUnlocked" "cardicon_award_jets" 1; setPlayerData "iconUnlocked" "cardicon_b2" 1; setPlayerData "iconUnlocked" "cardicon_ball_baseball_1" 1; setPlayerData "iconUnlocked" "cardicon_ball_volleyball_1" 1; setPlayerData "iconUnlocked" "cardicon_bear" 1; setPlayerData "iconUnlocked" "cardicon_binoculars_1" 1; setPlayerData "iconUnlocked" "cardicon_biohazard" 1; setPlayerData "iconUnlocked" "cardicon_birdbrain" 1; setPlayerData "iconUnlocked" "cardicon_blast_shield" 1; setPlayerData "iconUnlocked" "cardicon_booniehat" 1; setPlayerData "iconUnlocked" "cardicon_boot" 1; setPlayerData "iconUnlocked" "cardicon_boots_01" 1; setPlayerData "iconUnlocked" "cardicon_boots_02" 1; setPlayerData "iconUnlocked" "cardicon_brassknuckles" 1; setPlayerData "iconUnlocked" "cardicon_brit_beret" 1; setPlayerData "iconUnlocked" "cardicon_bulb" 1; setPlayerData "iconUnlocked" "cardicon_bullet_case" 1; setPlayerData "iconUnlocked" "cardicon_bullets_50cal" 1; setPlayerData "iconUnlocked" "cardicon_burgertown" 1; setPlayerData "iconUnlocked" "cardicon_c4" 1; setPlayerData "iconUnlocked" "cardicon_car" 1; setPlayerData "iconUnlocked" "cardicon_chicken" 1; setPlayerData "iconUnlocked" "cardicon_circuit" 1; setPlayerData "iconUnlocked" "cardicon_claw" 1; setPlayerData "iconUnlocked" "cardicon_claymore" 1; setPlayerData "iconUnlocked" "cardicon_cod4" 1; setPlayerData "iconUnlocked" "cardicon_comic_price" 1; setPlayerData "iconUnlocked" "cardicon_comic_shepherd" 1; setPlayerData "iconUnlocked" "cardicon_compass" 1; setPlayerData "iconUnlocked" "cardicon_copycat" 1; setPlayerData "iconUnlocked" "cardicon_default" 1; setPlayerData "iconUnlocked" "cardicon_devilfinger" 1; setPlayerData "iconUnlocked" "cardicon_dogtags_1" 1; setPlayerData "iconUnlocked" "cardicon_doubletap" 1; setPlayerData "iconUnlocked" "cardicon_eagle" 1; setPlayerData "iconUnlocked" "cardicon_electro" 1; setPlayerData "iconUnlocked" "cardicon_expert_aa12" 1; setPlayerData "iconUnlocked" "cardicon_expert_ak47" 1; setPlayerData "iconUnlocked" "cardicon_expert_aug" 1; setPlayerData "iconUnlocked" "cardicon_expert_barrett" 1; setPlayerData "iconUnlocked" "cardicon_expert_beretta" 1; setPlayerData "iconUnlocked" "cardicon_expert_beretta393" 1; setPlayerData "iconUnlocked" "cardicon_expert_cheytac" 1; setPlayerData "iconUnlocked" "cardicon_expert_coltanaconda" 1; setPlayerData "iconUnlocked" "cardicon_expert_deserteagle" 1; setPlayerData "iconUnlocked" "cardicon_expert_fal" 1; setPlayerData "iconUnlocked" "cardicon_expert_famas" 1; setPlayerData "iconUnlocked" "cardicon_expert_fn2000" 1; setPlayerData "iconUnlocked" "cardicon_expert_glock" 1; setPlayerData "iconUnlocked" "cardicon_expert_kriss" 1; setPlayerData "iconUnlocked" "cardicon_expert_m1014" 1; setPlayerData "iconUnlocked" "cardicon_expert_m16" 1; setPlayerData "iconUnlocked" "cardicon_expert_m21" 1; setPlayerData "iconUnlocked" "cardicon_expert_m240" 1; setPlayerData "iconUnlocked" "cardicon_expert_m4" 1; setPlayerData "iconUnlocked" "cardicon_expert_masada" 1; setPlayerData "iconUnlocked" "cardicon_expert_mg4" 1; setPlayerData "iconUnlocked" "cardicon_expert_model1887" 1; setPlayerData "iconUnlocked" "cardicon_expert_mp5k" 1; setPlayerData "iconUnlocked" "cardicon_expert_p90" 1; setPlayerData "iconUnlocked" "cardicon_expert_pp2000" 1; setPlayerData "iconUnlocked" "cardicon_expert_ranger" 1; setPlayerData "iconUnlocked" "cardicon_expert_rpd" 1; setPlayerData "iconUnlocked" "cardicon_expert_sa80" 1; setPlayerData "iconUnlocked" "cardicon_expert_scar" 1; setPlayerData "iconUnlocked" "cardicon_expert_spas12" 1; setPlayerData "iconUnlocked" "cardicon_expert_striker" 1; setPlayerData "iconUnlocked" "cardicon_expert_tavor" 1; setPlayerData "iconUnlocked" "cardicon_expert_tmp" 1; setPlayerData "iconUnlocked" "cardicon_expert_ump45" 1; setPlayerData "iconUnlocked" "cardicon_expert_usp" 1; setPlayerData "iconUnlocked" "cardicon_expert_uzi" 1; setPlayerData "iconUnlocked" "cardicon_expert_wa2000" 1; setPlayerData "iconUnlocked" "cardicon_f15" 1; setPlayerData "iconUnlocked" "cardicon_final_stand" 1; setPlayerData "iconUnlocked" "cardicon_flare" 1; setPlayerData "iconUnlocked" "cardicon_fmj" 1; setPlayerData "iconUnlocked" "cardicon_frag_grenade" 1; setPlayerData "iconUnlocked" "cardicon_gasmask" 1; setPlayerData "iconUnlocked" "cardicon_gears" 1; setPlayerData "iconUnlocked" "cardicon_ghillie" 1; setPlayerData "iconUnlocked" "cardicon_ghost" 1; setPlayerData "iconUnlocked" "cardicon_ghost_bust" 1; setPlayerData "iconUnlocked" "cardicon_ghost_mic" 1; setPlayerData "iconUnlocked" "cardicon_girlskull" 1; setPlayerData "iconUnlocked" "cardicon_gloss_grenade" 1; setPlayerData "iconUnlocked" "cardicon_gold" 1; setPlayerData "iconUnlocked" "cardicon_grenadepulldeath" 1; setPlayerData "iconUnlocked" "cardicon_grigsby" 1; setPlayerData "iconUnlocked" "cardicon_gumby" 1; setPlayerData "iconUnlocked" "cardicon_harrier" 1; setPlayerData "iconUnlocked" "cardicon_hat_n_knife" 1; setPlayerData "iconUnlocked" "cardicon_hazard" 1; setPlayerData "iconUnlocked" "cardicon_headshot" 1; setPlayerData "iconUnlocked" "cardicon_heartbeatsensor" 1; setPlayerData "iconUnlocked" "cardicon_helmet_army" 1; setPlayerData "iconUnlocked" "cardicon_helmet_brit_ww2" 1; setPlayerData "iconUnlocked" "cardicon_helmet_medic" 1; setPlayerData "iconUnlocked" "cardicon_helmet_pilot" 1; setPlayerData "iconUnlocked" "cardicon_helmet_ranger" 1; setPlayerData "iconUnlocked" "cardicon_helmet_samurai" 1; setPlayerData "iconUnlocked" "cardicon_hipflask" 1; setPlayerData "iconUnlocked" "cardicon_honeybadger01" 1; setPlayerData "iconUnlocked" "cardicon_humantrophy" 1; setPlayerData "iconUnlocked" "cardicon_hummer" 1; setPlayerData "iconUnlocked" "cardicon_hyena" 1; setPlayerData "iconUnlocked" "cardicon_illuminati" 1; setPlayerData "iconUnlocked" "cardicon_iss" 1; setPlayerData "iconUnlocked" "cardicon_joystick" 1; setPlayerData "iconUnlocked" "cardicon_juggernaut_1" 1; setPlayerData "iconUnlocked" "cardicon_juggernaut_2" 1; setPlayerData "iconUnlocked" "cardicon_kinggorilla" 1; setPlayerData "iconUnlocked" "cardicon_launcher" 1; setPlayerData "iconUnlocked" "cardicon_league_grenade" 1; setPlayerData "iconUnlocked" "cardicon_loadedfinger" 1; setPlayerData "iconUnlocked" "cardicon_locked" 1; setPlayerData "iconUnlocked" "cardicon_makarov" 1; setPlayerData "iconUnlocked" "cardicon_marksman_aa12" 1; setPlayerData "iconUnlocked" "cardicon_marksman_ak47" 1; setPlayerData "iconUnlocked" "cardicon_marksman_aug" 1; setPlayerData "iconUnlocked" "cardicon_marksman_barrett" 1; setPlayerData "iconUnlocked" "cardicon_marksman_beretta" 1; setPlayerData "iconUnlocked" "cardicon_marksman_beretta393" 1; setPlayerData "iconUnlocked" "cardicon_marksman_cheytac" 1; setPlayerData "iconUnlocked" "cardicon_marksman_coltanaconda" 1; setPlayerData "iconUnlocked" "cardicon_marksman_deserteagle" 1; setPlayerData "iconUnlocked" "cardicon_marksman_fal" 1; setPlayerData "iconUnlocked" "cardicon_marksman_famas" 1; setPlayerData "iconUnlocked" "cardicon_marksman_fn2000" 1; setPlayerData "iconUnlocked" "cardicon_marksman_glock" 1; setPlayerData "iconUnlocked" "cardicon_marksman_kriss" 1; setPlayerData "iconUnlocked" "cardicon_marksman_m1014" 1; setPlayerData "iconUnlocked" "cardicon_marksman_m16" 1; setPlayerData "iconUnlocked" "cardicon_marksman_m21" 1; setPlayerData "iconUnlocked" "cardicon_marksman_m240" 1; setPlayerData "iconUnlocked" "cardicon_marksman_m4" 1; setPlayerData "iconUnlocked" "cardicon_marksman_masada" 1; setPlayerData "iconUnlocked" "cardicon_marksman_mg4" 1; setPlayerData "iconUnlocked" "cardicon_marksman_model1887" 1; setPlayerData "iconUnlocked" "cardicon_marksman_mp5k" 1; setPlayerData "iconUnlocked" "cardicon_marksman_p90" 1; setPlayerData "iconUnlocked" "cardicon_marksman_pp2000" 1; setPlayerData "iconUnlocked" "cardicon_marksman_ranger" 1; setPlayerData "iconUnlocked" "cardicon_marksman_rpd" 1; setPlayerData "iconUnlocked" "cardicon_marksman_sa80" 1; setPlayerData "iconUnlocked" "cardicon_marksman_scar" 1; setPlayerData "iconUnlocked" "cardicon_marksman_spas12" 1; setPlayerData "iconUnlocked" "cardicon_marksman_striker" 1; setPlayerData "iconUnlocked" "cardicon_marksman_tavor" 1; setPlayerData "iconUnlocked" "cardicon_marksman_tmp" 1; setPlayerData "iconUnlocked" "cardicon_marksman_ump45" 1; setPlayerData "iconUnlocked" "cardicon_marksman_usp" 1; setPlayerData "iconUnlocked" "cardicon_marksman_uzi" 1; setPlayerData "iconUnlocked" "cardicon_marksman_wa2000" 1; setPlayerData "iconUnlocked" "cardicon_mexican_blue" 1; setPlayerData "iconUnlocked" "cardicon_mexican_red" 1; setPlayerData "iconUnlocked" "cardicon_mig" 1; setPlayerData "iconUnlocked" "cardicon_minigun" 1; setPlayerData "iconUnlocked" "cardicon_missile_1" 1; setPlayerData "iconUnlocked" "cardicon_moon" 1; setPlayerData "iconUnlocked" "cardicon_motorcycle" 1; setPlayerData "iconUnlocked" "cardicon_nightvision_1" 1; setPlayerData "iconUnlocked" "cardicon_nightvision_2" 1; setPlayerData "iconUnlocked" "cardicon_noseart1" 1; setPlayerData "iconUnlocked" "cardicon_nvg_star" 1; setPlayerData "iconUnlocked" "cardicon_pacifier_blue" 1; setPlayerData "iconUnlocked" "cardicon_pacifier_pink" 1; setPlayerData "iconUnlocked" "cardicon_painkiller" 1; setPlayerData "iconUnlocked" "cardicon_paratrooper" 1; setPlayerData "iconUnlocked" "cardicon_patch" 1; setPlayerData "iconUnlocked" "cardicon_pavelow" 1; setPlayerData "iconUnlocked" "cardicon_pirate_1" 1; setPlayerData "iconUnlocked" "cardicon_pirateflag_1" 1; setPlayerData "iconUnlocked" "cardicon_porterjustice" 1; setPlayerData "iconUnlocked" "cardicon_prestige10anim" 1; setPlayerData "iconUnlocked" "cardicon_prestige10anim_02" 1; setPlayerData "iconUnlocked" "cardicon_prestige_1" 1; setPlayerData "iconUnlocked" "cardicon_prestige_10" 1; setPlayerData "iconUnlocked" "cardicon_prestige_2" 1; setPlayerData "iconUnlocked" "cardicon_prestige_3" 1; setPlayerData "iconUnlocked" "cardicon_prestige_4" 1; setPlayerData "iconUnlocked" "cardicon_prestige_5" 1; setPlayerData "iconUnlocked" "cardicon_prestige_6" 1; setPlayerData "iconUnlocked" "cardicon_prestige_7" 1; setPlayerData "iconUnlocked" "cardicon_prestige_8" 1; setPlayerData "iconUnlocked" "cardicon_prestige_9" 1; setPlayerData "iconUnlocked" "cardicon_price_ww2" 1; setPlayerData "iconUnlocked" "cardicon_pricearctic" 1; setPlayerData "iconUnlocked" "cardicon_pricewoodland" 1; setPlayerData "iconUnlocked" "cardicon_pushindaisies" 1; setPlayerData "iconUnlocked" "cardicon_radiation" 1; setPlayerData "iconUnlocked" "cardicon_rank_1stlt1" 1; setPlayerData "iconUnlocked" "cardicon_rank_2ndlt1" 1; setPlayerData "iconUnlocked" "cardicon_rank_bgen1" 1; setPlayerData "iconUnlocked" "cardicon_rank_capt1" 1; setPlayerData "iconUnlocked" "cardicon_rank_cmdsgtmaj1" 1; setPlayerData "iconUnlocked" "cardicon_rank_col1" 1; setPlayerData "iconUnlocked" "cardicon_rank_comm" 1; setPlayerData "iconUnlocked" "cardicon_rank_cpl1" 1; setPlayerData "iconUnlocked" "cardicon_rank_fsgt1" 1; setPlayerData "iconUnlocked" "cardicon_rank_gen1" 1; setPlayerData "iconUnlocked" "cardicon_rank_ltcol1" 1; setPlayerData "iconUnlocked" "cardicon_rank_ltgen1" 1; setPlayerData "iconUnlocked" "cardicon_rank_maj1" 1; setPlayerData "iconUnlocked" "cardicon_rank_majgen1" 1; setPlayerData "iconUnlocked" "cardicon_rank_msgt1" 1; setPlayerData "iconUnlocked" "cardicon_rank_pfc1" 1; setPlayerData "iconUnlocked" "cardicon_rank_pvt1" 1; setPlayerData "iconUnlocked" "cardicon_rank_sgt1" 1; setPlayerData "iconUnlocked" "cardicon_rank_sgtfc1" 1; setPlayerData "iconUnlocked" "cardicon_rank_sgtmaj1" 1; setPlayerData "iconUnlocked" "cardicon_rank_spc1" 1; setPlayerData "iconUnlocked" "cardicon_rank_ssgt1" 1; setPlayerData "iconUnlocked" "cardicon_red_devil" 1; setPlayerData "iconUnlocked" "cardicon_redhand" 1; setPlayerData "iconUnlocked" "cardicon_redhead" 1; setPlayerData "iconUnlocked" "cardicon_rhino" 1; setPlayerData "iconUnlocked" "cardicon_riot_shield" 1; setPlayerData "iconUnlocked" "cardicon_russian_beret" 1; setPlayerData "iconUnlocked" "cardicon_sami" 1; setPlayerData "iconUnlocked" "cardicon_seasnipers" 1; setPlayerData "iconUnlocked" "cardicon_semtex" 1; setPlayerData "iconUnlocked" "cardicon_shotgun_shells" 1; setPlayerData "iconUnlocked" "cardicon_shuriken" 1; setPlayerData "iconUnlocked" "cardicon_simplegun" 1; setPlayerData "iconUnlocked" "cardicon_skull" 1; setPlayerData "iconUnlocked" "cardicon_skull_black" 1; setPlayerData "iconUnlocked" "cardicon_skullaward" 1; setPlayerData "iconUnlocked" "cardicon_skullnbones" 1; setPlayerData "iconUnlocked" "cardicon_snakeeyes" 1; setPlayerData "iconUnlocked" "cardicon_sniper" 1; setPlayerData "iconUnlocked" "cardicon_sniperscope" 1; setPlayerData "iconUnlocked" "cardicon_snowmobile" 1; setPlayerData "iconUnlocked" "cardicon_soap_bar" 1; setPlayerData "iconUnlocked" "cardicon_stop" 1; setPlayerData "iconUnlocked" "cardicon_stryker" 1; setPlayerData "iconUnlocked" "cardicon_sugarglider" 1; setPlayerData "iconUnlocked" "cardicon_tank_01" 1; setPlayerData "iconUnlocked" "cardicon_taskforcearmy01" 1; setPlayerData "iconUnlocked" "cardicon_tf141" 1; setPlayerData "iconUnlocked" "cardicon_thebomb" 1; setPlayerData "iconUnlocked" "cardicon_thecow" 1; setPlayerData "iconUnlocked" "cardicon_throwing_knife_soda" 1; setPlayerData "iconUnlocked" "cardicon_throwing_knive" 1; setPlayerData "iconUnlocked" "cardicon_tictacboom" 1; setPlayerData "iconUnlocked" "cardicon_tiger" 1; setPlayerData "iconUnlocked" "cardicon_tire" 1; setPlayerData "iconUnlocked" "cardicon_toon_price_1" 1; setPlayerData "iconUnlocked" "cardicon_treasurechest_1" 1; setPlayerData "iconUnlocked" "cardicon_treasuremap_1" 1; setPlayerData "iconUnlocked" "cardicon_tsunami" 1; setPlayerData "iconUnlocked" "cardicon_umbracatervae" 1; setPlayerData "iconUnlocked" "cardicon_vest_1" 1; setPlayerData "iconUnlocked" "cardicon_veteran" 1; setPlayerData "iconUnlocked" "cardicon_warpig" 1; setPlayerData "iconUnlocked" "cardicon_weed" 1; setPlayerData "iconUnlocked" "cardicon_xray" 1;, !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0 )
+	// MENU_CHOICE_BUTTON_VIS( 8, "button_unlock_challenges", "UNLOCK CHALLENGES", setLocalVarString "ui_hint_text" ( "Unlock all challenges" ) , setPlayerData "challengeProgress" "ch_marksman_ak47" 1000;setPlayerData "challengeState" "ch_marksman_ak47" 9;setPlayerData "challengeProgress" "ch_expert_ak47" 500;setPlayerData "challengeState" "ch_expert_ak47" 9;setPlayerData "challengeProgress" "ch_ak47_gl" 20;setPlayerData "challengeState" "ch_ak47_gl" 2;setPlayerData "challengeProgress" "ch_ak47_reflex" 60;setPlayerData "challengeState" "ch_ak47_reflex" 2;setPlayerData "challengeProgress" "ch_ak47_silencer" 15;setPlayerData "challengeState" "ch_ak47_silencer" 2;setPlayerData "challengeProgress" "ch_ak47_acog" 20;setPlayerData "challengeState" "ch_ak47_acog" 2;setPlayerData "challengeProgress" "ch_ak47_fmj" 40;setPlayerData "challengeState" "ch_ak47_fmj" 2;setPlayerData "challengeProgress" "ch_ak47_mastery" 10;setPlayerData "challengeState" "ch_ak47_mastery" 2;setPlayerData "challengeProgress" "ch_marksman_fal" 1000;setPlayerData "challengeState" "ch_marksman_fal" 9;setPlayerData "challengeProgress" "ch_expert_fal" 500;setPlayerData "challengeState" "ch_expert_fal" 9;setPlayerData "challengeProgress" "ch_fal_gl" 20;setPlayerData "challengeState" "ch_fal_gl" 2;setPlayerData "challengeProgress" "ch_fal_reflex" 60;setPlayerData "challengeState" "ch_fal_reflex" 2;setPlayerData "challengeProgress" "ch_fal_silencer" 15;setPlayerData "challengeState" "ch_fal_silencer" 2;setPlayerData "challengeProgress" "ch_fal_acog" 20;setPlayerData "challengeState" "ch_fal_acog" 2;setPlayerData "challengeProgress" "ch_fal_fmj" 40;setPlayerData "challengeState" "ch_fal_fmj" 2;setPlayerData "challengeProgress" "ch_fal_mastery" 10;setPlayerData "challengeState" "ch_fal_mastery" 2;setPlayerData "challengeProgress" "ch_marksman_famas" 1000;setPlayerData "challengeState" "ch_marksman_famas" 9;setPlayerData "challengeProgress" "ch_expert_famas" 500;setPlayerData "challengeState" "ch_expert_famas" 9;setPlayerData "challengeProgress" "ch_famas_gl" 20;setPlayerData "challengeState" "ch_famas_gl" 2;setPlayerData "challengeProgress" "ch_famas_reflex" 60;setPlayerData "challengeState" "ch_famas_reflex" 2;setPlayerData "challengeProgress" "ch_famas_silencer" 15;setPlayerData "challengeState" "ch_famas_silencer" 2;setPlayerData "challengeProgress" "ch_famas_acog" 20;setPlayerData "challengeState" "ch_famas_acog" 2;setPlayerData "challengeProgress" "ch_famas_fmj" 40;setPlayerData "challengeState" "ch_famas_fmj" 2;setPlayerData "challengeProgress" "ch_famas_mastery" 10;setPlayerData "challengeState" "ch_famas_mastery" 2;setPlayerData "challengeProgress" "ch_marksman_fn2000" 1000;setPlayerData "challengeState" "ch_marksman_fn2000" 9;setPlayerData "challengeProgress" "ch_expert_fn2000" 500;setPlayerData "challengeState" "ch_expert_fn2000" 9;setPlayerData "challengeProgress" "ch_fn2000_gl" 20;setPlayerData "challengeState" "ch_fn2000_gl" 2;setPlayerData "challengeProgress" "ch_fn2000_reflex" 60;setPlayerData "challengeState" "ch_fn2000_reflex" 2;setPlayerData "challengeProgress" "ch_fn2000_silencer" 15;setPlayerData "challengeState" "ch_fn2000_silencer" 2;setPlayerData "challengeProgress" "ch_fn2000_acog" 20;setPlayerData "challengeState" "ch_fn2000_acog" 2;setPlayerData "challengeProgress" "ch_fn2000_fmj" 40;setPlayerData "challengeState" "ch_fn2000_fmj" 2;setPlayerData "challengeProgress" "ch_fn2000_mastery" 10;setPlayerData "challengeState" "ch_fn2000_mastery" 2;setPlayerData "challengeProgress" "ch_marksman_m4" 1000;setPlayerData "challengeState" "ch_marksman_m4" 9;setPlayerData "challengeProgress" "ch_expert_m4" 500;setPlayerData "challengeState" "ch_expert_m4" 9;setPlayerData "challengeProgress" "ch_m4_gl" 20;setPlayerData "challengeState" "ch_m4_gl" 2;setPlayerData "challengeProgress" "ch_m4_reflex" 60;setPlayerData "challengeState" "ch_m4_reflex" 2;setPlayerData "challengeProgress" "ch_m4_silencer" 15;setPlayerData "challengeState" "ch_m4_silencer" 2;setPlayerData "challengeProgress" "ch_m4_acog" 20;setPlayerData "challengeState" "ch_m4_acog" 2;setPlayerData "challengeProgress" "ch_m4_fmj" 40;setPlayerData "challengeState" "ch_m4_fmj" 2;setPlayerData "challengeProgress" "ch_m4_mastery" 10;setPlayerData "challengeState" "ch_m4_mastery" 2;setPlayerData "challengeProgress" "ch_marksman_m16" 1000;setPlayerData "challengeState" "ch_marksman_m16" 9;setPlayerData "challengeProgress" "ch_expert_m16" 500;setPlayerData "challengeState" "ch_expert_m16" 9;setPlayerData "challengeProgress" "ch_m16_gl" 20;setPlayerData "challengeState" "ch_m16_gl" 2;setPlayerData "challengeProgress" "ch_m16_reflex" 60;setPlayerData "challengeState" "ch_m16_reflex" 2;setPlayerData "challengeProgress" "ch_m16_silencer" 15;setPlayerData "challengeState" "ch_m16_silencer" 2;setPlayerData "challengeProgress" "ch_m16_acog" 20;setPlayerData "challengeState" "ch_m16_acog" 2;setPlayerData "challengeProgress" "ch_m16_fmj" 40;setPlayerData "challengeState" "ch_m16_fmj" 2;setPlayerData "challengeProgress" "ch_m16_mastery" 10;setPlayerData "challengeState" "ch_m16_mastery" 2;setPlayerData "challengeProgress" "ch_marksman_masada" 1000;setPlayerData "challengeState" "ch_marksman_masada" 9;setPlayerData "challengeProgress" "ch_expert_masada" 500;setPlayerData "challengeState" "ch_expert_masada" 9;setPlayerData "challengeProgress" "ch_masada_gl" 20;setPlayerData "challengeState" "ch_masada_gl" 2;setPlayerData "challengeProgress" "ch_masada_reflex" 60;setPlayerData "challengeState" "ch_masada_reflex" 2;setPlayerData "challengeProgress" "ch_masada_silencer" 15;setPlayerData "challengeState" "ch_masada_silencer" 2;setPlayerData "challengeProgress" "ch_masada_acog" 20;setPlayerData "challengeState" "ch_masada_acog" 2;setPlayerData "challengeProgress" "ch_masada_fmj" 40;setPlayerData "challengeState" "ch_masada_fmj" 2;setPlayerData "challengeProgress" "ch_masada_mastery" 10;setPlayerData "challengeState" "ch_masada_mastery" 2;setPlayerData "challengeProgress" "ch_marksman_scar" 1000;setPlayerData "challengeState" "ch_marksman_scar" 9;setPlayerData "challengeProgress" "ch_expert_scar" 500;setPlayerData "challengeState" "ch_expert_scar" 9;setPlayerData "challengeProgress" "ch_scar_gl" 20;setPlayerData "challengeState" "ch_scar_gl" 2;setPlayerData "challengeProgress" "ch_scar_reflex" 60;setPlayerData "challengeState" "ch_scar_reflex" 2;setPlayerData "challengeProgress" "ch_scar_silencer" 15;setPlayerData "challengeState" "ch_scar_silencer" 2;setPlayerData "challengeProgress" "ch_scar_acog" 20;setPlayerData "challengeState" "ch_scar_acog" 2;setPlayerData "challengeProgress" "ch_scar_fmj" 40;setPlayerData "challengeState" "ch_scar_fmj" 2;setPlayerData "challengeProgress" "ch_scar_mastery" 10;setPlayerData "challengeState" "ch_scar_mastery" 2;setPlayerData "challengeProgress" "ch_marksman_tavor" 1000;setPlayerData "challengeState" "ch_marksman_tavor" 9;setPlayerData "challengeProgress" "ch_expert_tavor" 500;setPlayerData "challengeState" "ch_expert_tavor" 9;setPlayerData "challengeProgress" "ch_tavor_gl" 20;setPlayerData "challengeState" "ch_tavor_gl" 2;setPlayerData "challengeProgress" "ch_tavor_reflex" 60;setPlayerData "challengeState" "ch_tavor_reflex" 2;setPlayerData "challengeProgress" "ch_tavor_silencer" 15;setPlayerData "challengeState" "ch_tavor_silencer" 2;setPlayerData "challengeProgress" "ch_tavor_acog" 20;setPlayerData "challengeState" "ch_tavor_acog" 2;setPlayerData "challengeProgress" "ch_tavor_fmj" 40;setPlayerData "challengeState" "ch_tavor_fmj" 2;setPlayerData "challengeProgress" "ch_tavor_mastery" 10;setPlayerData "challengeState" "ch_tavor_mastery" 2;setPlayerData "challengeProgress" "ch_marksman_mp5k" 1000;setPlayerData "challengeState" "ch_marksman_mp5k" 9;setPlayerData "challengeProgress" "ch_expert_mp5k" 500;setPlayerData "challengeState" "ch_expert_mp5k" 9;setPlayerData "challengeProgress" "ch_mp5k_rof" 30;setPlayerData "challengeState" "ch_mp5k_rof" 2;setPlayerData "challengeProgress" "ch_mp5k_reflex" 60;setPlayerData "challengeState" "ch_mp5k_reflex" 2;setPlayerData "challengeProgress" "ch_mp5k_acog" 20;setPlayerData "challengeState" "ch_mp5k_acog" 2;setPlayerData "challengeProgress" "ch_mp5k_fmj" 40;setPlayerData "challengeState" "ch_mp5k_fmj" 2;setPlayerData "challengeProgress" "ch_mp5k_mastery" 9;setPlayerData "challengeState" "ch_mp5k_mastery" 2;setPlayerData "challengeProgress" "ch_marksman_uzi" 1000;setPlayerData "challengeState" "ch_marksman_uzi" 9;setPlayerData "challengeProgress" "ch_expert_uzi" 500;setPlayerData "challengeState" "ch_expert_uzi" 9;setPlayerData "challengeProgress" "ch_uzi_rof" 30;setPlayerData "challengeState" "ch_uzi_rof" 2;setPlayerData "challengeProgress" "ch_uzi_reflex" 60;setPlayerData "challengeState" "ch_uzi_reflex" 2;setPlayerData "challengeProgress" "ch_uzi_acog" 20;setPlayerData "challengeState" "ch_uzi_acog" 2;setPlayerData "challengeProgress" "ch_uzi_fmj" 40;setPlayerData "challengeState" "ch_uzi_fmj" 2;setPlayerData "challengeProgress" "ch_uzi_mastery" 9;setPlayerData "challengeState" "ch_uzi_mastery" 2;setPlayerData "challengeProgress" "ch_marksman_kriss" 1000;setPlayerData "challengeState" "ch_marksman_kriss" 9;setPlayerData "challengeProgress" "ch_expert_kriss" 500;setPlayerData "challengeState" "ch_expert_kriss" 9;setPlayerData "challengeProgress" "ch_kriss_rof" 30;setPlayerData "challengeState" "ch_kriss_rof" 2;setPlayerData "challengeProgress" "ch_kriss_reflex" 60;setPlayerData "challengeState" "ch_kriss_reflex" 2;setPlayerData "challengeProgress" "ch_kriss_acog" 20;setPlayerData "challengeState" "ch_kriss_acog" 2;setPlayerData "challengeProgress" "ch_kriss_fmj" 40;setPlayerData "challengeState" "ch_kriss_fmj" 2;setPlayerData "challengeProgress" "ch_kriss_mastery" 9;setPlayerData "challengeState" "ch_kriss_mastery" 2;setPlayerData "challengeProgress" "ch_marksman_ump45" 1000;setPlayerData "challengeState" "ch_marksman_ump45" 9;setPlayerData "challengeProgress" "ch_expert_ump45" 500;setPlayerData "challengeState" "ch_expert_ump45" 9;setPlayerData "challengeProgress" "ch_ump45_rof" 30;setPlayerData "challengeState" "ch_ump45_rof" 2;setPlayerData "challengeProgress" "ch_ump45_reflex" 60;setPlayerData "challengeState" "ch_ump45_reflex" 2;setPlayerData "challengeProgress" "ch_ump45_acog" 20;setPlayerData "challengeState" "ch_ump45_acog" 2;setPlayerData "challengeProgress" "ch_ump45_fmj" 40;setPlayerData "challengeState" "ch_ump45_fmj" 2;setPlayerData "challengeProgress" "ch_ump45_mastery" 9;setPlayerData "challengeState" "ch_ump45_mastery" 2;setPlayerData "challengeProgress" "ch_marksman_p90" 1000;setPlayerData "challengeState" "ch_marksman_p90" 9;setPlayerData "challengeProgress" "ch_expert_p90" 500;setPlayerData "challengeState" "ch_expert_p90" 9;setPlayerData "challengeProgress" "ch_p90_rof" 30;setPlayerData "challengeState" "ch_p90_rof" 2;setPlayerData "challengeProgress" "ch_p90_reflex" 60;setPlayerData "challengeState" "ch_p90_reflex" 2;setPlayerData "challengeProgress" "ch_p90_acog" 20;setPlayerData "challengeState" "ch_p90_acog" 2;setPlayerData "challengeProgress" "ch_p90_fmj" 40;setPlayerData "challengeState" "ch_p90_fmj" 2;setPlayerData "challengeProgress" "ch_p90_mastery" 9;setPlayerData "challengeState" "ch_p90_mastery" 2;setPlayerData "challengeProgress" "ch_marksman_m240" 1000;setPlayerData "challengeState" "ch_marksman_m240" 9;setPlayerData "challengeProgress" "ch_expert_m240" 500;setPlayerData "challengeState" "ch_expert_m240" 9;setPlayerData "challengeProgress" "ch_m240_silencer" 15;setPlayerData "challengeState" "ch_m240_silencer" 2;setPlayerData "challengeProgress" "ch_m240_reflex" 60;setPlayerData "challengeState" "ch_m240_reflex" 2;setPlayerData "challengeProgress" "ch_m240_acog" 20;setPlayerData "challengeState" "ch_m240_acog" 2;setPlayerData "challengeProgress" "ch_m240_fmj" 40;setPlayerData "challengeState" "ch_m240_fmj" 2;setPlayerData "challengeProgress" "ch_m240_mastery" 9;setPlayerData "challengeState" "ch_m240_mastery" 2;setPlayerData "challengeProgress" "ch_marksman_aug" 1000;setPlayerData "challengeState" "ch_marksman_aug" 9;setPlayerData "challengeProgress" "ch_expert_aug" 500;setPlayerData "challengeState" "ch_expert_aug" 9;setPlayerData "challengeProgress" "ch_aug_silencer" 15;setPlayerData "challengeState" "ch_aug_silencer" 2;setPlayerData "challengeProgress" "ch_aug_reflex" 60;setPlayerData "challengeState" "ch_aug_reflex" 2;setPlayerData "challengeProgress" "ch_aug_acog" 20;setPlayerData "challengeState" "ch_aug_acog" 2;setPlayerData "challengeProgress" "ch_aug_fmj" 40;setPlayerData "challengeState" "ch_aug_fmj" 2;setPlayerData "challengeProgress" "ch_aug_mastery" 9;setPlayerData "challengeState" "ch_aug_mastery" 2;setPlayerData "challengeProgress" "ch_marksman_sa80" 1000;setPlayerData "challengeState" "ch_marksman_sa80" 9;setPlayerData "challengeProgress" "ch_expert_sa80" 500;setPlayerData "challengeState" "ch_expert_sa80" 9;setPlayerData "challengeProgress" "ch_sa80_silencer" 15;setPlayerData "challengeState" "ch_sa80_silencer" 2;setPlayerData "challengeProgress" "ch_sa80_reflex" 60;setPlayerData "challengeState" "ch_sa80_reflex" 2;setPlayerData "challengeProgress" "ch_sa80_acog" 20;setPlayerData "challengeState" "ch_sa80_acog" 2;setPlayerData "challengeProgress" "ch_sa80_fmj" 40;setPlayerData "challengeState" "ch_sa80_fmj" 2;setPlayerData "challengeProgress" "ch_sa80_mastery" 9;setPlayerData "challengeState" "ch_sa80_mastery" 2;setPlayerData "challengeProgress" "ch_marksman_rpd" 1000;setPlayerData "challengeState" "ch_marksman_rpd" 9;setPlayerData "challengeProgress" "ch_expert_rpd" 500;setPlayerData "challengeState" "ch_expert_rpd" 9;setPlayerData "challengeProgress" "ch_rpd_silencer" 15;setPlayerData "challengeState" "ch_rpd_silencer" 2;setPlayerData "challengeProgress" "ch_rpd_reflex" 60;setPlayerData "challengeState" "ch_rpd_reflex" 2;setPlayerData "challengeProgress" "ch_rpd_acog" 20;setPlayerData "challengeState" "ch_rpd_acog" 2;setPlayerData "challengeProgress" "ch_rpd_fmj" 40;setPlayerData "challengeState" "ch_rpd_fmj" 2;setPlayerData "challengeProgress" "ch_rpd_mastery" 9;setPlayerData "challengeState" "ch_rpd_mastery" 2;setPlayerData "challengeProgress" "ch_marksman_mg4" 1000;setPlayerData "challengeState" "ch_marksman_mg4" 9;setPlayerData "challengeProgress" "ch_expert_mg4" 500;setPlayerData "challengeState" "ch_expert_mg4" 9;setPlayerData "challengeProgress" "ch_mg4_silencer" 15;setPlayerData "challengeState" "ch_mg4_silencer" 2;setPlayerData "challengeProgress" "ch_mg4_reflex" 60;setPlayerData "challengeState" "ch_mg4_reflex" 2;setPlayerData "challengeProgress" "ch_mg4_acog" 20;setPlayerData "challengeState" "ch_mg4_acog" 2;setPlayerData "challengeProgress" "ch_mg4_fmj" 40;setPlayerData "challengeState" "ch_mg4_fmj" 2;setPlayerData "challengeProgress" "ch_mg4_mastery" 9;setPlayerData "challengeState" "ch_mg4_mastery" 2;setPlayerData "challengeProgress" "ch_marksman_cheytac" 1000;setPlayerData "challengeState" "ch_marksman_cheytac" 9;setPlayerData "challengeProgress" "ch_expert_cheytac" 500;setPlayerData "challengeState" "ch_expert_cheytac" 9;setPlayerData "challengeProgress" "ch_cheytac_silencer" 15;setPlayerData "challengeState" "ch_cheytac_silencer" 2;setPlayerData "challengeProgress" "ch_cheytac_acog" 20;setPlayerData "challengeState" "ch_cheytac_acog" 2;setPlayerData "challengeProgress" "ch_cheytac_fmj" 40;setPlayerData "challengeState" "ch_cheytac_fmj" 2;setPlayerData "challengeProgress" "ch_cheytac_mastery" 6;setPlayerData "challengeState" "ch_cheytac_mastery" 2;setPlayerData "challengeProgress" "ch_marksman_barrett" 1000;setPlayerData "challengeState" "ch_marksman_barrett" 9;setPlayerData "challengeProgress" "ch_expert_barrett" 500;setPlayerData "challengeState" "ch_expert_barrett" 9;setPlayerData "challengeProgress" "ch_barrett_silencer" 15;setPlayerData "challengeState" "ch_barrett_silencer" 2;setPlayerData "challengeProgress" "ch_barrett_acog" 20;setPlayerData "challengeState" "ch_barrett_acog" 2;setPlayerData "challengeProgress" "ch_barrett_fmj" 40;setPlayerData "challengeState" "ch_barrett_fmj" 2;setPlayerData "challengeProgress" "ch_barrett_mastery" 6;setPlayerData "challengeState" "ch_barrett_mastery" 2;setPlayerData "challengeProgress" "ch_marksman_m21" 1000;setPlayerData "challengeState" "ch_marksman_m21" 9;setPlayerData "challengeProgress" "ch_expert_m21" 500;setPlayerData "challengeState" "ch_expert_m21" 9;setPlayerData "challengeProgress" "ch_m21_silencer" 15;setPlayerData "challengeState" "ch_m21_silencer" 2;setPlayerData "challengeProgress" "ch_m21_acog" 20;setPlayerData "challengeState" "ch_m21_acog" 2;setPlayerData "challengeProgress" "ch_m21_fmj" 40;setPlayerData "challengeState" "ch_m21_fmj" 2;setPlayerData "challengeProgress" "ch_m21_mastery" 6;setPlayerData "challengeState" "ch_m21_mastery" 2;setPlayerData "challengeProgress" "ch_marksman_wa2000" 1000;setPlayerData "challengeState" "ch_marksman_wa2000" 9;setPlayerData "challengeProgress" "ch_expert_wa2000" 500;setPlayerData "challengeState" "ch_expert_wa2000" 9;setPlayerData "challengeProgress" "ch_wa2000_silencer" 15;setPlayerData "challengeState" "ch_wa2000_silencer" 2;setPlayerData "challengeProgress" "ch_wa2000_acog" 20;setPlayerData "challengeState" "ch_wa2000_acog" 2;setPlayerData "challengeProgress" "ch_wa2000_fmj" 40;setPlayerData "challengeState" "ch_wa2000_fmj" 2;setPlayerData "challengeProgress" "ch_wa2000_mastery" 6;setPlayerData "challengeState" "ch_wa2000_mastery" 2;setPlayerData "challengeProgress" "ch_marksman_glock" 1000;setPlayerData "challengeState" "ch_marksman_glock" 9;setPlayerData "challengeProgress" "ch_expert_glock" 500;setPlayerData "challengeState" "ch_expert_glock" 9;setPlayerData "challengeProgress" "ch_marksman_tmp" 1000;setPlayerData "challengeState" "ch_marksman_tmp" 9;setPlayerData "challengeProgress" "ch_expert_tmp" 500;setPlayerData "challengeState" "ch_expert_tmp" 9;setPlayerData "challengeProgress" "ch_marksman_beretta393" 1000;setPlayerData "challengeState" "ch_marksman_beretta393" 9;setPlayerData "challengeProgress" "ch_expert_beretta393" 500;setPlayerData "challengeState" "ch_expert_beretta393" 9;setPlayerData "challengeProgress" "ch_marksman_pp2000" 1000;setPlayerData "challengeState" "ch_marksman_pp2000" 9;setPlayerData "challengeProgress" "ch_expert_pp2000" 500;setPlayerData "challengeState" "ch_expert_pp2000" 9;setPlayerData "challengeProgress" "ch_marksman_striker" 1000;setPlayerData "challengeState" "ch_marksman_striker" 9;setPlayerData "challengeProgress" "ch_expert_striker" 500;setPlayerData "challengeState" "ch_expert_striker" 9;setPlayerData "challengeProgress" "ch_marksman_aa12" 1000;setPlayerData "challengeState" "ch_marksman_aa12" 9;setPlayerData "challengeProgress" "ch_expert_aa12" 500;setPlayerData "challengeState" "ch_expert_aa12" 9;setPlayerData "challengeProgress" "ch_marksman_m1014" 1000;setPlayerData "challengeState" "ch_marksman_m1014" 9;setPlayerData "challengeProgress" "ch_expert_m1014" 500;setPlayerData "challengeState" "ch_expert_m1014" 9;setPlayerData "challengeProgress" "ch_marksman_spas12" 1000;setPlayerData "challengeState" "ch_marksman_spas12" 9;setPlayerData "challengeProgress" "ch_expert_spas12" 500;setPlayerData "challengeState" "ch_expert_spas12" 9;setPlayerData "challengeProgress" "ch_marksman_ranger" 2500;setPlayerData "challengeState" "ch_marksman_ranger" 6;setPlayerData "challengeProgress" "ch_expert_ranger" 500;setPlayerData "challengeState" "ch_expert_ranger" 9;setPlayerData "challengeProgress" "ch_marksman_model1887" 2500;setPlayerData "challengeState" "ch_marksman_model1887" 6;setPlayerData "challengeProgress" "ch_expert_model1887" 500;setPlayerData "challengeState" "ch_expert_model1887" 9;setPlayerData "challengeProgress" "ch_marksman_usp" 1000;setPlayerData "challengeState" "ch_marksman_usp" 9;setPlayerData "challengeProgress" "ch_expert_usp" 500;setPlayerData "challengeState" "ch_expert_usp" 9;setPlayerData "challengeProgress" "ch_marksman_beretta" 1000;setPlayerData "challengeState" "ch_marksman_beretta" 9;setPlayerData "challengeProgress" "ch_expert_beretta" 500;setPlayerData "challengeState" "ch_expert_beretta" 9;setPlayerData "challengeProgress" "ch_marksman_coltanaconda" 2500;setPlayerData "challengeState" "ch_marksman_coltanaconda" 7;setPlayerData "challengeProgress" "ch_expert_coltanaconda" 500;setPlayerData "challengeState" "ch_expert_coltanaconda" 9;setPlayerData "challengeProgress" "ch_marksman_deserteagle" 2500;setPlayerData "challengeState" "ch_marksman_deserteagle" 7;setPlayerData "challengeProgress" "ch_expert_deserteagle" 500;setPlayerData "challengeState" "ch_expert_deserteagle" 9;setPlayerData "challengeProgress" "ch_marksman_at4" 1200;setPlayerData "challengeState" "ch_marksman_at4" 9;setPlayerData "challengeProgress" "ch_marksman_rpg" 1200;setPlayerData "challengeState" "ch_marksman_rpg" 9;setPlayerData "challengeProgress" "ch_marksman_javelin" 1200;setPlayerData "challengeState" "ch_marksman_javelin" 9;setPlayerData "challengeProgress" "ch_marksman_m79" 1200;setPlayerData "challengeState" "ch_marksman_m79" 9;setPlayerData "challengeProgress" "ch_marksman_stinger" 250;setPlayerData "challengeState" "ch_marksman_stinger" 9;setPlayerData "challengeProgress" "ch_prestige" 9;setPlayerData "challengeState" "ch_prestige" 10;setPlayerData "challengeProgress" "ch_prestige_10" 1;setPlayerData "challengeState" "ch_prestige_10" 2;setPlayerData "challengeProgress" "pr_marksman_ak47" 2500;setPlayerData "challengeState" "pr_marksman_ak47" 4;setPlayerData "challengeProgress" "pr_expert_ak47" 1000;setPlayerData "challengeState" "pr_expert_ak47" 4;setPlayerData "challengeProgress" "pr_marksman_fal" 2500;setPlayerData "challengeState" "pr_marksman_fal" 4;setPlayerData "challengeProgress" "pr_expert_fal" 1000;setPlayerData "challengeState" "pr_expert_fal" 4;setPlayerData "challengeProgress" "pr_marksman_famas" 2500;setPlayerData "challengeState" "pr_marksman_famas" 4;setPlayerData "challengeProgress" "pr_expert_famas" 1000;setPlayerData "challengeState" "pr_expert_famas" 4;setPlayerData "challengeProgress" "pr_marksman_fn2000" 2500;setPlayerData "challengeState" "pr_marksman_fn2000" 4;setPlayerData "challengeProgress" "pr_expert_fn2000" 1000;setPlayerData "challengeState" "pr_expert_fn2000" 4;setPlayerData "challengeProgress" "pr_marksman_m4" 2500;setPlayerData "challengeState" "pr_marksman_m4" 4;setPlayerData "challengeProgress" "pr_expert_m4" 1000;setPlayerData "challengeState" "pr_expert_m4" 4;setPlayerData "challengeProgress" "pr_marksman_m16" 2500;setPlayerData "challengeState" "pr_marksman_m16" 4;setPlayerData "challengeProgress" "pr_expert_m16" 1000;setPlayerData "challengeState" "pr_expert_m16" 4;setPlayerData "challengeProgress" "pr_marksman_masada" 2500;setPlayerData "challengeState" "pr_marksman_masada" 4;setPlayerData "challengeProgress" "pr_expert_masada" 1000;setPlayerData "challengeState" "pr_expert_masada" 4;setPlayerData "challengeProgress" "pr_marksman_scar" 2500;setPlayerData "challengeState" "pr_marksman_scar" 4;setPlayerData "challengeProgress" "pr_expert_scar" 1000;setPlayerData "challengeState" "pr_expert_scar" 4;setPlayerData "challengeProgress" "pr_marksman_tavor" 2500;setPlayerData "challengeState" "pr_marksman_tavor" 4;setPlayerData "challengeProgress" "pr_expert_tavor" 1000;setPlayerData "challengeState" "pr_expert_tavor" 4;setPlayerData "challengeProgress" "pr_marksman_mp5k" 2500;setPlayerData "challengeState" "pr_marksman_mp5k" 4;setPlayerData "challengeProgress" "pr_expert_mp5k" 1000;setPlayerData "challengeState" "pr_expert_mp5k" 4;setPlayerData "challengeProgress" "pr_marksman_uzi" 2500;setPlayerData "challengeState" "pr_marksman_uzi" 4;setPlayerData "challengeProgress" "pr_expert_uzi" 1000;setPlayerData "challengeState" "pr_expert_uzi" 4;setPlayerData "challengeProgress" "pr_marksman_kriss" 2500;setPlayerData "challengeState" "pr_marksman_kriss" 4;setPlayerData "challengeProgress" "pr_expert_kriss" 1000;setPlayerData "challengeState" "pr_expert_kriss" 4;setPlayerData "challengeProgress" "pr_marksman_ump45" 2500;setPlayerData "challengeState" "pr_marksman_ump45" 4;setPlayerData "challengeProgress" "pr_expert_ump45" 1000;setPlayerData "challengeState" "pr_expert_ump45" 4;setPlayerData "challengeProgress" "pr_marksman_p90" 2500;setPlayerData "challengeState" "pr_marksman_p90" 4;setPlayerData "challengeProgress" "pr_expert_p90" 1000;setPlayerData "challengeState" "pr_expert_p90" 4;setPlayerData "challengeProgress" "pr_marksman_m240" 2500;setPlayerData "challengeState" "pr_marksman_m240" 4;setPlayerData "challengeProgress" "pr_expert_m240" 1000;setPlayerData "challengeState" "pr_expert_m240" 4;setPlayerData "challengeProgress" "pr_marksman_aug" 2500;setPlayerData "challengeState" "pr_marksman_aug" 4;setPlayerData "challengeProgress" "pr_expert_aug" 1000;setPlayerData "challengeState" "pr_expert_aug" 4;setPlayerData "challengeProgress" "pr_marksman_sa80" 2500;setPlayerData "challengeState" "pr_marksman_sa80" 4;setPlayerData "challengeProgress" "pr_expert_sa80" 1000;setPlayerData "challengeState" "pr_expert_sa80" 4;setPlayerData "challengeProgress" "pr_marksman_rpd" 2500;setPlayerData "challengeState" "pr_marksman_rpd" 4;setPlayerData "challengeProgress" "pr_expert_rpd" 1000;setPlayerData "challengeState" "pr_expert_rpd" 4;setPlayerData "challengeProgress" "pr_marksman_mg4" 2500;setPlayerData "challengeState" "pr_marksman_mg4" 4;setPlayerData "challengeProgress" "pr_expert_mg4" 1000;setPlayerData "challengeState" "pr_expert_mg4" 4;setPlayerData "challengeProgress" "pr_marksman_cheytac" 2500;setPlayerData "challengeState" "pr_marksman_cheytac" 4;setPlayerData "challengeProgress" "pr_expert_cheytac" 1000;setPlayerData "challengeState" "pr_expert_cheytac" 4;setPlayerData "challengeProgress" "pr_marksman_barrett" 2500;setPlayerData "challengeState" "pr_marksman_barrett" 4;setPlayerData "challengeProgress" "pr_expert_barrett" 1000;setPlayerData "challengeState" "pr_expert_barrett" 4;setPlayerData "challengeProgress" "pr_marksman_m21" 2500;setPlayerData "challengeState" "pr_marksman_m21" 4;setPlayerData "challengeProgress" "pr_expert_m21" 1000;setPlayerData "challengeState" "pr_expert_m21" 4;setPlayerData "challengeProgress" "pr_marksman_wa2000" 2500;setPlayerData "challengeState" "pr_marksman_wa2000" 4;setPlayerData "challengeProgress" "pr_expert_wa2000" 1000;setPlayerData "challengeState" "pr_expert_wa2000" 4;setPlayerData "challengeProgress" "pr_marksman_glock" 2500;setPlayerData "challengeState" "pr_marksman_glock" 4;setPlayerData "challengeProgress" "pr_expert_glock" 1000;setPlayerData "challengeState" "pr_expert_glock" 4;setPlayerData "challengeProgress" "pr_marksman_tmp" 2500;setPlayerData "challengeState" "pr_marksman_tmp" 4;setPlayerData "challengeProgress" "pr_expert_tmp" 1000;setPlayerData "challengeState" "pr_expert_tmp" 4;setPlayerData "challengeProgress" "pr_marksman_beretta393" 2500;setPlayerData "challengeState" "pr_marksman_beretta393" 4;setPlayerData "challengeProgress" "pr_expert_beretta393" 1000;setPlayerData "challengeState" "pr_expert_beretta393" 4;setPlayerData "challengeProgress" "pr_marksman_pp2000" 2500;setPlayerData "challengeState" "pr_marksman_pp2000" 4;setPlayerData "challengeProgress" "pr_expert_pp2000" 1000;setPlayerData "challengeState" "pr_expert_pp2000" 4;setPlayerData "challengeProgress" "pr_marksman_striker" 2500;setPlayerData "challengeState" "pr_marksman_striker" 4;setPlayerData "challengeProgress" "pr_expert_striker" 1000;setPlayerData "challengeState" "pr_expert_striker" 4;setPlayerData "challengeProgress" "pr_marksman_aa12" 2500;setPlayerData "challengeState" "pr_marksman_aa12" 4;setPlayerData "challengeProgress" "pr_expert_aa12" 1000;setPlayerData "challengeState" "pr_expert_aa12" 4;setPlayerData "challengeProgress" "pr_marksman_m1014" 2500;setPlayerData "challengeState" "pr_marksman_m1014" 4;setPlayerData "challengeProgress" "pr_expert_m1014" 1000;setPlayerData "challengeState" "pr_expert_m1014" 4;setPlayerData "challengeProgress" "pr_marksman_spas12" 2500;setPlayerData "challengeState" "pr_marksman_spas12" 4;setPlayerData "challengeProgress" "pr_expert_spas12" 1000;setPlayerData "challengeState" "pr_expert_spas12" 4;setPlayerData "challengeProgress" "pr_marksman_ranger" 2500;setPlayerData "challengeState" "pr_marksman_ranger" 4;setPlayerData "challengeProgress" "pr_expert_ranger" 1000;setPlayerData "challengeState" "pr_expert_ranger" 4;setPlayerData "challengeProgress" "pr_marksman_model1887" 2500;setPlayerData "challengeState" "pr_marksman_model1887" 4;setPlayerData "challengeProgress" "pr_expert_model1887" 1000;setPlayerData "challengeState" "pr_expert_model1887" 4;setPlayerData "challengeProgress" "pr_marksman_usp" 2500;setPlayerData "challengeState" "pr_marksman_usp" 4;setPlayerData "challengeProgress" "pr_expert_usp" 1000;setPlayerData "challengeState" "pr_expert_usp" 4;setPlayerData "challengeProgress" "pr_marksman_beretta" 2500;setPlayerData "challengeState" "pr_marksman_beretta" 4;setPlayerData "challengeProgress" "pr_expert_beretta" 1000;setPlayerData "challengeState" "pr_expert_beretta" 4;setPlayerData "challengeProgress" "pr_marksman_coltanaconda" 2500;setPlayerData "challengeState" "pr_marksman_coltanaconda" 4;setPlayerData "challengeProgress" "pr_expert_coltanaconda" 1000;setPlayerData "challengeState" "pr_expert_coltanaconda" 4;setPlayerData "challengeProgress" "pr_marksman_deserteagle" 2500;setPlayerData "challengeState" "pr_marksman_deserteagle" 4;setPlayerData "challengeProgress" "pr_expert_deserteagle" 1000;setPlayerData "challengeState" "pr_expert_deserteagle" 4;setPlayerData "challengeProgress" "pr_marksman_at4" 2500;setPlayerData "challengeState" "pr_marksman_at4" 4;setPlayerData "challengeProgress" "pr_expert_at4" 1000;setPlayerData "challengeState" "pr_expert_at4" 4;setPlayerData "challengeProgress" "pr_marksman_rpg" 2500;setPlayerData "challengeState" "pr_marksman_rpg" 4;setPlayerData "challengeProgress" "pr_expert_rpg" 1000;setPlayerData "challengeState" "pr_expert_rpg" 4;setPlayerData "challengeProgress" "pr_marksman_javelin" 2500;setPlayerData "challengeState" "pr_marksman_javelin" 4;setPlayerData "challengeProgress" "pr_expert_javelin" 1000;setPlayerData "challengeState" "pr_expert_javelin" 4;setPlayerData "challengeProgress" "pr_marksman_m79" 2500;setPlayerData "challengeState" "pr_marksman_m79" 4;setPlayerData "challengeProgress" "pr_expert_m79" 1000;setPlayerData "challengeState" "pr_expert_m79" 4;setPlayerData "challengeProgress" "pr_marksman_stinger" 5000;setPlayerData "challengeState" "pr_marksman_stinger" 5;setPlayerData "challengeProgress" "pr_expert_stinger" 1000;setPlayerData "challengeState" "pr_expert_stinger" 4;setPlayerData "challengeProgress" "ch_marathon_pro" 549120;setPlayerData "challengeState" "ch_marathon_pro" 7;setPlayerData "challengeProgress" "ch_sleightofhand_pro" 750;setPlayerData "challengeState" "ch_sleightofhand_pro" 7;setPlayerData "challengeProgress" "ch_scavenger_pro" 500;setPlayerData "challengeState" "ch_scavenger_pro" 7;setPlayerData "challengeProgress" "ch_bling_pro" 900;setPlayerData "challengeState" "ch_bling_pro" 7;setPlayerData "challengeProgress" "ch_onemanarmy_pro" 750;setPlayerData "challengeState" "ch_onemanarmy_pro" 7;setPlayerData "challengeProgress" "ch_stoppingpower_pro" 1000;setPlayerData "challengeState" "ch_stoppingpower_pro" 7;setPlayerData "challengeProgress" "ch_lightweight_pro" 1320000;setPlayerData "challengeState" "ch_lightweight_pro" 7;setPlayerData "challengeProgress" "ch_hardline_pro" 250;setPlayerData "challengeState" "ch_hardline_pro" 7;setPlayerData "challengeProgress" "ch_coldblooded_pro" 250;setPlayerData "challengeState" "ch_coldblooded_pro" 7;setPlayerData "challengeProgress" "ch_dangerclose_pro" 500;setPlayerData "challengeState" "ch_dangerclose_pro" 7;setPlayerData "challengeProgress" "ch_extendedmelee_pro" 100;setPlayerData "challengeState" "ch_extendedmelee_pro" 7;setPlayerData "challengeProgress" "ch_bulletaccuracy_pro" 500;setPlayerData "challengeState" "ch_bulletaccuracy_pro" 7;setPlayerData "challengeProgress" "ch_scrambler_pro" 250;setPlayerData "challengeState" "ch_scrambler_pro" 7;setPlayerData "challengeProgress" "ch_deadsilence_pro" 250;setPlayerData "challengeState" "ch_deadsilence_pro" 7;setPlayerData "challengeProgress" "ch_detectexplosives_pro" 750;setPlayerData "challengeState" "ch_detectexplosives_pro" 7;setPlayerData "challengeProgress" "ch_laststand_pro" 100;setPlayerData "challengeState" "ch_laststand_pro" 7;setPlayerData "iconUnlocked" "cardicon_prestige10_02" 1 ;setPlayerData "iconUnlocked" "cardicon_prestige10_01" 1;setPlayerData "iconUnlocked" "cardicon_prestige10_02" 1;setPlayerData "iconUnlocked" "cardicon_8_bit_price" 1;setPlayerData "iconUnlocked" "cardicon_8ball" 1;setPlayerData "iconUnlocked" "cardicon_abduction" 1;setPlayerData "iconUnlocked" "cardicon_abrams" 1;setPlayerData "iconUnlocked" "cardicon_ac130_angelflare" 1;setPlayerData "iconUnlocked" "cardicon_aircraft_01" 1;setPlayerData "iconUnlocked" "cardicon_animal" 1;setPlayerData "iconUnlocked" "cardicon_assad" 1;setPlayerData "iconUnlocked" "cardicon_award_jets" 1;setPlayerData "iconUnlocked" "cardicon_b2" 1;setPlayerData "iconUnlocked" "cardicon_ball_baseball_1" 1;setPlayerData "iconUnlocked" "cardicon_ball_volleyball_1" 1;setPlayerData "iconUnlocked" "cardicon_bear" 1;setPlayerData "iconUnlocked" "cardicon_binoculars_1" 1;setPlayerData "iconUnlocked" "cardicon_biohazard" 1;setPlayerData "iconUnlocked" "cardicon_birdbrain" 1;setPlayerData "iconUnlocked" "cardicon_blast_shield" 1;setPlayerData "iconUnlocked" "cardicon_booniehat" 1;setPlayerData "iconUnlocked" "cardicon_boot" 1;setPlayerData "iconUnlocked" "cardicon_boots_01" 1;setPlayerData "iconUnlocked" "cardicon_boots_02" 1;setPlayerData "iconUnlocked" "cardicon_brassknuckles" 1;setPlayerData "iconUnlocked" "cardicon_brit_beret" 1;setPlayerData "iconUnlocked" "cardicon_bulb" 1;setPlayerData "iconUnlocked" "cardicon_bullet_case" 1;setPlayerData "iconUnlocked" "cardicon_bullets_50cal" 1;setPlayerData "iconUnlocked" "cardicon_burgertown" 1;setPlayerData "iconUnlocked" "cardicon_c4" 1;setPlayerData "iconUnlocked" "cardicon_car" 1;setPlayerData "iconUnlocked" "cardicon_chicken" 1;setPlayerData "iconUnlocked" "cardicon_circuit" 1;setPlayerData "iconUnlocked" "cardicon_claw" 1;setPlayerData "iconUnlocked" "cardicon_claymore" 1;setPlayerData "iconUnlocked" "cardicon_cod4" 1;setPlayerData "iconUnlocked" "cardicon_comic_price" 1;setPlayerData "iconUnlocked" "cardicon_comic_shepherd" 1;setPlayerData "iconUnlocked" "cardicon_compass" 1;setPlayerData "iconUnlocked" "cardicon_copycat" 1;setPlayerData "iconUnlocked" "cardicon_default" 1;setPlayerData "iconUnlocked" "cardicon_devilfinger" 1;setPlayerData "iconUnlocked" "cardicon_dogtags_1" 1;setPlayerData "iconUnlocked" "cardicon_doubletap" 1;setPlayerData "iconUnlocked" "cardicon_eagle" 1;setPlayerData "iconUnlocked" "cardicon_electro" 1;setPlayerData "iconUnlocked" "cardicon_expert_aa12" 1;setPlayerData "iconUnlocked" "cardicon_expert_ak47" 1;setPlayerData "iconUnlocked" "cardicon_expert_aug" 1;setPlayerData "iconUnlocked" "cardicon_expert_barrett" 1;setPlayerData "iconUnlocked" "cardicon_expert_beretta" 1;setPlayerData "iconUnlocked" "cardicon_expert_beretta393" 1;setPlayerData "iconUnlocked" "cardicon_expert_cheytac" 1;setPlayerData "iconUnlocked" "cardicon_expert_coltanaconda" 1;setPlayerData "iconUnlocked" "cardicon_expert_deserteagle" 1;setPlayerData "iconUnlocked" "cardicon_expert_fal" 1;setPlayerData "iconUnlocked" "cardicon_expert_famas" 1;setPlayerData "iconUnlocked" "cardicon_expert_fn2000" 1;setPlayerData "iconUnlocked" "cardicon_expert_glock" 1;setPlayerData "iconUnlocked" "cardicon_expert_kriss" 1;setPlayerData "iconUnlocked" "cardicon_expert_m1014" 1;setPlayerData "iconUnlocked" "cardicon_expert_m16" 1;setPlayerData "iconUnlocked" "cardicon_expert_m21" 1;setPlayerData "iconUnlocked" "cardicon_expert_m240" 1;setPlayerData "iconUnlocked" "cardicon_expert_m4" 1;setPlayerData "iconUnlocked" "cardicon_expert_masada" 1;setPlayerData "iconUnlocked" "cardicon_expert_mg4" 1;setPlayerData "iconUnlocked" "cardicon_expert_model1887" 1;setPlayerData "iconUnlocked" "cardicon_expert_mp5k" 1;setPlayerData "iconUnlocked" "cardicon_expert_p90" 1;setPlayerData "iconUnlocked" "cardicon_expert_pp2000" 1;setPlayerData "iconUnlocked" "cardicon_expert_ranger" 1;setPlayerData "iconUnlocked" "cardicon_expert_rpd" 1;setPlayerData "iconUnlocked" "cardicon_expert_sa80" 1;setPlayerData "iconUnlocked" "cardicon_expert_scar" 1;setPlayerData "iconUnlocked" "cardicon_expert_spas12" 1;setPlayerData "iconUnlocked" "cardicon_expert_striker" 1;setPlayerData "iconUnlocked" "cardicon_expert_tavor" 1;setPlayerData "iconUnlocked" "cardicon_expert_tmp" 1;setPlayerData "iconUnlocked" "cardicon_expert_ump45" 1;setPlayerData "iconUnlocked" "cardicon_expert_usp" 1;setPlayerData "iconUnlocked" "cardicon_expert_uzi" 1;setPlayerData "iconUnlocked" "cardicon_expert_wa2000" 1;setPlayerData "iconUnlocked" "cardicon_f15" 1;setPlayerData "iconUnlocked" "cardicon_final_stand" 1;setPlayerData "iconUnlocked" "cardicon_flare" 1;setPlayerData "iconUnlocked" "cardicon_fmj" 1;setPlayerData "iconUnlocked" "cardicon_frag_grenade" 1;setPlayerData "iconUnlocked" "cardicon_gasmask" 1;setPlayerData "iconUnlocked" "cardicon_gears" 1;setPlayerData "iconUnlocked" "cardicon_ghillie" 1;setPlayerData "iconUnlocked" "cardicon_ghost" 1;setPlayerData "iconUnlocked" "cardicon_ghost_bust" 1;setPlayerData "iconUnlocked" "cardicon_ghost_mic" 1;setPlayerData "iconUnlocked" "cardicon_girlskull" 1;setPlayerData "iconUnlocked" "cardicon_gloss_grenade" 1;setPlayerData "iconUnlocked" "cardicon_gold" 1;setPlayerData "iconUnlocked" "cardicon_grenadepulldeath" 1;setPlayerData "iconUnlocked" "cardicon_grigsby" 1;setPlayerData "iconUnlocked" "cardicon_gumby" 1;setPlayerData "iconUnlocked" "cardicon_harrier" 1;setPlayerData "iconUnlocked" "cardicon_hat_n_knife" 1;setPlayerData "iconUnlocked" "cardicon_hazard" 1;setPlayerData "iconUnlocked" "cardicon_headshot" 1;setPlayerData "iconUnlocked" "cardicon_heartbeatsensor" 1;setPlayerData "iconUnlocked" "cardicon_helmet_army" 1;setPlayerData "iconUnlocked" "cardicon_helmet_brit_ww2" 1;setPlayerData "iconUnlocked" "cardicon_helmet_medic" 1;setPlayerData "iconUnlocked" "cardicon_helmet_pilot" 1;setPlayerData "iconUnlocked" "cardicon_helmet_ranger" 1;setPlayerData "iconUnlocked" "cardicon_helmet_samurai" 1;setPlayerData "iconUnlocked" "cardicon_hipflask" 1;setPlayerData "iconUnlocked" "cardicon_honeybadger01" 1;setPlayerData "iconUnlocked" "cardicon_humantrophy" 1;setPlayerData "iconUnlocked" "cardicon_hummer" 1;setPlayerData "iconUnlocked" "cardicon_hyena" 1;setPlayerData "iconUnlocked" "cardicon_illuminati" 1;setPlayerData "iconUnlocked" "cardicon_iss" 1;setPlayerData "iconUnlocked" "cardicon_joystick" 1;setPlayerData "iconUnlocked" "cardicon_juggernaut_1" 1;setPlayerData "iconUnlocked" "cardicon_juggernaut_2" 1;setPlayerData "iconUnlocked" "cardicon_kinggorilla" 1;setPlayerData "iconUnlocked" "cardicon_launcher" 1;setPlayerData "iconUnlocked" "cardicon_league_grenade" 1;setPlayerData "iconUnlocked" "cardicon_loadedfinger" 1;setPlayerData "iconUnlocked" "cardicon_locked" 1;setPlayerData "iconUnlocked" "cardicon_makarov" 1;setPlayerData "iconUnlocked" "cardicon_marksman_aa12" 1;setPlayerData "iconUnlocked" "cardicon_marksman_ak47" 1;setPlayerData "iconUnlocked" "cardicon_marksman_aug" 1;setPlayerData "iconUnlocked" "cardicon_marksman_barrett" 1;setPlayerData "iconUnlocked" "cardicon_marksman_beretta" 1;setPlayerData "iconUnlocked" "cardicon_marksman_beretta393" 1;setPlayerData "iconUnlocked" "cardicon_marksman_cheytac" 1;setPlayerData "iconUnlocked" "cardicon_marksman_coltanaconda" 1;setPlayerData "iconUnlocked" "cardicon_marksman_deserteagle" 1;setPlayerData "iconUnlocked" "cardicon_marksman_fal" 1;setPlayerData "iconUnlocked" "cardicon_marksman_famas" 1;setPlayerData "iconUnlocked" "cardicon_marksman_fn2000" 1;setPlayerData "iconUnlocked" "cardicon_marksman_glock" 1;setPlayerData "iconUnlocked" "cardicon_marksman_kriss" 1;setPlayerData "iconUnlocked" "cardicon_marksman_m1014" 1;setPlayerData "iconUnlocked" "cardicon_marksman_m16" 1;setPlayerData "iconUnlocked" "cardicon_marksman_m21" 1;setPlayerData "iconUnlocked" "cardicon_marksman_m240" 1;setPlayerData "iconUnlocked" "cardicon_marksman_m4" 1;setPlayerData "iconUnlocked" "cardicon_marksman_masada" 1;setPlayerData "iconUnlocked" "cardicon_marksman_mg4" 1;setPlayerData "iconUnlocked" "cardicon_marksman_model1887" 1;setPlayerData "iconUnlocked" "cardicon_marksman_mp5k" 1;setPlayerData "iconUnlocked" "cardicon_marksman_p90" 1;setPlayerData "iconUnlocked" "cardicon_marksman_pp2000" 1;setPlayerData "iconUnlocked" "cardicon_marksman_ranger" 1;setPlayerData "iconUnlocked" "cardicon_marksman_rpd" 1;setPlayerData "iconUnlocked" "cardicon_marksman_sa80" 1;setPlayerData "iconUnlocked" "cardicon_marksman_scar" 1;setPlayerData "iconUnlocked" "cardicon_marksman_spas12" 1;setPlayerData "iconUnlocked" "cardicon_marksman_striker" 1;setPlayerData "iconUnlocked" "cardicon_marksman_tavor" 1;setPlayerData "iconUnlocked" "cardicon_marksman_tmp" 1;setPlayerData "iconUnlocked" "cardicon_marksman_ump45" 1;setPlayerData "iconUnlocked" "cardicon_marksman_usp" 1;setPlayerData "iconUnlocked" "cardicon_marksman_uzi" 1;setPlayerData "iconUnlocked" "cardicon_marksman_wa2000" 1;setPlayerData "iconUnlocked" "cardicon_mexican_blue" 1;setPlayerData "iconUnlocked" "cardicon_mexican_red" 1;setPlayerData "iconUnlocked" "cardicon_mig" 1;setPlayerData "iconUnlocked" "cardicon_minigun" 1;setPlayerData "iconUnlocked" "cardicon_missile_1" 1;setPlayerData "iconUnlocked" "cardicon_moon" 1;setPlayerData "iconUnlocked" "cardicon_motorcycle" 1;setPlayerData "iconUnlocked" "cardicon_nightvision_1" 1;setPlayerData "iconUnlocked" "cardicon_nightvision_2" 1;setPlayerData "iconUnlocked" "cardicon_noseart1" 1;setPlayerData "iconUnlocked" "cardicon_nvg_star" 1;setPlayerData "iconUnlocked" "cardicon_pacifier_blue" 1;setPlayerData "iconUnlocked" "cardicon_pacifier_pink" 1;setPlayerData "iconUnlocked" "cardicon_painkiller" 1;setPlayerData "iconUnlocked" "cardicon_paratrooper" 1;setPlayerData "iconUnlocked" "cardicon_patch" 1;setPlayerData "iconUnlocked" "cardicon_pavelow" 1;setPlayerData "iconUnlocked" "cardicon_pirate_1" 1;setPlayerData "iconUnlocked" "cardicon_pirateflag_1" 1;setPlayerData "iconUnlocked" "cardicon_porterjustice" 1;setPlayerData "iconUnlocked" "cardicon_prestige10anim" 1;setPlayerData "iconUnlocked" "cardicon_prestige10anim_02" 1;setPlayerData "iconUnlocked" "cardicon_prestige_1" 1;setPlayerData "iconUnlocked" "cardicon_prestige_10" 1;setPlayerData "iconUnlocked" "cardicon_prestige_2" 1;setPlayerData "iconUnlocked" "cardicon_prestige_3" 1;setPlayerData "iconUnlocked" "cardicon_prestige_4" 1;setPlayerData "iconUnlocked" "cardicon_prestige_5" 1;setPlayerData "iconUnlocked" "cardicon_prestige_6" 1;setPlayerData "iconUnlocked" "cardicon_prestige_7" 1;setPlayerData "iconUnlocked" "cardicon_prestige_8" 1;setPlayerData "iconUnlocked" "cardicon_prestige_9" 1;setPlayerData "iconUnlocked" "cardicon_price_ww2" 1;setPlayerData "iconUnlocked" "cardicon_pricearctic" 1;setPlayerData "iconUnlocked" "cardicon_pricewoodland" 1;setPlayerData "iconUnlocked" "cardicon_pushindaisies" 1;setPlayerData "iconUnlocked" "cardicon_radiation" 1;setPlayerData "iconUnlocked" "cardicon_rank_1stlt1" 1;setPlayerData "iconUnlocked" "cardicon_rank_2ndlt1" 1;setPlayerData "iconUnlocked" "cardicon_rank_bgen1" 1;setPlayerData "iconUnlocked" "cardicon_rank_capt1" 1;setPlayerData "iconUnlocked" "cardicon_rank_cmdsgtmaj1" 1;setPlayerData "iconUnlocked" "cardicon_rank_col1" 1;setPlayerData "iconUnlocked" "cardicon_rank_comm" 1;setPlayerData "iconUnlocked" "cardicon_rank_cpl1" 1;setPlayerData "iconUnlocked" "cardicon_rank_fsgt1" 1;setPlayerData "iconUnlocked" "cardicon_rank_gen1" 1;setPlayerData "iconUnlocked" "cardicon_rank_ltcol1" 1;setPlayerData "iconUnlocked" "cardicon_rank_ltgen1" 1;setPlayerData "iconUnlocked" "cardicon_rank_maj1" 1;setPlayerData "iconUnlocked" "cardicon_rank_majgen1" 1;setPlayerData "iconUnlocked" "cardicon_rank_msgt1" 1;setPlayerData "iconUnlocked" "cardicon_rank_pfc1" 1;setPlayerData "iconUnlocked" "cardicon_rank_pvt1" 1;setPlayerData "iconUnlocked" "cardicon_rank_sgt1" 1;setPlayerData "iconUnlocked" "cardicon_rank_sgtfc1" 1;setPlayerData "iconUnlocked" "cardicon_rank_sgtmaj1" 1;setPlayerData "iconUnlocked" "cardicon_rank_spc1" 1;setPlayerData "iconUnlocked" "cardicon_rank_ssgt1" 1;setPlayerData "iconUnlocked" "cardicon_red_devil" 1;setPlayerData "iconUnlocked" "cardicon_redhand" 1;setPlayerData "iconUnlocked" "cardicon_redhead" 1;setPlayerData "iconUnlocked" "cardicon_rhino" 1;setPlayerData "iconUnlocked" "cardicon_riot_shield" 1;setPlayerData "iconUnlocked" "cardicon_russian_beret" 1;setPlayerData "iconUnlocked" "cardicon_sami" 1;setPlayerData "iconUnlocked" "cardicon_seasnipers" 1;setPlayerData "iconUnlocked" "cardicon_semtex" 1;setPlayerData "iconUnlocked" "cardicon_shotgun_shells" 1;setPlayerData "iconUnlocked" "cardicon_shuriken" 1;setPlayerData "iconUnlocked" "cardicon_simplegun" 1;setPlayerData "iconUnlocked" "cardicon_skull" 1;setPlayerData "iconUnlocked" "cardicon_skull_black" 1;setPlayerData "iconUnlocked" "cardicon_skullaward" 1;setPlayerData "iconUnlocked" "cardicon_skullnbones" 1;setPlayerData "iconUnlocked" "cardicon_snakeeyes" 1;setPlayerData "iconUnlocked" "cardicon_sniper" 1;setPlayerData "iconUnlocked" "cardicon_sniperscope" 1;setPlayerData "iconUnlocked" "cardicon_snowmobile" 1;setPlayerData "iconUnlocked" "cardicon_soap_bar" 1;setPlayerData "iconUnlocked" "cardicon_stop" 1;setPlayerData "iconUnlocked" "cardicon_stryker" 1;setPlayerData "iconUnlocked" "cardicon_sugarglider" 1;setPlayerData "iconUnlocked" "cardicon_tank_01" 1;setPlayerData "iconUnlocked" "cardicon_taskforcearmy01" 1;setPlayerData "iconUnlocked" "cardicon_tf141" 1;setPlayerData "iconUnlocked" "cardicon_thebomb" 1;setPlayerData "iconUnlocked" "cardicon_thecow" 1;setPlayerData "iconUnlocked" "cardicon_throwing_knife_soda" 1;setPlayerData "iconUnlocked" "cardicon_throwing_knive" 1;setPlayerData "iconUnlocked" "cardicon_tictacboom" 1;setPlayerData "iconUnlocked" "cardicon_tiger" 1;setPlayerData "iconUnlocked" "cardicon_tire" 1;setPlayerData "iconUnlocked" "cardicon_toon_price_1" 1;setPlayerData "iconUnlocked" "cardicon_treasurechest_1" 1;setPlayerData "iconUnlocked" "cardicon_treasuremap_1" 1;setPlayerData "iconUnlocked" "cardicon_tsunami" 1;setPlayerData "iconUnlocked" "cardicon_umbracatervae" 1;setPlayerData "iconUnlocked" "cardicon_vest_1" 1;setPlayerData "iconUnlocked" "cardicon_veteran" 1;setPlayerData "iconUnlocked" "cardicon_warpig" 1;setPlayerData "iconUnlocked" "cardicon_weed" 1;setPlayerData "iconUnlocked" "cardicon_xray" 1;setPlayerData "iconUnlocked" "cardtitle_140x32" 1;setPlayerData "iconUnlocked" "cardtitle_208x48" 1;setPlayerData "iconUnlocked" "cardtitle_248x20" 1;setPlayerData "iconUnlocked" "cardtitle_248x48" 1;setPlayerData "iconUnlocked" "cardtitle_4thofjuly_1" 1;setPlayerData "iconUnlocked" "cardtitle_abstract3" 1;setPlayerData "iconUnlocked" "cardtitle_ac130_1" 1;setPlayerData "iconUnlocked" "cardtitle_aircraft_carriers" 1;setPlayerData "iconUnlocked" "cardtitle_angry_dragon" 1;setPlayerData "iconUnlocked" "cardtitle_apocalypse" 1;setPlayerData "iconUnlocked" "cardtitle_assault_expert" 1;setPlayerData "iconUnlocked" "cardtitle_assault_marksman" 1;setPlayerData "iconUnlocked" "cardtitle_assault_master" 1;setPlayerData "iconUnlocked" "cardtitle_assault_sharpshooter" 1;setPlayerData "iconUnlocked" "cardtitle_assault_veteran" 1;setPlayerData "iconUnlocked" "cardtitle_at4_rocket" 1;setPlayerData "iconUnlocked" "cardtitle_bandaid" 1;setPlayerData "iconUnlocked" "cardtitle_benjamins" 1;setPlayerData "iconUnlocked" "cardtitle_blackcat" 1;setPlayerData "iconUnlocked" "cardtitle_blimp_1" 1;setPlayerData "iconUnlocked" "cardtitle_bloodsplat" 1;setPlayerData "iconUnlocked" "cardtitle_bloodysword" 1;setPlayerData "iconUnlocked" "cardtitle_bomber_pinup_girl" 1;setPlayerData "iconUnlocked" "cardtitle_bombs2" 1;setPlayerData "iconUnlocked" "cardtitle_buckshot" 1;setPlayerData "iconUnlocked" "cardtitle_buggy" 1;setPlayerData "iconUnlocked" "cardtitle_bullet" 1;setPlayerData "iconUnlocked" "cardtitle_butterfly_1" 1;setPlayerData "iconUnlocked" "cardtitle_butterfly_2" 1;setPlayerData "iconUnlocked" "cardtitle_camo_arctic" 1;setPlayerData "iconUnlocked" "cardtitle_camo_bluetiger" 1;setPlayerData "iconUnlocked" "cardtitle_camo_desert" 1;setPlayerData "iconUnlocked" "cardtitle_camo_digital" 1;setPlayerData "iconUnlocked" "cardtitle_camo_fall" 1;setPlayerData "iconUnlocked" "cardtitle_camo_redtiger" 1;setPlayerData "iconUnlocked" "cardtitle_camo_urban" 1;setPlayerData "iconUnlocked" "cardtitle_camo_woodland" 1;setPlayerData "iconUnlocked" "cardtitle_cemetary" 1;setPlayerData "iconUnlocked" "cardtitle_cheese" 1;setPlayerData "iconUnlocked" "cardtitle_chicken" 1;setPlayerData "iconUnlocked" "cardtitle_cobra" 1;setPlayerData "iconUnlocked" "cardtitle_cowboy" 1;setPlayerData "iconUnlocked" "cardtitle_cripple" 1;setPlayerData "iconUnlocked" "cardtitle_cutegirl_v1_1" 1;setPlayerData "iconUnlocked" "cardtitle_cutegirl_v1_2" 1;setPlayerData "iconUnlocked" "cardtitle_cutegirl_v1_3" 1;setPlayerData "iconUnlocked" "cardtitle_cutegirl_v2_1" 1;setPlayerData "iconUnlocked" "cardtitle_cutegirl_v2_2" 1;setPlayerData "iconUnlocked" "cardtitle_cutegirl_v2_3" 1;setPlayerData "iconUnlocked" "cardtitle_dragon_kick" 1;setPlayerData "iconUnlocked" "cardtitle_drifting" 1;setPlayerData "iconUnlocked" "cardtitle_dynamite" 1;setPlayerData "iconUnlocked" "cardtitle_endofline_red" 1;setPlayerData "iconUnlocked" "cardtitle_explosion" 1;setPlayerData "iconUnlocked" "cardtitle_eyeball_3" 1;setPlayerData "iconUnlocked" "cardtitle_flag_australia" 1;setPlayerData "iconUnlocked" "cardtitle_flag_austria" 1;setPlayerData "iconUnlocked" "cardtitle_flag_belgium" 1;setPlayerData "iconUnlocked" "cardtitle_flag_brazil" 1;setPlayerData "iconUnlocked" "cardtitle_flag_canada" 1;setPlayerData "iconUnlocked" "cardtitle_flag_china" 1;setPlayerData "iconUnlocked" "cardtitle_flag_czech" 1;setPlayerData "iconUnlocked" "cardtitle_flag_denmark" 1;setPlayerData "iconUnlocked" "cardtitle_flag_elsalvador" 1;setPlayerData "iconUnlocked" "cardtitle_flag_finland" 1;setPlayerData "iconUnlocked" "cardtitle_flag_france" 1;setPlayerData "iconUnlocked" "cardtitle_flag_germany" 1;setPlayerData "iconUnlocked" "cardtitle_flag_greece" 1;setPlayerData "iconUnlocked" "cardtitle_flag_hongkong" 1;setPlayerData "iconUnlocked" "cardtitle_flag_india" 1;setPlayerData "iconUnlocked" "cardtitle_flag_iran" 1;setPlayerData "iconUnlocked" "cardtitle_flag_ireland" 1;setPlayerData "iconUnlocked" "cardtitle_flag_italy" 1;setPlayerData "iconUnlocked" "cardtitle_flag_japan" 1;setPlayerData "iconUnlocked" "cardtitle_flag_luxemburg" 1;setPlayerData "iconUnlocked" "cardtitle_flag_mexico" 1;setPlayerData "iconUnlocked" "cardtitle_flag_netherlands" 1;setPlayerData "iconUnlocked" "cardtitle_flag_newzealand" 1;setPlayerData "iconUnlocked" "cardtitle_flag_norway" 1;setPlayerData "iconUnlocked" "cardtitle_flag_philippines" 1;setPlayerData "iconUnlocked" "cardtitle_flag_poland" 1;setPlayerData "iconUnlocked" "cardtitle_flag_portugal" 1;setPlayerData "iconUnlocked" "cardtitle_flag_russia" 1;setPlayerData "iconUnlocked" "cardtitle_flag_saudiarabia" 1;setPlayerData "iconUnlocked" "cardtitle_flag_singapore" 1;setPlayerData "iconUnlocked" "cardtitle_flag_southafrica" 1;setPlayerData "iconUnlocked" "cardtitle_flag_southkorea" 1;setPlayerData "iconUnlocked" "cardtitle_flag_spain" 1;setPlayerData "iconUnlocked" "cardtitle_flag_sweden" 1;setPlayerData "iconUnlocked" "cardtitle_flag_swiss" 1;setPlayerData "iconUnlocked" "cardtitle_flag_taiwan" 1;setPlayerData "iconUnlocked" "cardtitle_flag_turkey" 1;setPlayerData "iconUnlocked" "cardtitle_flag_uk" 1;setPlayerData "iconUnlocked" "cardtitle_flag_united_arab_emirates" 1;setPlayerData "iconUnlocked" "cardtitle_flag_unitedstates" 1;setPlayerData "iconUnlocked" "cardtitle_flames_1" 1;setPlayerData "iconUnlocked" "cardtitle_flower_3" 1;setPlayerData "iconUnlocked" "cardtitle_gears_03" 1;setPlayerData "iconUnlocked" "cardtitle_general" 1;setPlayerData "iconUnlocked" "cardtitle_ghillie" 1;setPlayerData "iconUnlocked" "cardtitle_glass_hispeed" 1;setPlayerData "iconUnlocked" "cardtitle_graff" 1;setPlayerData "iconUnlocked" "cardtitle_graffiti_1" 1;setPlayerData "iconUnlocked" "cardtitle_graffiti_2" 1;setPlayerData "iconUnlocked" "cardtitle_harrier" 1;setPlayerData "iconUnlocked" "cardtitle_hazard_3" 1;setPlayerData "iconUnlocked" "cardtitle_heartbeatsensor" 1;setPlayerData "iconUnlocked" "cardtitle_helicopters_1" 1;setPlayerData "iconUnlocked" "cardtitle_hello_sticker" 1;setPlayerData "iconUnlocked" "cardtitle_horsemen" 1;setPlayerData "iconUnlocked" "cardtitle_horsemen_death" 1;setPlayerData "iconUnlocked" "cardtitle_horsemen_famine" 1;setPlayerData "iconUnlocked" "cardtitle_horsemen_war" 1;setPlayerData "iconUnlocked" "cardtitle_hotdog_high" 1;setPlayerData "iconUnlocked" "cardtitle_iss01" 1;setPlayerData "iconUnlocked" "cardtitle_jason_nvg" 1;setPlayerData "iconUnlocked" "cardtitle_joint" 1;setPlayerData "iconUnlocked" "cardtitle_kingsnake" 1;setPlayerData "iconUnlocked" "cardtitle_lingerie_1" 1;setPlayerData "iconUnlocked" "cardtitle_lingerie_2" 1;setPlayerData "iconUnlocked" "cardtitle_locked" 1;setPlayerData "iconUnlocked" "cardtitle_machinegun" 1;setPlayerData "iconUnlocked" "cardtitle_magic" 1;setPlayerData "iconUnlocked" "cardtitle_make_it_rain" 1;setPlayerData "iconUnlocked" "cardtitle_mig15" 1;setPlayerData "iconUnlocked" "cardtitle_moab" 1;setPlayerData "iconUnlocked" "cardtitle_mw2_black" 1;setPlayerData "iconUnlocked" "cardtitle_night_vision_hi" 1;setPlayerData "iconUnlocked" "cardtitle_operations" 1;setPlayerData "iconUnlocked" "cardtitle_pavelow" 1;setPlayerData "iconUnlocked" "cardtitle_pavelow_side" 1;setPlayerData "iconUnlocked" "cardtitle_pinkscar" 1;setPlayerData "iconUnlocked" "cardtitle_pushindaisies" 1;setPlayerData "iconUnlocked" "cardtitle_rainbows_3" 1;setPlayerData "iconUnlocked" "cardtitle_rice_rocket" 1;setPlayerData "iconUnlocked" "cardtitle_roll_hard_six" 1;setPlayerData "iconUnlocked" "cardtitle_rpg" 1;setPlayerData "iconUnlocked" "cardtitle_samurai_lv3" 1;setPlayerData "iconUnlocked" "cardtitle_satellite" 1;setPlayerData "iconUnlocked" "cardtitle_schooled" 1;setPlayerData "iconUnlocked" "cardtitle_shark" 1;setPlayerData "iconUnlocked" "cardtitle_silencer" 1;setPlayerData "iconUnlocked" "cardtitle_skateboard" 1;setPlayerData "iconUnlocked" "cardtitle_smoke_em" 1;setPlayerData "iconUnlocked" "cardtitle_sniper_1" 1;setPlayerData "iconUnlocked" "cardtitle_sniper_2" 1;setPlayerData "iconUnlocked" "cardtitle_sniper_3" 1;setPlayerData "iconUnlocked" "cardtitle_sniper_4" 1;setPlayerData "iconUnlocked" "cardtitle_snowmobile" 1;setPlayerData "iconUnlocked" "cardtitle_snubnose" 1;setPlayerData "iconUnlocked" "cardtitle_spankpaddle" 1;setPlayerData "iconUnlocked" "cardtitle_spider" 1;setPlayerData "iconUnlocked" "cardtitle_spy_1" 1;setPlayerData "iconUnlocked" "cardtitle_stpatricks_3" 1;setPlayerData "iconUnlocked" "cardtitle_straight_blast" 1;setPlayerData "iconUnlocked" "cardtitle_sunbather" 1;setPlayerData "iconUnlocked" "cardtitle_swordmaster_1" 1;setPlayerData "iconUnlocked" "cardtitle_swordmaster_2" 1;setPlayerData "iconUnlocked" "cardtitle_swordmaster_3" 1;setPlayerData "iconUnlocked" "cardtitle_tank" 1;setPlayerData "iconUnlocked" "cardtitle_thebomb" 1;setPlayerData "iconUnlocked" "cardtitle_tiger" 1;setPlayerData "iconUnlocked" "cardtitle_tomahawk" 1;setPlayerData "iconUnlocked" "cardtitle_tsunami" 1;setPlayerData "iconUnlocked" "cardtitle_weed_3" 1;setPlayerData "iconUnlocked" "cardtitle_zero" 1;setPlayerData "iconUnlocked" "cardtitle_zombie_3" 1, !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0 )
+	// MENU_CHOICE_BUTTON_VIS( 9, "button_unlock_accolades", "UNLOCK ACCOLADES", setLocalVarString "ui_hint_text" ( "Unlock all accolades" ) , setPlayerData "awards" "10kills" 1;setPlayerData "awards" "1death" 1;setPlayerData "awards" "nodeaths" 1;setPlayerData "awards" "nokills" 1;setPlayerData "awards" "mvp" 1;setPlayerData "awards" "highlander" 1;setPlayerData "awards" "kdratio10" 1;setPlayerData "awards" "punisher" 1;setPlayerData "awards" "overkill" 1;setPlayerData "awards" "killedotherteamonelife" 1;setPlayerData "awards" "kdratio" 1;setPlayerData "awards" "kills" 1;setPlayerData "awards" "higherrankkills" 1;setPlayerData "awards" "deaths" 1;setPlayerData "awards" "killstreak" 1;setPlayerData "awards" "headshots" 1;setPlayerData "awards" "finalkill" 1;setPlayerData "awards" "killedotherteam" 1;setPlayerData "awards" "closertoenemies" 1;setPlayerData "awards" "throwingknifekills" 1;setPlayerData "awards" "grenadekills" 1;setPlayerData "awards" "helicopters" 1;setPlayerData "awards" "airstrikes" 1;setPlayerData "awards" "uavs" 1;setPlayerData "awards" "mostmultikills" 1;setPlayerData "awards" "multikill" 1;setPlayerData "awards" "knifekills" 1;setPlayerData "awards" "flankkills" 1;setPlayerData "awards" "bulletpenkills" 1;setPlayerData "awards" "laststandkills" 1;setPlayerData "awards" "laststanderkills" 1;setPlayerData "awards" "assists" 1;setPlayerData "awards" "c4kills" 1;setPlayerData "awards" "claymorekills" 1;setPlayerData "awards" "fragkills" 1;setPlayerData "awards" "semtexkills" 1;setPlayerData "awards" "explosionssurvived" 1;setPlayerData "awards" "mosttacprevented" 1;setPlayerData "awards" "avengekills" 1;setPlayerData "awards" "rescues" 1;setPlayerData "awards" "longshots" 1;setPlayerData "awards" "adskills" 1;setPlayerData "awards" "hipfirekills" 1;setPlayerData "awards" "revengekills" 1;setPlayerData "awards" "longestlife" 1;setPlayerData "awards" "throwbacks" 1;setPlayerData "awards" "thumperkills" 1;setPlayerData "awards" "otherweaponkills" 1;setPlayerData "awards" "killedsameplayer" 1;setPlayerData "awards" "mostweaponsused" 1;setPlayerData "awards" "distancetraveled" 1;setPlayerData "awards" "mostreloads" 1;setPlayerData "awards" "mostswaps" 1;setPlayerData "awards" "flankdeaths" 1;setPlayerData "awards" "noflankdeaths" 1;setPlayerData "awards" "thermalkills" 1;setPlayerData "awards" "mostcamperkills" 1;setPlayerData "awards" "fbhits" 1;setPlayerData "awards" "stunhits" 1;setPlayerData "awards" "scopedkills" 1;setPlayerData "awards" "arkills" 1;setPlayerData "awards" "arheadshots" 1;setPlayerData "awards" "lmgkills" 1;setPlayerData "awards" "lmgheadshots" 1;setPlayerData "awards" "sniperkills" 1;setPlayerData "awards" "sniperheadshots" 1;setPlayerData "awards" "shieldblocks" 1;setPlayerData "awards" "shieldkills" 1;setPlayerData "awards" "smgkills" 1;setPlayerData "awards" "smgheadshots" 1;setPlayerData "awards" "shotgunkills" 1;setPlayerData "awards" "shotgunheadshots" 1;setPlayerData "awards" "pistolkills" 1;setPlayerData "awards" "pistolheadshots" 1;setPlayerData "awards" "rocketkills" 1;setPlayerData "awards" "equipmentkills" 1;setPlayerData "awards" "mostclasseschanged" 1;setPlayerData "awards" "lowerrankkills" 1;setPlayerData "awards" "sprinttime" 1;setPlayerData "awards" "crouchtime" 1;setPlayerData "awards" "pronetime" 1;setPlayerData "awards" "comebacks" 1;setPlayerData "awards" "mostshotsfired" 1;setPlayerData "awards" "timeinspot" 1;setPlayerData "awards" "killcamtimewatched" 1;setPlayerData "awards" "greatestavgalt" 1;setPlayerData "awards" "leastavgalt" 1;setPlayerData "awards" "killcamskipped" 1;setPlayerData "awards" "killsteals" 1;setPlayerData "awards" "deathstreak" 1;setPlayerData "awards" "shortestlife" 1;setPlayerData "awards" "suicides" 1;setPlayerData "awards" "mostff" 1;setPlayerData "awards" "shotgundeaths" 1;setPlayerData "awards" "shielddeaths" 1;setPlayerData "awards" "participant" 1;setPlayerData "awards" "afk" 1;setPlayerData "awards" "noawards" 1;setPlayerData "awards" "bombsplanted" 1;setPlayerData "awards" "bombsdefused" 1;setPlayerData "awards" "bombcarrierkills" 1;setPlayerData "awards" "bombscarried" 1;setPlayerData "awards" "killsasbombcarrier" 1;setPlayerData "awards" "flagscaptured" 1;setPlayerData "awards" "flagsreturned" 1;setPlayerData "awards" "flagcarrierkills" 1;setPlayerData "awards" "flagscarried" 1;setPlayerData "awards" "killsasflagcarrier" 1;setPlayerData "awards" "hqsdestroyed" 1;setPlayerData "awards" "hqscaptured" 1;setPlayerData "awards" "pointscaptured" 1;setPlayerData "awards" "targetsdestroyed" 1, !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0 )
+	MENU_CHOICE_BUTTON_VIS( 14, "button_readstats", "^2READ STATS", setLocalVarString "ui_hint_text" ( "Retrieve your stats from the server." ) , exec "ReadStats", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0 )
+	HORIZONTAL_LINE(15, !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0 )
+	MENU_CHOICE_BUTTON_INV( 15, "button_prestige", "@MPUI_PRESTIGE_MODE_CAPS", if ( !( getplayerdata( "prestige" ) < int( tablelookup( "mp/rankIconTable.csv" , 0 , "maxprestige" , 1 ) ) && getplayerdata( "experience" ) >= int( tablelookup( "mp/rankTable.csv" , 0 , int( tablelookup( "mp/rankTable.csv" , 0 , "maxrank" , 1 ) ) , 7 ) ) ) ) { setLocalVarString "ui_hint_text" ( "@MPUI_DESC_PRESTIGE2" ); } else { setLocalVarString "ui_hint_text" ( "@MPUI_DESC_PRESTIGE" ); }, open "prestige_reset1", (!( getplayerdata( "prestige" ) == int( tablelookup( "mp/rankIconTable.csv" , 0 , "maxprestige" , 1 ) ) )) && (!dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0), !( getplayerdata( "prestige" ) < int( tablelookup( "mp/rankIconTable.csv" , 0 , "maxprestige" , 1 ) ) && getplayerdata( "experience" ) >= int( tablelookup( "mp/rankTable.csv" , 0 , int( tablelookup( "mp/rankTable.csv" , 0 , "maxrank" , 1 ) ) , 7 ) ) ) && !( getplayerdata( "prestige" ) == int( tablelookup( "mp/rankIconTable.csv" , 0 , "maxprestige" , 1 ) ) ) )
+	ICON(-64 -80 336 20 1 3, "specialty_new", ( ( getplayerdata( "prestige" ) < int( tablelookup( "mp/rankIconTable.csv" , 0 , "maxprestige" , 1 ) ) && getplayerdata( "experience" ) >= int( tablelookup( "mp/rankTable.csv" , 0 , int( tablelookup( "mp/rankTable.csv" , 0 , "maxrank" , 1 ) ) , 7 ) ) ) && getplayerdata( "featureNew" , "prestige" ) ) && ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0 ) )
+	HORIZONTAL_LINE(17, !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0 )
+	MENU_CHOICE_BUTTON_VIS( 17, "button_resetall", "^1RESET STATS", setLocalVarString "ui_hint_text" ( "Reset all your stats!" ) , exec "ResetStats"; exec "uploadStats", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0 )
+	HORIZONTAL_LINE(18, !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0 )
+	MENU_CHOICE_BUTTON_VIS( 19, "button_back", "@PLATFORM_BACK_CAPS", , "escape" self, ("@PLATFORM_BACK_CAPS" == "@PLATFORM_BACK_CAPS") && (!dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0) )
+	MENU_CHOICE_BUTTON_VIS( 19, "button_summary", "@PLATFORM_BACK_CAPS", , open "popup_summary", ("@PLATFORM_BACK_CAPS" == "@PLATFORM_GAME_SUMMARY_CAPS") && (!dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0) )
+	
+	MENU_CHOICE_BUTTON_VIS( 0, "button_prestige_0", "^7Prestige  0", , exec "setplayerdata prestige 0", dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0 )
+	// ICON(220 29 17 17 1 1, "rank_prestige0", ( dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0 ))
+	MENU_CHOICE_BUTTON_VIS( 1, "button_prestige_1", "^7Prestige  1", , exec "setplayerdata prestige 1", dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0 )
+	ICON(220 49 17 17 1 1, "rank_prestige1", ( dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0 ))
+	MENU_CHOICE_BUTTON_VIS( 2, "button_prestige_2", "^4Prestige  2", , exec "setplayerdata prestige 2", dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0 )
+	ICON(220 69 17 17 1 1, "rank_prestige2", ( dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0 ))
+	MENU_CHOICE_BUTTON_VIS( 3, "button_prestige_3", "^4Prestige  3", , exec "setplayerdata prestige 3", dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0 )
+	ICON(220 89 17 17 1 1, "rank_prestige3", ( dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0 ))
+	MENU_CHOICE_BUTTON_VIS( 4, "button_prestige_4", "^2Prestige  4", , exec "setplayerdata prestige 4", dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0 )
+	ICON(220 109 17 17 1 1, "rank_prestige4", ( dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0 ))
+	MENU_CHOICE_BUTTON_VIS( 5, "button_prestige_5", "^2Prestige  5", , exec "setplayerdata prestige 5", dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0 )
+	ICON(220 129 17 17 1 1, "rank_prestige5", ( dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0 ))
+	MENU_CHOICE_BUTTON_VIS( 6, "button_prestige_6", "^5Prestige  6", , exec "setplayerdata prestige 6", dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0 )
+	ICON(220 149 17 17 1 1, "rank_prestige6", ( dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0 ))
+	MENU_CHOICE_BUTTON_VIS( 7, "button_prestige_7", "^5Prestige  7", , exec "setplayerdata prestige 7", dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0 )
+	ICON(220 169 17 17 1 1, "rank_prestige7", ( dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0 ))
+	MENU_CHOICE_BUTTON_VIS( 8, "button_prestige_8", "^6Prestige  8", , exec "setplayerdata prestige 8", dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0 )
+	ICON(220 189 17 17 1 1, "rank_prestige8", ( dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0 ))
+	MENU_CHOICE_BUTTON_VIS( 9, "button_prestige_9", "^6Prestige  9", , exec "setplayerdata prestige 9", dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0 )
+	ICON(220 209 17 17 1 1, "rank_prestige9", ( dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0 ))
+	MENU_CHOICE_BUTTON_VIS( 10, "button_prestige_10", "^3Prestige 10", , exec "setplayerdata prestige 10", dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0 )
+	// if ( getplayerdata( "prestige" ) == 10) {
+		// ICON(220 229 17 17 1 1, "cardicon_prestige10_02", ( dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0 ))
+	// } else {
+		ICON(220 229 17 17 1 1, "rank_prestige10", ( dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0 ))
+	// }
+	HORIZONTAL_LINE(11, dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0 )
+	MENU_CHOICE_BUTTON_VIS( 11, "button_prestige_11", "^1Prestige 11", , exec "setplayerdata prestige 11", dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0 )
+	ICON(220 249 17 17 1 1, "cardicon_t5_prestige_1", ( dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0 ))
+	MENU_CHOICE_BUTTON_VIS( 12, "button_prestige_12", "^1Prestige 12", , exec "setplayerdata prestige 12", dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0 )
+	// ICON(220 269 17 17 1 1, "rank_prestige12", ( dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0 ))
+	MENU_CHOICE_BUTTON_VIS( 13, "button_prestige_13", "^1Prestige 13", , exec "setplayerdata prestige 13", dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0 )
+	// ICON(220 289 17 17 1 1, "rank_prestige13", ( dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0 ))
+	MENU_CHOICE_BUTTON_VIS( 14, "button_prestige_14", "^1Prestige 14", , exec "setplayerdata prestige 14", dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0 )
+	// ICON(220 309 17 17 1 1, "rank_prestige14", ( dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0 ))
+	MENU_CHOICE_BUTTON_VIS( 15, "button_prestige_15", "^1Prestige 15", , exec "setplayerdata prestige 15", dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0 )
+	// ICON(220 329 17 17 1 1, "rank_prestige15", ( dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0 ))
+	MENU_CHOICE_BUTTON_VIS( 16, "button_prestige_16", "^1Prestige 16", , exec "setplayerdata prestige 16", dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0 )
+	// ICON(220 349 17 17 1 1, "rank_prestige16", ( dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0 ))
+	MENU_CHOICE_BUTTON_VIS( 19, "button_back", "@PLATFORM_BACK_CAPS", , setDvar "menu_ui_setrank" 0, ("@PLATFORM_BACK_CAPS" == "@PLATFORM_BACK_CAPS") && (dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0) )
+	MENU_CHOICE_BUTTON_VIS( 19, "button_summary", "@PLATFORM_BACK_CAPS", , open "popup_summary", ("@PLATFORM_BACK_CAPS" == "@PLATFORM_GAME_SUMMARY_CAPS") && (dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 0) )
+	
+
+	
+	MENU_CHOICE_BUTTON_VIS( 19, "button_back", "@PLATFORM_BACK_CAPS", , setLocalVarInt "menu_ui_setxp" 0, ("@PLATFORM_BACK_CAPS" == "@PLATFORM_BACK_CAPS") && (!dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") != 0) )
+	MENU_CHOICE_BUTTON_VIS( 19, "button_summary", "@PLATFORM_BACK_CAPS", , open "popup_summary", ("@PLATFORM_BACK_CAPS" == "@PLATFORM_GAME_SUMMARY_CAPS") && (!dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") != 0) )
+	
+	
+	MENU_CHOICE_BUTTON_VIS( 0, "button_level_1", "Private (01)", , exec "setplayerdata experience 0", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 1 )
+	ICON(220 29 17 17 1 1, "rank_pvt1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 1 ))
+	MENU_CHOICE_BUTTON_VIS( 1, "button_level_2", "Private I (02)", , exec "setplayerdata experience 500", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 1 )
+	ICON(220 49 17 17 1 1, "rank_pvt1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 1 ))
+	MENU_CHOICE_BUTTON_VIS( 2, "button_level_3", "Private II (03)", , exec "setplayerdata experience 1700", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 1 )
+	ICON(220 69 17 17 1 1, "rank_pfc1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 1 ))
+	MENU_CHOICE_BUTTON_VIS( 3, "button_level_4", "Private First Class (04)", , exec "setplayerdata experience 3600", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 1 )
+	ICON(220 89 17 17 1 1, "rank_pfc1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 1 ))
+	MENU_CHOICE_BUTTON_VIS( 4, "button_level_5", "Private First Class I (05)", , exec "setplayerdata experience 6200", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 1 )
+	ICON(220 109 17 17 1 1, "rank_pfc1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 1 ))
+	MENU_CHOICE_BUTTON_VIS( 5, "button_level_6", "Private First Class II (06)", , exec "setplayerdata experience 9500", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 1 )
+	ICON(220 129 17 17 1 1, "rank_spc1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 1 ))
+	MENU_CHOICE_BUTTON_VIS( 6, "button_level_7", "Specialist (07)", , exec "setplayerdata experience 13500", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 1 )
+	ICON(220 149 17 17 1 1, "rank_spc1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 1 ))
+	MENU_CHOICE_BUTTON_VIS( 7, "button_level_8", "Specialist I (08)", , exec "setplayerdata experience 18200", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 1 )
+	ICON(220 169 17 17 1 1, "rank_spc1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 1 ))
+	MENU_CHOICE_BUTTON_VIS( 8, "button_level_9", "Specialist II (09)", , exec "setplayerdata experience 23600", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 1 )
+	ICON(220 189 17 17 1 1, "rank_cpl1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 1 ))
+	MENU_CHOICE_BUTTON_VIS( 9, "button_level_10", "Corporal (10)", , exec "setplayerdata experience 29700", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 1 )
+	ICON(220 209 17 17 1 1, "rank_cpl1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 1 ))
+	MENU_CHOICE_BUTTON_VIS( 10, "button_level_11", "Corporal I (11)", , exec "setplayerdata experience 36500", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 1 )
+	ICON(220 229 17 17 1 1, "rank_cpl1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 1 ))
+	MENU_CHOICE_BUTTON_VIS( 11, "button_level_12", "Corporal II (12)", , exec "setplayerdata experience 44300", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 1 )
+	ICON(220 249 17 17 1 1, "rank_sgt1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 1 ))
+	MENU_CHOICE_BUTTON_VIS( 12, "button_level_13", "Sergeant (13)", , exec "setplayerdata experience 53100", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 1 )
+	ICON(220 269 17 17 1 1, "rank_sgt1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 1 ))
+	MENU_CHOICE_BUTTON_VIS( 13, "button_level_14", "Sergeant I (14)", , exec "setplayerdata experience 62900", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 1 )
+	ICON(220 289 17 17 1 1, "rank_sgt1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 1 ))
+	MENU_CHOICE_BUTTON_VIS( 14, "button_level_15", "Sergeant II (15)", , exec "setplayerdata experience 73700", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 1 )
+	ICON(220 309 17 17 1 1, "rank_ssgt1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 1 ))
+	
+	MENU_CHOICE_BUTTON_VIS( 16, "button_level_next", "^2NEXT (16-30)", , setLocalVarInt "menu_ui_setxp" 2, !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 1 )
+	MENU_CHOICE_BUTTON_VIS( 17, "button_level_back", "^1BACK (61-70)", , setLocalVarInt "menu_ui_setxp" 5, !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 1 )
+	
+	
+	MENU_CHOICE_BUTTON_VIS( 0, "button_level_16", "Staff Sergeant (16)", , exec "setplayerdata experience 85500", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 2 )
+	ICON(220 29 17 17 1 1, "rank_ssgt1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 2 ))
+	MENU_CHOICE_BUTTON_VIS( 1, "button_level_17", "Staff Sergeant I (17)", , exec "setplayerdata experience 98300", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 2 )
+	ICON(220 49 17 17 1 1, "rank_ssgt1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 2 ))
+	MENU_CHOICE_BUTTON_VIS( 2, "button_level_18", "Staff Sergeant II (18)", , exec "setplayerdata experience 112100", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 2 )
+	ICON(220 69 17 17 1 1, "rank_sfc1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 2 ))
+	MENU_CHOICE_BUTTON_VIS( 3, "button_level_19", "Sergeant First Class (19)", , exec "setplayerdata experience 126900", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 2 )
+	ICON(220 89 17 17 1 1, "rank_sfc1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 2 ))
+	MENU_CHOICE_BUTTON_VIS( 4, "button_level_20", "Sergeant First Class I (20)", , exec "setplayerdata experience 142700", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 2 )
+	ICON(220 109 17 17 1 1, "rank_sfc1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 2 ))
+	MENU_CHOICE_BUTTON_VIS( 5, "button_level_21", "Sergeant First Class II (21)", , exec "setplayerdata experience 159500", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 2 )
+	ICON(220 129 17 17 1 1, "rank_msgt1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 2 ))
+	MENU_CHOICE_BUTTON_VIS( 6, "button_level_22", "Master Sergeant (22)", , exec "setplayerdata experience 177300", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 2 )
+	ICON(220 149 17 17 1 1, "rank_msgt1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 2 ))
+	MENU_CHOICE_BUTTON_VIS( 7, "button_level_23", "Master Sergeant I (23)", , exec "setplayerdata experience 196100", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 2 )
+	ICON(220 169 17 17 1 1, "rank_msgt1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 2 ))
+	MENU_CHOICE_BUTTON_VIS( 8, "button_level_24", "Master Sergeant II (24)", , exec "setplayerdata experience 215900", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 2 )
+	ICON(220 189 17 17 1 1, "rank_1stsgt1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 2 ))
+	MENU_CHOICE_BUTTON_VIS( 9, "button_level_25", "First Sergeant (25)", , exec "setplayerdata experience 236700", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 2 )
+	ICON(220 209 17 17 1 1, "rank_1stsgt1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 2 ))
+	MENU_CHOICE_BUTTON_VIS( 10, "button_level_26", "First Sergeant I (26)", , exec "setplayerdata experience 258500", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 2 )
+	ICON(220 229 17 17 1 1, "rank_1stsgt1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 2 ))
+	MENU_CHOICE_BUTTON_VIS( 11, "button_level_27", "First Sergeant II (27)", , exec "setplayerdata experience 281300", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 2 )
+	ICON(220 249 17 17 1 1, "rank_sgtmaj1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 2 ))
+	MENU_CHOICE_BUTTON_VIS( 12, "button_level_28", "Sergeant Major (28)", , exec "setplayerdata experience 305100", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 2 )
+	ICON(220 269 17 17 1 1, "rank_sgtmaj1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 2 ))
+	MENU_CHOICE_BUTTON_VIS( 13, "button_level_29", "Sergeant Major I (29)", , exec "setplayerdata experience 329900", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 2 )
+	ICON(220 289 17 17 1 1, "rank_sgtmaj1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 2 ))
+	MENU_CHOICE_BUTTON_VIS( 14, "button_level_30", "Sergeant Major II (30)", , exec "setplayerdata experience 355700", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 2 )
+	ICON(220 309 17 17 1 1, "rank_cmdsgtmaj1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 2 ))
+	
+	MENU_CHOICE_BUTTON_VIS( 16, "button_level_next", "^2NEXT (31-45)", , setLocalVarInt "menu_ui_setxp" 3, !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 2 )
+	MENU_CHOICE_BUTTON_VIS( 17, "button_level_back", "^1BACK (01-15)", , setLocalVarInt "menu_ui_setxp" 1, !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 2 )
+	
+	
+	MENU_CHOICE_BUTTON_VIS( 0, "button_level_31", "Command Sergeant Major (31)", , exec "setplayerdata experience 382700", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 3 )
+	ICON(220 29 17 17 1 1, "rank_cmdsgtmaj1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 3 ) )
+	MENU_CHOICE_BUTTON_VIS( 1, "button_level_32", "Command Sergeant Major I (32)", , exec "setplayerdata experience 410900", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 3 )
+	ICON(220 49 17 17 1 1, "rank_cmdsgtmaj1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 3 ) )
+	MENU_CHOICE_BUTTON_VIS( 2, "button_level_33", "Command Sergeant Major II (33)", , exec "setplayerdata experience 440300", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 3 )
+	ICON(220 69 17 17 1 1, "rank_2ndlt1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 3 ) )
+	MENU_CHOICE_BUTTON_VIS( 3, "button_level_34", "2nd Lieutenant (34)", , exec "setplayerdata experience 470900", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 3 )
+	ICON(220 89 17 17 1 1, "rank_2ndlt1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 3 ) )
+	MENU_CHOICE_BUTTON_VIS( 4, "button_level_35", "2nd Lieutenant I (35)", , exec "setplayerdata experience 502700", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 3 )
+	ICON(220 109 17 17 1 1, "rank_2ndlt1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 3 ) )
+	MENU_CHOICE_BUTTON_VIS( 5, "button_level_36", "2nd Lieutenant II (36)", , exec "setplayerdata experience 535700", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 3 )
+	ICON(220 129 17 17 1 1, "rank_1stlt1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 3 ) )
+	MENU_CHOICE_BUTTON_VIS( 6, "button_level_37", "1st Lieutenant (37)", , exec "setplayerdata experience 569900", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 3 )
+	ICON(220 149 17 17 1 1, "rank_1stlt1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 3 ) )
+	MENU_CHOICE_BUTTON_VIS( 7, "button_level_38", "1st Lieutenant I (38)", , exec "setplayerdata experience 605300", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 3 )
+	ICON(220 169 17 17 1 1, "rank_1stlt1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 3 ) )
+	MENU_CHOICE_BUTTON_VIS( 8, "button_level_39", "1st Lieutenant II (39)", , exec "setplayerdata experience 641900", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 3 )
+	ICON(220 189 17 17 1 1, "rank_capt1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 3 ) )
+	MENU_CHOICE_BUTTON_VIS( 9, "button_level_40", "Captain (40)", , exec "setplayerdata experience 679700", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 3 )
+	ICON(220 209 17 17 1 1, "rank_capt1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 3 ) )
+	MENU_CHOICE_BUTTON_VIS( 10, "button_level_41", "Captain I (41)", , exec "setplayerdata experience 718700", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 3 )
+	ICON(220 229 17 17 1 1, "rank_capt1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 3 ) )
+	MENU_CHOICE_BUTTON_VIS( 11, "button_level_42", "Captain II (42)", , exec "setplayerdata experience 758900", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 3 )
+	ICON(220 249 17 17 1 1, "rank_maj1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 3 ) )
+	MENU_CHOICE_BUTTON_VIS( 12, "button_level_43", "Major (43)", , exec "setplayerdata experience 800300", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 3 )
+	ICON(220 269 17 17 1 1, "rank_maj1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 3 ) )
+	MENU_CHOICE_BUTTON_VIS( 13, "button_level_44", "Major I (44)", , exec "setplayerdata experience 842900", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 3 )
+	ICON(220 289 17 17 1 1, "rank_maj1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 3 ) )
+	MENU_CHOICE_BUTTON_VIS( 14, "button_level_45", "Major II (45)", , exec "setplayerdata experience 886700", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 3 )
+	ICON(220 309 17 17 1 1, "rank_ltcol1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 3 ) )
+	
+	MENU_CHOICE_BUTTON_VIS( 16, "button_level_next", "^2NEXT (46-60)", , setLocalVarInt "menu_ui_setxp" 4, !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 3 )
+	MENU_CHOICE_BUTTON_VIS( 17, "button_level_back", "^1BACK (16-30)", , setLocalVarInt "menu_ui_setxp" 2, !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 3 )
+	
+	
+	MENU_CHOICE_BUTTON_VIS( 0, "button_level_46", "Lieutenant Colonel (46)", , exec "setplayerdata experience 931700", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 4 )
+	ICON(220 29 17 17 1 1, "rank_ltcol1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 4 ))
+	MENU_CHOICE_BUTTON_VIS( 1, "button_level_47", "Lieutenant Colonel I (47)", , exec "setplayerdata experience 977900", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 4 )
+	ICON(220 49 17 17 1 1, "rank_ltcol1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 4 ))
+	MENU_CHOICE_BUTTON_VIS( 2, "button_level_48", "Lieutenant Colonel II (48)", , exec "setplayerdata experience 1025300", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 4 )
+	ICON(220 69 17 17 1 1, "rank_ltcol1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 4 ))
+	MENU_CHOICE_BUTTON_VIS( 3, "button_level_49", "Lieutenant Colonel III (49)", , exec "setplayerdata experience 1073900", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 4 )
+	ICON(220 89 17 17 1 1, "rank_col1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 4 ))
+	MENU_CHOICE_BUTTON_VIS( 4, "button_level_50", "Colonel (50)", , exec "setplayerdata experience 1123700", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 4 )
+	ICON(220 109 17 17 1 1, "rank_col1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 4 ))
+	MENU_CHOICE_BUTTON_VIS( 5, "button_level_51", "Colonel I (51)", , exec "setplayerdata experience 1175000", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 4 )
+	ICON(220 129 17 17 1 1, "rank_col1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 4 ))
+	MENU_CHOICE_BUTTON_VIS( 6, "button_level_52", "Colonel II (52)", , exec "setplayerdata experience 1227800", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 4 )
+	ICON(220 149 17 17 1 1, "rank_col1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 4 ))
+	MENU_CHOICE_BUTTON_VIS( 7, "button_level_53", "Colonel III (53)", , exec "setplayerdata experience 1282100", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 4 )
+	ICON(220 169 17 17 1 1, "rank_bgen1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 4 ))
+	MENU_CHOICE_BUTTON_VIS( 8, "button_level_54", "Brigadier General (54)", , exec "setplayerdata experience 1337900", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 4 )
+	ICON(220 189 17 17 1 1, "rank_bgen1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 4 ))
+	MENU_CHOICE_BUTTON_VIS( 9, "button_level_55", "Brigadier General I (55)", , exec "setplayerdata experience 1395200", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 4 )
+	ICON(220 209 17 17 1 1, "rank_bgen1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 4 ))
+	MENU_CHOICE_BUTTON_VIS( 10, "button_level_56", "Brigadier General II (56)", , exec "setplayerdata experience 1454000", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 4 )
+	ICON(220 229 17 17 1 1, "rank_bgen1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 4 ))
+	MENU_CHOICE_BUTTON_VIS( 11, "button_level_57", "Brigadier General III (57)", , exec "setplayerdata experience 1514300", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 4 )
+	ICON(220 249 17 17 1 1, "rank_majgen1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 4 ))
+	MENU_CHOICE_BUTTON_VIS( 12, "button_level_58", "Major General (58)", , exec "setplayerdata experience 1576100", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 4 )
+	ICON(220 269 17 17 1 1, "rank_majgen1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 4 ))
+	MENU_CHOICE_BUTTON_VIS( 13, "button_level_59", "Major General I (59)", , exec "setplayerdata experience 1639400", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 4 )
+	ICON(220 289 17 17 1 1, "rank_majgen1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 4 ))
+	MENU_CHOICE_BUTTON_VIS( 14, "button_level_60", "Major General II (60)", , exec "setplayerdata experience 1704200", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 4 )
+	ICON(220 309 17 17 1 1, "rank_majgen1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 4 ))
+	
+	MENU_CHOICE_BUTTON_VIS( 16, "button_level_next", "^2NEXT (61-70)", , setLocalVarInt "menu_ui_setxp" 5, !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 4 )
+	MENU_CHOICE_BUTTON_VIS( 17, "button_level_back", "^1BACK (31-45)", , setLocalVarInt "menu_ui_setxp" 3, !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 4 )
+	
+	
+	MENU_CHOICE_BUTTON_VIS( 0, "button_level_61", "Major General III (61)", , exec "setplayerdata experience 1770500", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 5 )
+	ICON(220 29 17 17 1 1, "rank_ltgen1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 5 ))
+	MENU_CHOICE_BUTTON_VIS( 1, "button_level_62", "Lieutenant General (62)", , exec "setplayerdata experience 1838300", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 5 )
+	ICON(220 69 17 17 1 1, "rank_ltgen1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 5 ))
+	MENU_CHOICE_BUTTON_VIS( 2, "button_level_63", "Lieutenant General I (63)", , exec "setplayerdata experience 1907600", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 5 )
+	ICON(220 89 17 17 1 1, "rank_ltgen1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 5 ))
+	MENU_CHOICE_BUTTON_VIS( 3, "button_level_64", "Lieutenant General II (64)", , exec "setplayerdata experience 1978400", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 5 )
+	ICON(220 109 17 17 1 1, "rank_gen1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 5 ))
+	MENU_CHOICE_BUTTON_VIS( 4, "button_level_65", "Lieutenant General III (65)", , exec "setplayerdata experience 2050700", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 5 )
+	ICON(220 129 17 17 1 1, "rank_gen1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 5 ))
+	MENU_CHOICE_BUTTON_VIS( 5, "button_level_66", "General (66)", , exec "setplayerdata experience 2124500", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 5 )
+	ICON(220 149 17 17 1 1, "rank_gen1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 5 ))
+	MENU_CHOICE_BUTTON_VIS( 6, "button_level_67", "General I (67)", , exec "setplayerdata experience 2199800", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 5 )
+	ICON(220 169 17 17 1 1, "rank_gen1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 5 ))
+	MENU_CHOICE_BUTTON_VIS( 7, "button_level_68", "General II (68)", , exec "setplayerdata experience 2276600", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 5 )
+	ICON(220 189 17 17 1 1, "rank_gen1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 5 ))
+	MENU_CHOICE_BUTTON_VIS( 8, "button_level_69", "General III (69)", , exec "setplayerdata experience 2354900", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 5 )
+	ICON(220 209 17 17 1 1, "rank_comm1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 5 ))
+	MENU_CHOICE_BUTTON_VIS( 9, "button_level_70", "Commander (70)", , exec "setplayerdata experience 2434700", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 5 )
+	ICON(220 229 17 17 1 1, "rank_comm1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 5 ))
+	MENU_CHOICE_BUTTON_VIS( 10, "button_level_max", "^1MAX XP", , exec "setplayerdata experience 9999999", !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 5 )
+	// ICON(220 249 17 17 1 1, "rank_comm1", ( !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 5 ))
+	
+	MENU_CHOICE_BUTTON_VIS( 16, "button_level_next", "^2NEXT (01-15)", , setLocalVarInt "menu_ui_setxp" 1, !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 5 )
+	MENU_CHOICE_BUTTON_VIS( 17, "button_level_back", "^1BACK (46-60)", , setLocalVarInt "menu_ui_setxp" 4, !dvarbool("menu_ui_setrank") && localvarint("menu_ui_setxp") == 5 )
+
+		itemDef
+		{
+			rect 0 230 212 18 1 1
+			decoration
+			autowrapped
+			visible 1
+			forecolor 1 1 1 0.65
+			textfont 3
+			textalign 6
+			textscale 0.375
+			exp text ( localvarstring( "ui_hint_text" ) )
+		}
+		itemDef
+		{
+			rect 0 0 208 70 3 1
+			decoration
+			visible 1
+			style 3
+			forecolor 0 0 0 0.25
+			background "white"
+			textscale 0.55
+			exp rect x ( ( - 208 ) )
+			exp rect y ( ( 18 ) )
+			visible when ( 1 && ( getplayercardinfo( 0 , 1 , 0 ) != 0 ) )
+		}
+		itemDef
+		{
+			rect 0 0 208 70 3 1
+			decoration
+			visible 1
+			style 1
+			forecolor 1 1 1 1
+			backcolor 1 1 1 1
+			background "cardtitle_248x48"
+			textfont 6
+			textalign 4
+			textaligny -20
+			textscale 0.375
+			exp rect x ( ( - 208 ) )
+			exp rect y ( ( 18 ) )
+			visible when ( 1 && ( getplayercardinfo( 0 , 1 , 0 ) != 0 ) )
+		}
+		itemDef
+		{
+			rect 0 0 160 32 3 1
+			// decoration
+			type 1
+			visible 1
+			style 1
+			forecolor 1 1 1 1
+			backcolor 1 1 1 1
+			textfont 3
+			textalign 9
+			textscale 0.375
+			exp rect x ( - 208 )
+			exp rect y ( 18 - 2 )
+			exp forecolor r ( tablelookupbyrow( "mp/cardTitleTable.csv" , getplayercardinfo( 1 , 1 , 0 ) , 3 ) )
+			exp forecolor g ( tablelookupbyrow( "mp/cardTitleTable.csv" , getplayercardinfo( 1 , 1 , 0 ) , 4 ) )
+			exp forecolor b ( tablelookupbyrow( "mp/cardTitleTable.csv" , getplayercardinfo( 1 , 1 , 0 ) , 5 ) )
+			visible when ( 1 && ( getplayercardinfo( 0 , 1 , 0 ) != 0 ) )
+			exp text ( "@" + tablelookupbyrow( "mp/cardTitleTable.csv" , getplayercardinfo( 1 , 1 , 0 ) , 1 ) )
+			exp material ( tablelookupbyrow( "mp/cardTitleTable.csv" , getplayercardinfo( 1 , 1 , 0 ) , 2 ) )
+			onFocus
+			{
+				play "mouse_over";
+				if(isitemunlocked( "playercard_title" ))
+				{
+					setLocalVarString ui_hint_text "@MPUI_DESC_PLAYERCARD_TITLE";
+				}
+				else
+				{
+					setLocalVarString ui_hint_text "@PERKS_UNLOCKED_BY_CHALLENGE";
+				}
+				setLocalVarBool ui_menuAButton 1;
+			}
+			leaveFocus
+			{
+				setLocalVarString ui_hint_text "@NULL_EMPTY";
+				setLocalVarBool ui_menuAButton 1;
+			}
+			action
+			{
+				play "mouse_click";
+				if(isitemunlocked( "playercard_title" ))
+				{
+					open "menu_playercard_title_popup";
+					setPlayerData ( "featureNew" , "playercard_title" , "false");
+				}
+			}
+		}
+		itemDef
+		{
+			rect 0 0 160 18 3 1
+			// decoration
+			type 1
+			visible 1
+			forecolor 1 1 1 1
+			textfont 10
+			textalign 4
+			textalignx 8
+			textscale 0.3333
+			exp rect x ( - 208 )
+			exp rect y ( ( 18 ) + 28 )
+			visible when ( 1 && ( getplayercardinfo( 0 , 1 , 0 ) != 0 ) )
+			exp text ( getplayercardinfo( 8 , 1 , 0 ) )
+			onFocus
+			{
+				play "mouse_over";
+				setItemColor self "backcolor" 0 0 0 0;
+				setItemColor self "backcolor" 0 0 0 1;
+				setLocalVarString ui_hint_text "@MPUI_DESC_CHANGE_NAME";
+				setLocalVarBool ui_menuAButton 1;
+			}
+			leaveFocus
+			{
+				setItemColor self "backcolor" 0 0 0 "0.0";
+				setLocalVarString ui_hint_text "@NULL_EMPTY";
+				setLocalVarBool ui_menuAButton 1;
+			}
+			action
+			{
+				play "mouse_click";
+				open "popup_playername";
+			}
+		}
+		itemDef
+		{
+			rect 0 0 48 48 3 1
+			// decoration
+			type 1
+			visible 1
+			style 3
+			forecolor 1 1 1 1
+			textscale 0.55
+			exp rect x ( ( - 208 ) + 160 )
+			exp rect y ( ( 18 ) )
+			visible when ( 1 && ( getplayercardinfo( 0 , 1 , 0 ) != 0 ) )
+			exp material ( tablelookupbyrow( "mp/cardIconTable.csv" , getplayercardinfo( 2 , 1 , 0 ) , 1 ) )
+			onFocus
+			{
+				play "mouse_over";
+				if(isitemunlocked( "playercard_icon" ))
+				{
+					setLocalVarString ui_hint_text "@MPUI_DESC_PLAYERCARD_ICON";
+				}
+				else
+				{
+					setLocalVarString ui_hint_text "@PERKS_UNLOCKED_BY_CHALLENGE";
+				}
+				setLocalVarBool ui_menuAButton 1;
+			}
+			leaveFocus
+			{
+				setLocalVarString ui_hint_text "@NULL_EMPTY";
+				setLocalVarBool ui_menuAButton 1;
+			}
+			action
+			{
+				play "mouse_click";
+				if(isitemunlocked( "playercard_icon" ))
+				{
+					open "menu_playercard_icon_popup";
+					setPlayerData ( "featureNew" , "playercard_icon" , "false");
+				}
+			}
+		}
+		itemDef
+		{
+			rect 0 0 208 20 3 1
+			// decoration
+			type 1
+			visible 1
+			style 1
+			forecolor 1 1 1 1
+			textfont 3
+			textalign 8
+			textalignx 8
+			textscale 0.375
+			exp rect x ( ( - 208 ) )
+			exp rect y ( ( 18 ) + 48 )
+			visible when ( 1 && ( getplayercardinfo( 0 , 1 , 0 ) != 0 ) && getplayercardinfo( 9 , 1 , 0 ) != "" )
+			exp text ( "[" + getplayercardinfo( 9 , 1 , 0 ) + "]" )
+			onFocus
+			{
+				play "mouse_over";
+				setLocalVarString ui_hint_text "Edit your rank.";
+				setLocalVarBool ui_menuAButton 1;
+			}
+			leaveFocus
+			{
+				setLocalVarString ui_hint_text "@NULL_EMPTY";
+				setLocalVarBool ui_menuAButton 1;
+			}
+			action
+			{
+				play "mouse_click";
+				open "Rank_Menu";
+			}
+		}
+		itemDef
+		{
+			rect 0 0 20 20 3 1
+			// decoration
+			type 1
+			visible 1
+			style 1
+			forecolor 1 1 1 1
+			backcolor 1 1 1 1
+			textscale 0.55
+			exp rect x ( ( - 208 ) + 164 )
+			exp rect y ( ( 18 ) + 48 )
+			visible when ( 1 && ( getplayercardinfo( 0 , 1 , 0 ) != 0 ) && ( getplayercardinfo( 4 , 1 , 0 ) >= 0 ) )
+			exp material ( tablelookup( "mp/rankIconTable.csv" , 0 , getplayercardinfo( 4 , 1 , 0 ) , ( getplayercardinfo( 5 , 1 , 0 ) + 1 ) ) )
+			onFocus
+			{
+				play "mouse_over";
+				setLocalVarString ui_hint_text "Edit your prestige.";
+				setLocalVarBool ui_menuAButton 1;
+			}
+			leaveFocus
+			{
+				setLocalVarString ui_hint_text "@NULL_EMPTY";
+				setLocalVarBool ui_menuAButton 1;
+			}
+			action
+			{
+				play "mouse_click";
+				open "menu_online_barracks";
+				setDvar "menu_ui_setrank" 1;
+			}
+		}
+		itemDef
+		{
+			rect 0 0 20 20 3 1
+			// decoration
+			visible 1
+			forecolor 1 1 1 1
+			textfont 3
+			textalign 9
+			textalignx 20
+			textscale 0.375
+			exp rect x ( ( - 208 ) + 164 )
+			exp rect y ( ( 18 ) + 48 )
+			visible when ( 1 && ( getplayercardinfo( 0 , 1 , 0 ) != 0 ) && ( getplayercardinfo( 4 , 1 , 0 ) >= 0 ) )
+			exp text ( tablelookup( "mp/rankTable.csv" , 0 , getplayercardinfo( 4 , 1 , 0 ) , 14 ) )
+			onFocus
+			{
+				play "mouse_over";
+				setLocalVarString ui_hint_text "Edit your level.";
+				setLocalVarBool ui_menuAButton 1;
+			}
+			leaveFocus
+			{
+				setLocalVarString ui_hint_text "@NULL_EMPTY";
+				setLocalVarBool ui_menuAButton 1;
+			}
+			action
+			{
+				play "mouse_click";
+				open "menu_online_barracks";
+				setDvar "menu_ui_setxp" 1;
+			}
+		}
+		itemDef
+		{
+			rect -208 90 -208 270 3 1
+			decoration
+			visible 1
+			style 3
+			forecolor 1 1 1 0.1
+			background "gradient_fadein"
+			textscale 0.55
+		}
+		itemDef
+		{
+			rect -208 90 -208 20 3 1
+			decoration
+			visible 1
+			style 1
+			forecolor 1 1 1 1
+			backcolor 0 0 0 0.35
+			background "white"
+			textfont 3
+			textalign 4
+			textalignx 4
+			textscale 0.375
+			visible when ( 1 )
+			exp text ( "@MPUI_RANK_PRE" )
+		}
+		itemDef
+		{
+			rect -208 90 208 20 3 1
+			decoration
+			visible 1
+			forecolor 1 1 1 1
+			textfont 3
+			textalign 6
+			textalignx -22
+			textscale 0.375
+			visible when ( 1 )
+			exp text ( "@" + tablelookup( "mp/ranktable.csv" , 0 , levelforexperience( getplayerdata( "experience" ) ) , 5 ) )
+		}
+		itemDef
+		{
+			rect -18 91 18 18 3 1
+			decoration
+			visible 1
+			style 3
+			forecolor 1 1 1 1
+			textscale 0.55
+			visible when ( 1 )
+			exp material ( tablelookup( "mp/rankIconTable.csv" , 0 , levelforexperience( getplayerdata( "experience" ) ) , getplayerdata( "prestige" ) + 1 ) )
+		}
+		itemDef
+		{
+			rect -208 110 -208 20 3 1
+			decoration
+			visible 1
+			forecolor 1 1 1 0.65
+			textfont 3
+			textalign 4
+			textalignx 4
+			textscale 0.375
+			visible when ( 1 )
+			exp text ( "@MPUI_XP_PRE" )
+		}
+		itemDef
+		{
+			rect -208 110 208 20 3 1
+			decoration
+			visible 1
+			forecolor 1 1 1 0.65
+			textfont 3
+			textalign 6
+			textscale 0.375
+			visible when ( 1 )
+			exp text ( getplayerdata( "experience" ) )
+		}
+		itemDef
+		{
+			rect -208 130 -208 20 3 1
+			// decoration
+			visible 1
+			style 1
+			forecolor 1 1 1 1
+			backcolor 0 0 0 0.35
+			background "white"
+			textfont 3
+			textalign 4
+			textalignx 4
+			textscale 0.375
+			visible when ( ( levelforexperience( getplayerdata( "experience" ) ) < int( tablelookup( "mp/rankTable.csv" , 0 , "maxrank" , 1 ) ) || getplayerdata( "prestige" ) < int( tablelookup( "mp/rankIconTable.csv" , 0 , "maxprestige" , 1 ) ) ) && ( getplayerdata( "prestige" ) < int( tablelookup( "mp/rankIconTable.csv" , 0 , "maxprestige" , 1 ) ) && levelforexperience( getplayerdata( "experience" ) ) == int( tablelookup( "mp/rankTable.csv" , 0 , "maxrank" , 1 ) ) ) == 0 )
+			exp text ( "@MPUI_NEXT_PRE" )
+			onFocus
+			{
+				play "mouse_over";
+				setLocalVarBool ui_menuAButton 1;
+			}
+			leaveFocus
+			{
+				setLocalVarString ui_hint_text "@NULL_EMPTY";
+				setLocalVarBool ui_menuAButton 1;
+			}
+			action
+			{
+				play "mouse_click";
+				setPlayerData "prestige" getplayerdata( "prestige" ) + 1;
+			}
+		}
+		itemDef
+		{
+			rect -208 130 208 20 3 1
+			decoration
+			visible 1
+			forecolor 1 1 1 1
+			textfont 3
+			textalign 6
+			textalignx -22
+			textscale 0.375
+			visible when ( ( levelforexperience( getplayerdata( "experience" ) ) < int( tablelookup( "mp/rankTable.csv" , 0 , "maxrank" , 1 ) ) || getplayerdata( "prestige" ) < int( tablelookup( "mp/rankIconTable.csv" , 0 , "maxprestige" , 1 ) ) ) && ( getplayerdata( "prestige" ) < int( tablelookup( "mp/rankIconTable.csv" , 0 , "maxprestige" , 1 ) ) && levelforexperience( getplayerdata( "experience" ) ) == int( tablelookup( "mp/rankTable.csv" , 0 , "maxrank" , 1 ) ) ) == 0 )
+			exp text ( "@" + tablelookup( "mp/ranktable.csv" , 0 , levelforexperience( getplayerdata( "experience" ) ) + 1 , 5 ) )
+		}
+		itemDef
+		{
+			rect -18 131 18 18 3 1
+			decoration
+			visible 1
+			style 3
+			forecolor 1 1 1 1
+			textscale 0.55
+			visible when ( ( levelforexperience( getplayerdata( "experience" ) ) < int( tablelookup( "mp/rankTable.csv" , 0 , "maxrank" , 1 ) ) || getplayerdata( "prestige" ) < int( tablelookup( "mp/rankIconTable.csv" , 0 , "maxprestige" , 1 ) ) ) && ( getplayerdata( "prestige" ) < int( tablelookup( "mp/rankIconTable.csv" , 0 , "maxprestige" , 1 ) ) && levelforexperience( getplayerdata( "experience" ) ) == int( tablelookup( "mp/rankTable.csv" , 0 , "maxrank" , 1 ) ) ) == 0 )
+			exp material ( tablelookup( "mp/rankIconTable.csv" , 0 , levelforexperience( getplayerdata( "experience" ) ) + 1 , getplayerdata( "prestige" ) + 1 ) )
+		}
+		itemDef
+		{
+			rect -208 130 -208 20 3 1
+			decoration
+			visible 1
+			style 1
+			forecolor 1 1 1 1
+			backcolor 0 0 0 0.35
+			background "white"
+			textfont 3
+			textalign 4
+			textalignx 4
+			textscale 0.375
+			visible when ( ( levelforexperience( getplayerdata( "experience" ) ) < int( tablelookup( "mp/rankTable.csv" , 0 , "maxrank" , 1 ) ) || getplayerdata( "prestige" ) < int( tablelookup( "mp/rankIconTable.csv" , 0 , "maxprestige" , 1 ) ) ) && ( getplayerdata( "prestige" ) < int( tablelookup( "mp/rankIconTable.csv" , 0 , "maxprestige" , 1 ) ) && levelforexperience( getplayerdata( "experience" ) ) == int( tablelookup( "mp/rankTable.csv" , 0 , "maxrank" , 1 ) ) ) )
+			exp text ( "@MPUI_NEXT_PRE" )
+		}
+		itemDef
+		{
+			rect -208 130 208 20 3 1
+			decoration
+			visible 1
+			forecolor 1 1 1 1
+			textfont 3
+			textalign 6
+			textalignx -22
+			textscale 0.375
+			visible when ( ( levelforexperience( getplayerdata( "experience" ) ) < int( tablelookup( "mp/rankTable.csv" , 0 , "maxrank" , 1 ) ) || getplayerdata( "prestige" ) < int( tablelookup( "mp/rankIconTable.csv" , 0 , "maxprestige" , 1 ) ) ) && ( getplayerdata( "prestige" ) < int( tablelookup( "mp/rankIconTable.csv" , 0 , "maxprestige" , 1 ) ) && levelforexperience( getplayerdata( "experience" ) ) == int( tablelookup( "mp/rankTable.csv" , 0 , "maxrank" , 1 ) ) ) )
+			exp text ( "@MPUI_PRESTIGE" )
+		}
+		itemDef
+		{
+			rect -18 131 18 18 3 1
+			decoration
+			visible 1
+			style 3
+			forecolor 1 1 1 1
+			textscale 0.55
+			visible when ( ( levelforexperience( getplayerdata( "experience" ) ) < int( tablelookup( "mp/rankTable.csv" , 0 , "maxrank" , 1 ) ) || getplayerdata( "prestige" ) < int( tablelookup( "mp/rankIconTable.csv" , 0 , "maxprestige" , 1 ) ) ) && ( getplayerdata( "prestige" ) < int( tablelookup( "mp/rankIconTable.csv" , 0 , "maxprestige" , 1 ) ) && levelforexperience( getplayerdata( "experience" ) ) == int( tablelookup( "mp/rankTable.csv" , 0 , "maxrank" , 1 ) ) ) )
+			exp material ( tablelookup( "mp/rankIconTable.csv" , 0 , 0 , getplayerdata( "prestige" ) + 2 ) )
+		}
+		itemDef
+		{
+			rect -208 130 -208 20 3 1
+			decoration
+			visible 1
+			style 1
+			forecolor 1 1 1 1
+			backcolor 0 0 0 0.35
+			background "white"
+			textfont 3
+			textalign 4
+			textalignx 4
+			textscale 0.375
+			visible when ( ( levelforexperience( getplayerdata( "experience" ) ) < int( tablelookup( "mp/rankTable.csv" , 0 , "maxrank" , 1 ) ) || getplayerdata( "prestige" ) < int( tablelookup( "mp/rankIconTable.csv" , 0 , "maxprestige" , 1 ) ) ) == 0 )
+			exp text ( "@MPUI_NEXT_PRE" )
+		}
+		itemDef
+		{
+			rect -208 130 208 20 3 1
+			decoration
+			visible 1
+			forecolor 1 1 1 1
+			textfont 3
+			textalign 6
+			textscale 0.375
+			visible when ( ( levelforexperience( getplayerdata( "experience" ) ) < int( tablelookup( "mp/rankTable.csv" , 0 , "maxrank" , 1 ) ) || getplayerdata( "prestige" ) < int( tablelookup( "mp/rankIconTable.csv" , 0 , "maxprestige" , 1 ) ) ) == 0 )
+			exp text ( "@MPUI_NONE" )
+		}
+		itemDef
+		{
+			rect -80 152 80 16 3 1
+			decoration
+			visible 1
+			style 3
+			forecolor 1 1 1 0.35
+			background "black"
+			textscale 0.55
+			visible when ( 1 )
+		}
+		itemDef
+		{
+			rect -80 154 25 12 3 1
+			decoration
+			visible 1
+			style 3
+			forecolor 1 0.9 0.5 0.6
+			background "gradient_fadein"
+			textscale 0.55
+			exp rect w ( 0 - 80 * ( int( tablelookup( "mp/rankTable.csv" , 0 , levelforexperience( getplayerdata( "experience" ) ) , 2 ) ) - getplayerdata( "experience" ) ) / int( tablelookup( "mp/rankTable.csv" , 0 , levelforexperience( getplayerdata( "experience" ) ) , 3 ) ) )
+			visible when ( 1 )
+		}
+		itemDef
+		{
+			rect -208 150 -208 20 3 1
+			decoration
+			visible 1
+			forecolor 1 1 1 0.65
+			textfont 3
+			textalign 4
+			textalignx 4
+			textscale 0.375
+			visible when ( 1 )
+			exp text ( "@MPUI_XP_REQUIRED_PRE" )
+		}
+		itemDef
+		{
+			rect -208 150 208 20 3 1
+			decoration
+			visible 1
+			forecolor 1 1 1 0.65
+			textfont 3
+			textalign 6
+			textscale 0.375
+			visible when ( 1 )
+			exp text ( int( tablelookup( "mp/rankTable.csv" , 0 , levelforexperience( getplayerdata( "experience" ) ) , 7 ) - getplayerdata( "experience" ) ) )
+		}
+		itemDef
+		{
+			rect -208 170 -208 20 3 1
+			decoration
+			visible 1
+			style 1
+			forecolor 1 1 1 1
+			backcolor 0 0 0 0.35
+			background "white"
+			textfont 3
+			textalign 4
+			textalignx 4
+			textscale 0.375
+			visible when ( 1 )
+			exp text ( "@MPUI_SCORE_PRE" )
+		}
+		itemDef
+		{
+			rect -208 170 208 20 3 1
+			decoration
+			visible 1
+			forecolor 1 1 1 1
+			textfont 3
+			textalign 6
+			textscale 0.375
+			visible when ( 1 )
+			exp text ( getplayerdata( "score" ) )
+		}
+		itemDef
+		{
+			rect -208 190 -208 20 3 1
+			decoration
+			visible 1
+			forecolor 1 1 1 0.65
+			textfont 3
+			textalign 4
+			textalignx 4
+			textscale 0.375
+			visible when ( 1 )
+			exp text ( "@MPUI_WINS_PRE" )
+		}
+		itemDef
+		{
+			rect -208 190 208 20 3 1
+			decoration
+			visible 1
+			forecolor 1 1 1 0.65
+			textfont 3
+			textalign 6
+			textscale 0.375
+			visible when ( 1 )
+			exp text ( getplayerdata( "wins" ) )
+		}
+		itemDef
+		{
+			rect -208 210 -208 20 3 1
+			decoration
+			visible 1
+			forecolor 1 1 1 0.65
+			textfont 3
+			textalign 4
+			textalignx 4
+			textscale 0.375
+			visible when ( 1 )
+			exp text ( "@MPUI_LOSSES_PRE" )
+		}
+		itemDef
+		{
+			rect -208 210 208 20 3 1
+			decoration
+			visible 1
+			forecolor 1 1 1 0.65
+			textfont 3
+			textalign 6
+			textscale 0.375
+			visible when ( 1 )
+			exp text ( getplayerdata( "losses" ) )
+		}
+		itemDef
+		{
+			rect -208 230 -208 20 3 1
+			decoration
+			visible 1
+			forecolor 1 1 1 0.65
+			textfont 3
+			textalign 4
+			textalignx 4
+			textscale 0.375
+			visible when ( 1 )
+			exp text ( "@MPUI_TIES_PRE" )
+		}
+		itemDef
+		{
+			rect -208 230 208 20 3 1
+			decoration
+			visible 1
+			forecolor 1 1 1 0.65
+			textfont 3
+			textalign 6
+			textscale 0.375
+			visible when ( 1 )
+			exp text ( getplayerdata( "ties" ) )
+		}
+		itemDef
+		{
+			rect -208 250 -208 20 3 1
+			decoration
+			visible 1
+			forecolor 1 1 1 0.65
+			textfont 3
+			textalign 4
+			textalignx 4
+			textscale 0.375
+			visible when ( 1 )
+			exp text ( "@MPUI_WINSTREAK_PRE" )
+		}
+		itemDef
+		{
+			rect -208 250 208 20 3 1
+			decoration
+			visible 1
+			forecolor 1 1 1 0.65
+			textfont 3
+			textalign 6
+			textscale 0.375
+			visible when ( 1 )
+			exp text ( getplayerdata( "winStreak" ) )
+		}
+		itemDef
+		{
+			rect -208 270 -208 20 3 1
+			decoration
+			visible 1
+			style 1
+			forecolor 1 1 1 1
+			backcolor 0 0 0 0.35
+			background "white"
+			textfont 3
+			textalign 4
+			textalignx 4
+			textscale 0.375
+			visible when ( 1 )
+			exp text ( "@MPUI_KILLS_PRE" )
+		}
+		itemDef
+		{
+			rect -208 270 208 20 3 1
+			decoration
+			visible 1
+			forecolor 1 1 1 1
+			textfont 3
+			textalign 6
+			textscale 0.375
+			visible when ( 1 )
+			exp text ( getplayerdata( "kills" ) )
+		}
+		itemDef
+		{
+			rect -208 290 -208 20 3 1
+			decoration
+			visible 1
+			forecolor 1 1 1 0.65
+			textfont 3
+			textalign 4
+			textalignx 4
+			textscale 0.375
+			visible when ( 1 )
+			exp text ( "@MPUI_HEADSHOTS_PRE" )
+		}
+		itemDef
+		{
+			rect -208 290 208 20 3 1
+			decoration
+			visible 1
+			forecolor 1 1 1 0.65
+			textfont 3
+			textalign 6
+			textscale 0.375
+			visible when ( 1 )
+			exp text ( getplayerdata( "headshots" ) )
+		}
+		itemDef
+		{
+			rect -208 310 -208 20 3 1
+			decoration
+			visible 1
+			forecolor 1 1 1 0.65
+			textfont 3
+			textalign 4
+			textalignx 4
+			textscale 0.375
+			visible when ( 1 )
+			exp text ( "@MPUI_ASSISTS_PRE" )
+		}
+		itemDef
+		{
+			rect -208 310 208 20 3 1
+			decoration
+			visible 1
+			forecolor 1 1 1 0.65
+			textfont 3
+			textalign 6
+			textscale 0.375
+			visible when ( 1 )
+			exp text ( getplayerdata( "assists" ) )
+		}
+		itemDef
+		{
+			rect -208 330 -208 20 3 1
+			decoration
+			visible 1
+			forecolor 1 1 1 0.65
+			textfont 3
+			textalign 4
+			textalignx 4
+			textscale 0.375
+			visible when ( 1 )
+			exp text ( "@MPUI_STREAK_PRE" )
+		}
+		itemDef
+		{
+			rect -208 330 208 20 3 1
+			decoration
+			visible 1
+			forecolor 1 1 1 0.65
+			textfont 3
+			textalign 6
+			textscale 0.375
+			visible when ( 1 )
+			exp text ( getplayerdata( "killStreak" ) )
+		}
+		itemDef
+		{
+			rect -208 350 -208 20 3 1
+			// decoration
+			visible 1
+			style 1
+			forecolor 1 1 1 1
+			backcolor 0 0 0 0.35
+			background "white"
+			textfont 3
+			textalign 4
+			textalignx 4
+			textscale 0.375
+			visible when ( 1 )
+			exp text ( "@MPUI_DEATHS_PRE" )
+			onFocus
+			{
+				play "mouse_over";
+				setLocalVarBool ui_menuAButton 1;
+			}
+			leaveFocus
+			{
+				setLocalVarString ui_hint_text "@NULL_EMPTY";
+				setLocalVarBool ui_menuAButton 1;
+			}
+			action
+			{
+				play "mouse_click";
+				setPlayerData "deaths" 0;
+			}
+		}
+		itemDef
+		{
+			rect -208 350 208 20 3 1
+			decoration
+			visible 1
+			forecolor 1 1 1 1
+			textfont 3
+			textalign 6
+			textscale 0.375
+			visible when ( 1 )
+			exp text ( getplayerdata( "deaths" ) )
+		}
+		itemDef
+		{
+			rect -208 370 -208 20 3 1
+			decoration
+			visible 1
+			style 1
+			forecolor 1 1 1 1
+			backcolor 0 0 0 0.35
+			background "white"
+			textfont 3
+			textalign 4
+			textalignx 4
+			textscale 0.375
+			visible when ( 1 )
+			exp text ( "K/D Ratio:" )
+		}
+		itemDef
+		{
+			rect -208 370 208 20 3 1
+			decoration
+			visible 1
+			forecolor 1 1 1 1
+			textfont 3
+			textalign 6
+			textscale 0.375
+			visible when ( 1 )
+			exp text ( getplayerdata( "kills" ) / getplayerdata( "deaths" ) )
+		}
+		itemDef
+		{
+			rect -208 390 -208 20 3 1
+			decoration
+			visible 1
+			style 1
+			forecolor 1 1 1 1
+			backcolor 0 0 0 0.35
+			background "white"
+			textfont 3
+			textalign 4
+			textalignx 4
+			textscale 0.375
+			visible when ( 1 )
+			exp text ( "@MPUI_TIME_PLAYED_PRE" )
+		}
+		itemDef
+		{
+			rect -208 390 208 20 3 1
+			decoration
+			visible 1
+			forecolor 1 1 1 1
+			textfont 3
+			textalign 6
+			textscale 0.375
+			visible when ( 1 )
+			exp text ( secondsastime( getplayerdata( "timePlayedAllies" ) + getplayerdata( "timePlayedOpfor" ) + getplayerdata( "timePlayedOther" ) ) )
+		}
+		itemDef
+		{
+			rect -208 410 -208 20 3 1
+			decoration
+			visible 1
+			style 1
+			forecolor 1 1 1 1
+			backcolor 0 0 0 0.35
+			background "white"
+			textfont 3
+			textalign 4
+			textalignx 4
+			textscale 0.375
+			visible when ( 1 )
+			exp text ( "As Spectator:" )
+		}
+		itemDef
+		{
+			rect -208 410 208 20 3 1
+			decoration
+			visible 1
+			forecolor 1 1 1 1
+			textfont 3
+			textalign 6
+			textscale 0.375
+			visible when ( 1 )
+			exp text ( secondsastime(getplayerdata( "timePlayedOther" )) )
+		}
+		itemDef
+		{
+			rect -128 -17 1280 18 1 3
+			decoration
+			style 3
+			forecolor 0 0 0 0.25
+			background "white"
+			textscale 0.55
+		}
+		itemDef
+		{
+			rect -128 -17 1280 18 1 3
+			decoration
+			style 3
+			forecolor 0 0 0 0.45
+			background "shadow_inset"
+			textscale 0.55
+		}
+		itemDef
+		{
+			rect 0 -18 726 18 1 3
+			decoration
+			forecolor 1 1 1 1
+			type 20
+			textscale 0.375
+			newsfeed 1
+			speed 50
+			spacing 30
+			exp rect w ( 544 + ( dvarint( "wideScreen" ) * 182 ) )
+		}
+		itemDef
+		{
+			rect -107 0 854 480 0 0
+			decoration
+			visible 1
+			style 3
+			forecolor 0 0 0 0.275
+			background "white"
+			textscale 0.55
+			visible when ( localvarint( "ui_centerPopup" ) )
+		}
+	}
+}

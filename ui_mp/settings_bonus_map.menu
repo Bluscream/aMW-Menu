@@ -1,0 +1,764 @@
+{
+	menuDef
+	{
+		name maps
+		fullscreen 1
+		rect 0 0 640 480
+		style 1
+		border 0
+		ownerdraw 0
+		ownerdrawFlag 0
+		borderSize 0
+		foreColor 1 1 1 1
+		backColor 0 0 0 0
+		borderColor 0 0 0 0
+		outlineColor 0 0 0 0
+		soundLoop music_mainmenu_mp
+		fadeCycle 0
+		fadeClamp 0
+		fadeAmount 0
+		fadeInAmount 0
+		blurWorld 0
+		onOpen
+		{
+			focusFirst;
+			setfocusbydvar ui_mapname;
+		}
+		onClose
+		{
+			setdvar "menu_ui_maps_main" 0;
+			setdvar "menu_ui_maps_dlc" 0;
+			setdvar "menu_ui_maps_sp" 0;
+			setdvar "menu_ui_maps_cod4" 0;
+			setdvar "menu_ui_maps_edited" 0;
+			setdvar "menu_ui_maps_other" 0;
+			execNow xupdatepartystate;
+		}
+		onESC
+		{
+			close self;
+		}
+		focusColor 1 1 1 1
+		itemDef
+		{
+			rect 0 0 640 480 4 4
+			style 3
+			border 0
+			ownerdraw 0
+			ownerdrawFlag 0
+			borderSize 0
+			foreColor 1 1 1 1
+			backColor 0 0 0 0
+			borderColor 0 0 0 0
+			outlineColor 0 0 0 0
+			background mw2_main_background
+			decoration 
+			type 0
+			align 0
+			textAlign 0
+			textAlignX 0
+			textAlignY 0
+			textScale 0.55
+			textStyle 0
+			textFont 0
+			feeder 0
+			visible 1
+		}
+		itemDef
+		{
+			rect 0 0 1708 480
+			style 3
+			border 0
+			ownerdraw 0
+			ownerdrawFlag 0
+			borderSize 0
+			foreColor 1 1 1 0.5
+			backColor 0 0 0 0
+			borderColor 0 0 0 0
+			outlineColor 0 0 0 0
+			background mw2_main_cloud_overlay
+			decoration 
+			type 0
+			align 0
+			textAlign 0
+			textAlignX 0
+			textAlignY 0
+			textScale 0.55
+			textStyle 0
+			textFont 0
+			feeder 0
+			visible 1
+			exp rect x ( ( 0 - 107 ) - ( ( float( milliseconds( ) % 60000 ) / 60000 ) * ( 854 ) )  )
+		}
+		itemDef
+		{
+			rect 0 0 -1708 -480
+			style 3
+			border 0
+			ownerdraw 0
+			ownerdrawFlag 0
+			borderSize 0
+			foreColor 1 1 1 0.5
+			backColor 0 0 0 0
+			borderColor 0 0 0 0
+			outlineColor 0 0 0 0
+			background mw2_main_cloud_overlay
+			decoration 
+			type 0
+			align 0
+			textAlign 0
+			textAlignX 0
+			textAlignY 0
+			textScale 0.55
+			textStyle 0
+			textFont 0
+			feeder 0
+			visible 1
+			exp rect x ( ( - 107 + 854 ) + ( ( float( milliseconds( ) % 50000 ) / 50000 ) * ( 854 ) )  )
+		}
+		itemDef
+		{
+			rect 0 0 640 480 4 4
+			style 3
+			border 0
+			ownerdraw 0
+			ownerdrawFlag 0
+			borderSize 0
+			foreColor 1 1 1 0
+			backColor 0 0 0 0
+			borderColor 0 0 0 0
+			outlineColor 0 0 0 0
+			background mockup_bg_glow
+			decoration 
+			type 0
+			align 0
+			textAlign 0
+			textAlignX 0
+			textAlignY 0
+			textScale 0.55
+			textStyle 0
+			textFont 0
+			feeder 0
+			visible 1
+			exp forecolor a ( ( ( sin milliseconds( ) / 1500 ) + 1 ) * 0.250000 ) + 0.250000  )
+		}
+		itemDef
+		{
+			rect 0 0 640 480 4 4
+			style 3
+			border 0
+			ownerdraw 0
+			ownerdrawFlag 0
+			borderSize 0
+			foreColor 1 1 1 0
+			backColor 0 0 0 0
+			borderColor 0 0 0 0
+			outlineColor 0 0 0 0
+			background mockup_bg_glow
+			decoration 
+			type 0
+			align 0
+			textAlign 0
+			textAlignX 0
+			textAlignY 0
+			textScale 0.55
+			textStyle 0
+			textFont 0
+			feeder 0
+			visible 1
+			exp forecolor a ( ( ( sin milliseconds( ) / 480 ) + 1 ) * 0.250000 ) + 0.250000  )
+		}
+		itemDef
+		{
+			rect 0 28 640 356 4 1
+			style 3
+			border 0
+			ownerdraw 0
+			ownerdrawFlag 0
+			borderSize 0
+			foreColor 1 1 1 0.15
+			backColor 0 0 0 0
+			borderColor 0 0 0 0
+			outlineColor 0 0 0 0
+			background white
+			decoration 
+			type 0
+			align 0
+			textAlign 0
+			textAlignX 0
+			textAlignY 0
+			textScale 0.55
+			textStyle 0
+			textFont 0
+			feeder 0
+			visible 1
+		}
+		itemDef
+		{
+			rect -32 -4 32 32 4 1
+			style 3
+			border 0
+			ownerdraw 0
+			ownerdrawFlag 0
+			borderSize 0
+			foreColor 0 0 0 1
+			backColor 0 0 0 0
+			borderColor 0 0 0 0
+			outlineColor 0 0 0 0
+			background drop_shadow_tl
+			decoration 
+			type 0
+			align 0
+			textAlign 0
+			textAlignX 0
+			textAlignY 0
+			textScale 0.55
+			textStyle 0
+			textFont 0
+			feeder 0
+			visible 1
+			visible when ( 1  )
+		}
+		itemDef
+		{
+			rect 0 -4 640 32 4 1
+			style 3
+			border 0
+			ownerdraw 0
+			ownerdrawFlag 0
+			borderSize 0
+			foreColor 0 0 0 1
+			backColor 0 0 0 0
+			borderColor 0 0 0 0
+			outlineColor 0 0 0 0
+			background drop_shadow_t
+			decoration 
+			type 0
+			align 0
+			textAlign 0
+			textAlignX 0
+			textAlignY 0
+			textScale 0.55
+			textStyle 0
+			textFont 0
+			feeder 0
+			visible 1
+			visible when ( 1  )
+		}
+		itemDef
+		{
+			rect 640 -4 32 32 4 1
+			style 3
+			border 0
+			ownerdraw 0
+			ownerdrawFlag 0
+			borderSize 0
+			foreColor 0 0 0 1
+			backColor 0 0 0 0
+			borderColor 0 0 0 0
+			outlineColor 0 0 0 0
+			background drop_shadow_tr
+			decoration 
+			type 0
+			align 0
+			textAlign 0
+			textAlignX 0
+			textAlignY 0
+			textScale 0.55
+			textStyle 0
+			textFont 0
+			feeder 0
+			visible 1
+			visible when ( 1  )
+		}
+		itemDef
+		{
+			rect 640 28 32 356 4 1
+			style 3
+			border 0
+			ownerdraw 0
+			ownerdrawFlag 0
+			borderSize 0
+			foreColor 0 0 0 1
+			backColor 0 0 0 0
+			borderColor 0 0 0 0
+			outlineColor 0 0 0 0
+			background drop_shadow_r
+			decoration 
+			type 0
+			align 0
+			textAlign 0
+			textAlignX 0
+			textAlignY 0
+			textScale 0.55
+			textStyle 0
+			textFont 0
+			feeder 0
+			visible 1
+			visible when ( 1  )
+		}
+		itemDef
+		{
+			rect 640 384 32 32 4 1
+			style 3
+			border 0
+			ownerdraw 0
+			ownerdrawFlag 0
+			borderSize 0
+			foreColor 0 0 0 1
+			backColor 0 0 0 0
+			borderColor 0 0 0 0
+			outlineColor 0 0 0 0
+			background drop_shadow_br
+			decoration 
+			type 0
+			align 0
+			textAlign 0
+			textAlignX 0
+			textAlignY 0
+			textScale 0.55
+			textStyle 0
+			textFont 0
+			feeder 0
+			visible 1
+			visible when ( 1  )
+		}
+		itemDef
+		{
+			rect 0 384 640 32 4 1
+			style 3
+			border 0
+			ownerdraw 0
+			ownerdrawFlag 0
+			borderSize 0
+			foreColor 0 0 0 1
+			backColor 0 0 0 0
+			borderColor 0 0 0 0
+			outlineColor 0 0 0 0
+			background drop_shadow_b
+			decoration 
+			type 0
+			align 0
+			textAlign 0
+			textAlignX 0
+			textAlignY 0
+			textScale 0.55
+			textStyle 0
+			textFont 0
+			feeder 0
+			visible 1
+			visible when ( 1  )
+		}
+		itemDef
+		{
+			rect -32 384 32 32 4 1
+			style 3
+			border 0
+			ownerdraw 0
+			ownerdrawFlag 0
+			borderSize 0
+			foreColor 0 0 0 1
+			backColor 0 0 0 0
+			borderColor 0 0 0 0
+			outlineColor 0 0 0 0
+			background drop_shadow_bl
+			decoration 
+			type 0
+			align 0
+			textAlign 0
+			textAlignX 0
+			textAlignY 0
+			textScale 0.55
+			textStyle 0
+			textFont 0
+			feeder 0
+			visible 1
+			visible when ( 1  )
+		}
+		itemDef
+		{
+			rect -32 28 32 356 4 1
+			style 3
+			border 0
+			ownerdraw 0
+			ownerdrawFlag 0
+			borderSize 0
+			foreColor 0 0 0 1
+			backColor 0 0 0 0
+			borderColor 0 0 0 0
+			outlineColor 0 0 0 0
+			background drop_shadow_l
+			decoration 
+			type 0
+			align 0
+			textAlign 0
+			textAlignX 0
+			textAlignY 0
+			textScale 0.55
+			textStyle 0
+			textFont 0
+			feeder 0
+			visible 1
+			visible when ( 1  )
+		}
+		#define MENU_CHOICE_TITLE_VIS( textArg, viswhenArg) \
+		itemDef \
+		{ \
+			rect 0 0 272 28 1 1 \
+			style 0 \
+			border 0 \
+			ownerdraw 0 \
+			ownerdrawFlag 0 \
+			borderSize 0 \
+			foreColor 1 1 1 1 \
+			backColor 0 0 0 0 \
+			borderColor 0 0 0 0 \
+			outlineColor 0 0 0 0 \
+			decoration  \
+			type 0 \
+			align 0 \
+			textAlign 6 \
+			textAlignX -60 \
+			textAlignY 0 \
+			textScale 0.5 \
+			textStyle 0 \
+			textFont 9 \
+			feeder 0 \
+			exp text ( "MAPS ^0- " + textArg ) \
+			visible 1 \
+			visible when viswhenArg \		
+		} \
+		
+		MENU_CHOICE_TITLE_VIS( "^7MAIN", 	( dvarbool( "menu_ui_maps_main" ) ))
+		MENU_CHOICE_TITLE_VIS( "^2DLC", 	( dvarbool( "menu_ui_maps_dlc" ) ))
+		MENU_CHOICE_TITLE_VIS( "^3SP", 		( dvarbool( "menu_ui_maps_sp" ) ))
+		MENU_CHOICE_TITLE_VIS( "^5COD 4", 	( dvarbool( "menu_ui_maps_cod4" ) ))
+		MENU_CHOICE_TITLE_VIS( "^6EDITED", 	( dvarbool( "menu_ui_maps_edited" ) ))
+		MENU_CHOICE_TITLE_VIS( "^8OTHER", 	( dvarbool( "menu_ui_maps_other" ) ))
+		
+		itemDef
+		{
+			rect -64 -20 336 20 1 3
+			style 1
+			border 0
+			ownerdraw 0
+			ownerdrawFlag 0
+			borderSize 0
+			foreColor 1 1 1 1
+			backColor 0 0 0 0
+			borderColor 0 0 0 0
+			outlineColor 0 0 0 0
+			origin 0 0
+			background menu_button_selection_bar
+			group mw2_button
+			type 1
+			align 0
+			textAlign 6
+			textAlignX -60
+			textAlignY 0
+			textScale 0.375
+			textStyle 0
+			textFont 3
+			feeder 0
+			text "@PLATFORM_BACK_CAPS"
+			visible 1
+			onFocus
+			{
+				play "mouse_over";
+				setItemColor self backcolor 0 0 0 1;
+				setLocalVarBool ui_menuAButton 1;
+			}
+			leaveFocus
+			{
+				setItemColor self backcolor 0 0 0 0.0;
+				setLocalVarBool ui_menuAButton 1;
+			}
+			action
+			{
+				play mouse_click;
+                close self;
+			}
+		}
+		
+#define CHOICE_Y(i) ( 28 + ( i * 20 ) )
+
+#define HR_ORIGIN(i) 0 ( CHOICE_Y(i) - 0.5 )
+#define CHOICE_ORIGIN(i) -64 CHOICE_Y(i)
+#define CHOICE_RECT(i) CHOICE_ORIGIN(i) 336 20 1 1
+#define HR_RECT(i) HR_ORIGIN(i) 216 1 1 1
+
+#define MENU_CHOICE_BUTTON_VIS( itemIndex, buttonName, textArg, actionArg, visArg, viswhenArg, icon, name, desc) \
+      itemDef \
+      { \
+         name buttonName \
+         rect CHOICE_RECT(itemIndex) \
+         foreColor 1 1 1 1 \
+         backColor 0 0 0 0 \
+         style 1 \
+         origin 0 0 \
+         background menu_button_selection_bar \
+         group mw2_button \
+         type 1 \
+         textAlign 6 \
+         textAlignX -60 \
+         textScale 0.375 \
+         textFont 3 \
+         text textArg \
+         onFocus \
+         { \
+            play mouse_over; \
+            setItemColor self backcolor 0 0 0 1; \
+            setLocalVarBool ui_menuAButton 1; \
+            setLocalVarFloat ui_popupYPos 0.000000; \
+            setLocalVarString ui_info_name ( name; \
+            setLocalVarString ui_info_desc ( desc; \
+            setLocalVarString ui_info_icon ( icon; \      
+         } \
+         leaveFocus \
+         { \
+            setItemColor self backcolor 0 0 0 0.0; \
+            setLocalVarBool ui_menuAButton 1; \
+         } \
+         action \
+         { \
+            play mouse_click; \
+            actionArg \
+         } \
+         visible visArg \
+		 visible when viswhenArg \
+      }
+#define HORIZONTAL_LINE(itemIndex, viswhenArg) \
+   itemDef \
+      { \
+         rect HR_RECT(itemIndex) \
+         style 3 \
+         border 0 \
+         ownerdraw 0 \
+         ownerdrawFlag 0 \
+         borderSize 0 \
+         foreColor 1 1 1 0.65 \
+         backColor 0 0 0 0 \
+         borderColor 0 0 0 0 \
+         outlineColor 0 0 0 0 \
+         background gradient_fadein \
+         decoration \
+         type 0 \
+         align 0 \
+         textAlign 0 \
+         textAlignX 0 \
+         textAlignY 0 \
+         textScale 0.55 \
+         textStyle 0 \
+         textFont 0 \
+         feeder 0 \
+         visible 1 \
+		 visible when viswhenArg \
+	} \
+         
+//	MAIN
+	MENU_CHOICE_BUTTON_VIS(0, 	;, "Afghan",			setdvar ui_mapname mp_afghan;			setdvar nextmap mp_afghan;			setdvar mapname mp_afghan;			setdvar party_mapname mp_afghan;			exec "say !votemap mp_afgahn";			close self;close settings_map;, 1, ( dvarbool( "menu_ui_maps_main" ) ),		"preview_mp_afghan",			"Afghan (mp_afghan)",							"MPUI_DESC_MAP_AFGHAN")      
+	MENU_CHOICE_BUTTON_VIS(0, 	;, "Afghan",			setdvar ui_mapname mp_afghan;			setdvar nextmap mp_afghan;			setdvar mapname mp_afghan;			setdvar party_mapname mp_afghan;			exec "say !votemap mp_afgahn";			close self;close settings_map;, 1, ( dvarbool( "menu_ui_maps_main" ) ),		"preview_mp_afghan",			"Afghan (mp_afghan)",							"MPUI_DESC_MAP_AFGHAN")      
+	MENU_CHOICE_BUTTON_VIS(1, 	;, "^8Derail",			setdvar ui_mapname mp_derail;			setdvar nextmap mp_derail;			setdvar mapname mp_derail;			setdvar party_mapname mp_derail;			exec "say !votemap mp_derail";			close self;close settings_map;, 1, ( dvarbool( "menu_ui_maps_main" ) ),		"preview_mp_derail",			"Derail (mp_derail)",							"MPUI_DESC_MAP_DERAIL")         
+	MENU_CHOICE_BUTTON_VIS(2,	;, "Estate",			setdvar ui_mapname mp_estate;			setdvar nextmap mp_estate;			setdvar mapname mp_estate;			setdvar party_mapname mp_estate;			exec "say !votemap mp_estate";			close self;close settings_map;, 1, ( dvarbool( "menu_ui_maps_main" ) ),		"preview_mp_estate",			"Estate (mp_estate)",							"MPUI_DESC_MAP_ESTATE")
+	MENU_CHOICE_BUTTON_VIS(3,	;, "^8Favela", 			setdvar ui_mapname mp_favela;			setdvar nextmap mp_favela;			setdvar mapname mp_favela;			setdvar party_mapname mp_favela;			exec "say !votemap mp_favela";			close self;close settings_map;, 1, ( dvarbool( "menu_ui_maps_main" ) ),		"preview_mp_favela",			"Favela (mp_favela)",							"MPUI_DESC_MAP_FAVELA")
+	MENU_CHOICE_BUTTON_VIS(4,	;, "Highrise",			setdvar ui_mapname mp_highrise;			setdvar nextmap mp_highrise;		setdvar mapname mp_highrise;		setdvar party_mapname mp_highrise;			exec "say !votemap mp_highrise";		close self;close settings_map;, 1, ( dvarbool( "menu_ui_maps_main" ) ),		"preview_mp_highrise",			"Highrise (mp_highrise)",						"MPUI_DESC_MAP_HIGHRISE")
+	MENU_CHOICE_BUTTON_VIS(5,	;, "^8Invasion",		setdvar ui_mapname mp_invasion;			setdvar nextmap mp_invasion;		setdvar mapname mp_invasion;		setdvar party_mapname mp_invasion;			exec "say !votemap mp_invasion";		close self;close settings_map;, 1, ( dvarbool( "menu_ui_maps_main" ) ),		"preview_mp_invasion",			"Invasion (mp_invasion)",						"MPUI_DESC_MAP_INVASION")
+	MENU_CHOICE_BUTTON_VIS(6, 	;, "Karachi",			setdvar ui_mapname mp_checkpoint;		setdvar nextmap mp_checkpoint;		setdvar mapname mp_checkpoint;		setdvar party_mapname mp_checkpoint;		exec "say !votemap mp_checkpoint";		close self;close settings_map;, 1, ( dvarbool( "menu_ui_maps_main" ) ),		"preview_mp_checkpoint",		"Karachi (mp_checkpoint)",						"MPUI_DESC_MAP_CHECKPOINT")
+	MENU_CHOICE_BUTTON_VIS(7, 	;, "^8Quarry",			setdvar ui_mapname mp_quarry;			setdvar nextmap mp_quarry;			setdvar mapname mp_quarry;			setdvar party_mapname mp_quarry;			exec "say !votemap mp_quarry";			close self;close settings_map;, 1, ( dvarbool( "menu_ui_maps_main" ) ),		"preview_mp_quarry",			"Quarry (mp_quarry)",							"MPUI_DESC_MAP_QUARRY")
+	MENU_CHOICE_BUTTON_VIS(8,	;, "Rundown",			setdvar ui_mapname mp_rundown;			setdvar nextmap mp_rundown;			setdvar mapname mp_rundown;			setdvar party_mapname mp_rundown;			exec "say !votemap mp_rundown";			close self;close settings_map;, 1, ( dvarbool( "menu_ui_maps_main" ) ),		"preview_mp_rundown",			"Rundown (mp_rundown)",							"MPUI_DESC_MAP_RUNDOWN")
+	MENU_CHOICE_BUTTON_VIS(9, 	;, "^8Rust",			setdvar ui_mapname mp_rust;				setdvar nextmap mp_rust;			setdvar mapname mp_rust;			setdvar party_mapname mp_rust;				exec "say !votemap mp_rust";			close self;close settings_map;, 1, ( dvarbool( "menu_ui_maps_main" ) ),		"preview_mp_rust",				"Rust (mp_rust)",								"MPUI_DESC_MAP_RUST")	
+	MENU_CHOICE_BUTTON_VIS(10,	;, "Scrapyard",			setdvar ui_mapname mp_boneyard;			setdvar nextmap mp_boneyard;		setdvar mapname mp_boneyard;		setdvar party_mapname mp_boneyard;			exec "say !votemap mp_boneyard";		close self;close settings_map;, 1, ( dvarbool( "menu_ui_maps_main" ) ),		"preview_mp_boneyard",			"Scrapyard (mp_boneyard)",						"MPUI_DESC_MAP_BONEYARD")
+	MENU_CHOICE_BUTTON_VIS(11,	;, "^8Skidrow",			setdvar ui_mapname mp_nightshift;		setdvar nextmap mp_nightshift;		setdvar mapname mp_nightshift;		setdvar party_mapname mp_nightshift;		exec "say !votemap mp_nightshift";		close self;close settings_map;, 1, ( dvarbool( "menu_ui_maps_main" ) ),		"preview_mp_nightshift",		"Skidrow (mp_nightshift)",						"MPUI_DESC_MAP_NIGHTSHIFT")
+	MENU_CHOICE_BUTTON_VIS(12,	;, "Subbase",			setdvar ui_mapname mp_subbase;			setdvar nextmap mp_subbase;			setdvar mapname mp_subbase;			setdvar party_mapname mp_subbase;			exec "say !votemap mp_subbase";			close self;close settings_map;, 1, ( dvarbool( "menu_ui_maps_main" ) ),		"preview_mp_subbase",			"Subbase (mp_subbase)",							"MPUI_DESC_MAP_SUBBASE")
+	MENU_CHOICE_BUTTON_VIS(13,	;, "^8Terminal",		setdvar ui_mapname mp_terminal;			setdvar nextmap mp_terminal;		setdvar mapname mp_terminal;		setdvar party_mapname mp_terminal;			exec "say !votemap mp_terminal";		close self;close settings_map;, 1, ( dvarbool( "menu_ui_maps_main" ) ),		"preview_mp_terminal",			"Terminal (mp_terminal)",						"MPUI_DESC_MAP_TERMINAL")
+	MENU_CHOICE_BUTTON_VIS(14,	;, "Underpass",			setdvar ui_mapname mp_underpass;		setdvar nextmap mp_underpass;		setdvar mapname mp_underpass;		setdvar party_mapname mp_underpass;			exec "say !votemap mp_underpass";		close self;close settings_map;, 1, ( dvarbool( "menu_ui_maps_main" ) ),		"preview_mp_underpass",			"Underpass (mp_underpass)",						"MPUI_DESC_MAP_UNDERPASS")				 
+	MENU_CHOICE_BUTTON_VIS(15,	;, "^8Wasteland",		setdvar ui_mapname mp_brecourt;			setdvar nextmap mp_brecourt;		setdvar mapname mp_brecourt;		setdvar party_mapname mp_brecourt;			exec "say !votemap mp_brecourt";		close self;close settings_map;, 1, ( dvarbool( "menu_ui_maps_main" ) ),		"preview_mp_brecourt",			"Wasteland (mp_brecourt)",						"MPUI_DESC_MAP_BRECOURT")                   
+//	DLC
+	MENU_CHOICE_BUTTON_VIS(0,	;, "^3Stimulus DLC"	,;, 1, ( dvarbool( "menu_ui_maps_dlc" ) ),preview_mp_storm, "Stimulus Package (1)", "Whether the Stimulus Package's title was an ironic comment on the desertion of players from Modern Warfare 2 to Bad Company 2, only Activision and what remains of Infinity Ward will know.")
+	MENU_CHOICE_BUTTON_VIS(2,	;, "^7Bailout",			setdvar ui_mapname mp_complex			;setdvar nextmap mp_complex;		setdvar mapname mp_complex;			setdvar party_mapname mp_complex;			exec "say !votemap mp_complex";			close self;close settings_map;, 1, ( dvarbool( "menu_ui_maps_dlc" ) ), 		"preview_mp_complex", 			"Bailout (mp_complex)", 						"PATCH_DESC_MAP_COMPLEX")	
+	MENU_CHOICE_BUTTON_VIS(3,	;, "^8Crash",			setdvar ui_mapname mp_crash				;setdvar nextmap mp_crash;			setdvar mapname mp_crash;			setdvar party_mapname mp_crash;				exec "say !votemap mp_crash";			close self;close settings_map;, 1, ( dvarbool( "menu_ui_maps_dlc" ) ),		"preview_mp_crash", 			"Crash (mp_crash)", 							"MPUI_DESC_MAP_CRASH")	
+	MENU_CHOICE_BUTTON_VIS(4,	;, "^7Overgrown",		setdvar ui_mapname mp_overgrown			;setdvar nextmap mp_overgrown;		setdvar mapname mp_overgrown;		setdvar party_mapname mp_overgrown;			exec "say !votemap mp_overgrown";		close self;close settings_map;, 1, ( dvarbool( "menu_ui_maps_dlc" ) ),		"preview_mp_overgrown",	 		"Overgrown (mp_overgrown)", 					"MPUI_DESC_MAP_OVERGROWN")
+	MENU_CHOICE_BUTTON_VIS(5,	;, "^8Salvage",			setdvar ui_mapname mp_compact			;setdvar nextmap mp_compact;		setdvar mapname mp_compact;			setdvar party_mapname mp_compact;			exec "say !votemap mp_compact";			close self;close settings_map;, 1, ( dvarbool( "menu_ui_maps_dlc" ) ),		"preview_mp_compact", 			"Salvage (mp_compact)", 						"PATCH_DESC_MAP_COMPACT")
+	MENU_CHOICE_BUTTON_VIS(6,	;, "^7Storm",			setdvar ui_mapname mp_storm				;setdvar nextmap mp_storm;			setdvar mapname mp_storm;			setdvar party_mapname mp_storm;				exec "say !votemap mp_storm";			close self;close settings_map;, 1, ( dvarbool( "menu_ui_maps_dlc" ) ),		"preview_mp_storm", 			"Storm (mp_storm)",								"PATCH_DESC_MAP_STORM")	
+		HORIZONTAL_LINE(8, ( dvarbool( "menu_ui_maps_dlc" ) ) )
+	MENU_CHOICE_BUTTON_VIS(8,	;, "^3Resurgence DLC",;, 1, ( dvarbool( "menu_ui_maps_dlc" ) ),preview_mp_storm, "Resurgence Package (2)", "Again, sporting a knowing title, the second map pack for MW2 follows the format set by the first: three new maps accompanied by two drawn from the first game.")
+	MENU_CHOICE_BUTTON_VIS(10,	;, "^8Carnival",		setdvar ui_mapname mp_abandon			;setdvar nextmap mp_abandon			;setdvar mapname mp_abandon;		setdvar party_mapname mp_abandon;			exec "say !votemap mp_abandon";			close self;close settings_map;, 1, ( dvarbool( "menu_ui_maps_dlc" ) ),		"preview_mp_abandon", 			"Carnival (mp_abandon)", 						"PATCH_DESC_MAP_ABANDON")					 
+	MENU_CHOICE_BUTTON_VIS(11,	;, "^7Fuel",			setdvar ui_mapname mp_fuel2				;setdvar nextmap mp_fuel2			;setdvar mapname mp_fuel2;			setdvar party_mapname mp_fuel2;				exec "say !votemap mp_fuel2";			close self;close settings_map;, 1, ( dvarbool( "menu_ui_maps_dlc" ) ),		"preview_mp_fuel2", 			"Fuel (mp_fuel2)", 								"PATCH_DESC_MAP_FUEL2")					 
+	MENU_CHOICE_BUTTON_VIS(12,	;, "^8Strike",			setdvar ui_mapname mp_strike			;setdvar nextmap mp_strike			;setdvar mapname mp_strike;			setdvar party_mapname mp_strike;			exec "say !votemap mp_strike";			close self;close settings_map;, 1, ( dvarbool( "menu_ui_maps_dlc" ) ),		"preview_mp_strike",			"Strike (mp_strike)",							"MPUI_DESC_MAP_STRIKE")					 
+	MENU_CHOICE_BUTTON_VIS(13,	;, "^7Trailer Park",	setdvar ui_mapname mp_trailerpark		;setdvar nextmap mp_trailerpark		;setdvar mapname mp_trailerpark;	setdvar party_mapname mp_trailerpark;		exec "say !votemap mp_trailerpark";		close self;close settings_map;, 1, ( dvarbool( "menu_ui_maps_dlc" ) ),		"preview_mp_trailerpark",		"Trailer Park (mp_trailerpark)", 				"PATCH_DESC_MAP_TRAILERPARK")					 
+	MENU_CHOICE_BUTTON_VIS(14,	;, "^8Vacant",			setdvar ui_mapname mp_vacant			;setdvar nextmap mp_vacant			;setdvar mapname mp_vacant;			setdvar party_mapname mp_vacant;			exec "say !votemap mp_vacant";			close self;close settings_map;, 1, ( dvarbool( "menu_ui_maps_dlc" ) ),		"preview_mp_vacant",			"Vacant (mp_vacant)", 							"MPUI_DESC_MAP_VACANT")
+//	SINGLEPLAYER
+	MENU_CHOICE_BUTTON_VIS(0,	;, "Trainer",			setdvar ui_mapname trainer;				setdvar nextmap trainer;			setdvar mapname trainer;			setdvar party_mapname trainer;				exec "say !votemap trainer";			close self;close settings_map;, 1, ( dvarbool( "menu_ui_maps_sp" ) ), 		"preview_trainer",				"S.S.D.D. (trainer)", 							"Demonstrate proper fire control for the local trainees.")      
+	MENU_CHOICE_BUTTON_VIS(1,	;, "^8Roadkill",		setdvar ui_mapname roadkill;			setdvar nextmap roadkill;			setdvar mapname roadkill;			setdvar party_mapname roadkill;				exec "say !votemap roadkill";			close self;close settings_map;, 1, ( dvarbool( "menu_ui_maps_sp" ) ), 		"preview_roadkill", 			"Team Player (roadkill)", 						"Search and destroy enemy forces in Afghanistan.")      
+	MENU_CHOICE_BUTTON_VIS(2,	;, "Cliffhanger",		setdvar ui_mapname cliffhanger;			setdvar nextmap cliffhanger;		setdvar mapname cliffhanger;		setdvar party_mapname cliffhanger;			exec "say !votemap cliffhanger";		close self;close settings_map;, 1, ( dvarbool( "menu_ui_maps_sp" ) ), 		"preview_cliffhanger", 			"Cliffhanger (cliffhanger)", 					"Locate and retrieve the ACS module from a crashed satellite.")         
+	MENU_CHOICE_BUTTON_VIS(3,	;, "^8Airport",			setdvar ui_mapname airport;				setdvar nextmap airport;			setdvar mapname airport;			setdvar party_mapname airport;				exec "say !votemap airport";			close self;close settings_map;, 1, ( dvarbool( "menu_ui_maps_sp" ) ), 		"preview_airport", 				"No Russian (airport)", 						"Earn Makarov's trust.")
+	MENU_CHOICE_BUTTON_VIS(4,	;, "Favela",			setdvar ui_mapname favela;				setdvar nextmap favela;				setdvar mapname favela;				setdvar party_mapname favela;				exec "say !votemap favela";				close self;close settings_map;, 1, ( dvarbool( "menu_ui_maps_sp" ) ), 		"preview_favela", 				"Takedown (favela)", 							"Find and capture arms-dealer Alejandro Rojas, hiding somewhere in the favela.")
+		HORIZONTAL_LINE(5, ( dvarbool( "menu_ui_maps_sp" ) ) )
+	MENU_CHOICE_BUTTON_VIS(5,	;, "^8Burger Town",		setdvar ui_mapname invasion;			setdvar nextmap invasion;			setdvar mapname invasion;			setdvar party_mapname invasion;				exec "say !votemap invasion";			close self;close settings_map;, 1, ( dvarbool( "menu_ui_maps_sp" ) ),		"preview_invasion", 			"Wolverines! (invasion)",						"Locate and protect codename Raptor during the beginning of the invasion.")
+	MENU_CHOICE_BUTTON_VIS(6,	;, "Favela Escape",		setdvar ui_mapname favela_escape;		setdvar nextmap favela_escape;		setdvar mapname favela_escape;		setdvar party_mapname favela_escape;		exec "say !votemap favela_escape";		close self;close settings_map;, 1, ( dvarbool( "menu_ui_maps_sp" ) ), 		"preview_favela_escape", 		"The Hornet's Nest (favela_escape)",			"Escape the Favela.")
+	MENU_CHOICE_BUTTON_VIS(7,	;, "^8Arcadia",			setdvar ui_mapname arcadia;				setdvar nextmap arcadia;			setdvar mapname arcadia;			setdvar party_mapname arcadia;				exec "say !votemap arcadia";			close self;close settings_map;, 1, ( dvarbool( "menu_ui_maps_sp" ) ), 		"preview_arcadia", 				"The Hornet's Nest (arcadia)", 					"Assist in the evacuation of civilians and key personnel in the suburbs.")
+	MENU_CHOICE_BUTTON_VIS(8,	;, "Oilrig",			setdvar ui_mapname oilrig;				setdvar nextmap oilrig;				setdvar mapname oilrig;				setdvar party_mapname oilrig;				exec "say !votemap oilrig";				close self;close settings_map;, 1, ( dvarbool( "menu_ui_maps_sp" ) ), 		"preview_oilrig", 				"The Only Easy Day... Was Yesterday (oilrig)", "Board the oil rig, rescue the hostages, and clear the route to the gulag.")
+	MENU_CHOICE_BUTTON_VIS(9,	;, "^8Gulag",			setdvar ui_mapname gulag;				setdvar nextmap gulag;				setdvar mapname gulag;				setdvar party_mapname gulag;				exec "say !votemap gulag";				close self;close settings_map;, 1, ( dvarbool( "menu_ui_maps_sp" ) ), 		"preview_gulag", 				"The Gulag (gulag)", 							"Rescue Prisoner #627.")
+	MENU_CHOICE_BUTTON_VIS(10,	;, "DC Burning",		setdvar ui_mapname dcburning;			setdvar nextmap dcburning;			setdvar mapname dcburning;			setdvar party_mapname dcburning;			exec "say !votemap dcburning";			close self;close settings_map;, 1, ( dvarbool( "menu_ui_maps_sp" ) ), 		"preview_dcburning",			"Of Their Own Accord (dcburning)", 				"Protect the evacuation site at the Washington Monument.")
+		HORIZONTAL_LINE(11, ( dvarbool( "menu_ui_maps_sp" ) ) )
+	MENU_CHOICE_BUTTON_VIS(11,	;, "^8Contingency",		setdvar ui_mapname contingency;			setdvar nextmap contingency;		setdvar mapname contingency;		setdvar party_mapname contingency;			exec "say !votemap contingency";		close self;close settings_map;, 1, ( dvarbool( "menu_ui_maps_sp" ) ), 		"preview_contingency", 			"Contingency (contingency)",					"Help Captain Price reach the submarine.")
+	MENU_CHOICE_BUTTON_VIS(12,	;, "DC EMP",			setdvar ui_mapname dcemp;				setdvar nextmap dcemp;				setdvar mapname dcemp;				setdvar party_mapname dcemp;				exec "say !votemap dcemp";				close self;close settings_map;, 1, ( dvarbool( "menu_ui_maps_sp" ) ), 		"preview_dcemp", 				"Second Sun (dcemp)",							"Get to Whiskey Hotel.")
+	MENU_CHOICE_BUTTON_VIS(13,	;, "DC White House",	setdvar ui_mapname dc_whitehouse;		setdvar nextmap dc_whitehouse;		setdvar mapname dc_whitehouse;		setdvar party_mapname dc_whitehouse;		exec "say !votemap dc_whitehouse";		close self;close settings_map;, 1, ( dvarbool( "menu_ui_maps_sp" ) ), 		"preview_dc_whitehouse", 		"Whiskey Hotel (dc_whitehouse)",				"Retake Whiskey Hotel.")
+	MENU_CHOICE_BUTTON_VIS(14,	;, "^8Estate",			setdvar ui_mapname estate;				setdvar nextmap estate;				setdvar mapname estate;				setdvar party_mapname estate;				exec "say !votemap estate";				close self;close settings_map;, 1, ( dvarbool( "menu_ui_maps_sp" ) ), 		"preview_estate", 				"Loose Ends (estate)",							"Find and kill Makarov at his safe house on the Georgian-Russian border.")
+	MENU_CHOICE_BUTTON_VIS(15,	;, "Boneyard",			setdvar ui_mapname boneyard;			setdvar nextmap boneyard;			setdvar mapname boneyard;			setdvar party_mapname boneyard;				exec "say !votemap boneyard";			close self;close settings_map;, 1, ( dvarbool( "menu_ui_maps_sp" ) ), 		"preview_boneyard", 			"The Enemy of My Enemy (boneyard)",				"Escape from General Shepherd's trap in the boneyard.")
+	MENU_CHOICE_BUTTON_VIS(16,	;, "^8Caves",			setdvar ui_mapname af_caves;			setdvar nextmap af_caves;			setdvar mapname af_caves;			setdvar party_mapname af_caves;				exec "say !votemap af_caves";			close self;close settings_map;, 1, ( dvarbool( "menu_ui_maps_sp" ) ), 		"preview_af_caves", 			"Just Like Old Times (af_caves)",				"Search the Afghan cave network for General Shepherd.")
+	MENU_CHOICE_BUTTON_VIS(17,	;, "Rust",				setdvar ui_mapname af_chase;			setdvar nextmap af_chase;			setdvar mapname af_chase;			setdvar party_mapname af_chase;				exec "say !votemap af_chase";			close self;close settings_map;, 1, ( dvarbool( "menu_ui_maps_sp" ) ), 		"preview_af_chase", 			"Endgame (af_chase)",							"Kill General Shepherd.")              
+//	COD 4
+	MENU_CHOICE_BUTTON_VIS(0, 	;, "Bog",				setdvar ui_mapname mp_bog_sh;			setdvar nextmap mp_bog_sh;			setdvar mapname mp_bog_sh;			setdvar party_mapname mp_bog_sh;			exec "say !votemap mp_bog_sh";			close settings_map;close self;, 1, ( dvarbool( "menu_ui_maps_cod4" ) ), 	"preview_mp_bog_sh", 			"@MPUI_BOG_SH", 								"Ported from Call of Duty 4: Modern Warfare Singleplayer. (mp_bog_sh)")      
+		HORIZONTAL_LINE(1, ( dvarbool( "menu_ui_maps_cod4" ) ) )
+	MENU_CHOICE_BUTTON_VIS(1,	;, "^8Bloc",			setdvar ui_mapname mp_bloc;				setdvar nextmap mp_bloc;			setdvar mapname mp_bloc;			setdvar party_mapname mp_bloc;				exec "say !votemap mp_bloc";			close settings_map;close self;, 1, ( dvarbool( "menu_ui_maps_cod4" ) ), 	"preview_mp_bloc", 				"Bloc (mp_bloc)", 								"Ported from Call of Duty 4: Modern Warfare Multiplayer.")      
+	MENU_CHOICE_BUTTON_VIS(2, 	;, "Crossfire",			setdvar ui_mapname mp_cross_fire;		setdvar nextmap mp_cross_fire;		setdvar mapname mp_cross_fire;		setdvar party_mapname mp_cross_fire;		exec "say !votemap mp_cross_fire";		close settings_map;close self;, 1, ( dvarbool( "menu_ui_maps_cod4" ) ), 	"preview_mp_cross_fire", 		"Crossfire (mp_cross_fire)", 					"Ported from Call of Duty 4: Modern Warfare Multiplayer.")
+	MENU_CHOICE_BUTTON_VIS(3, 	;, "^8Killhouse",		setdvar ui_mapname mp_killhouse;		setdvar nextmap mp_killhouse;		setdvar mapname mp_killhouse;		setdvar party_mapname mp_killhouse;			exec "say !votemap mp_killhouse";		close settings_map;close self;, 1, ( dvarbool( "menu_ui_maps_cod4" ) ), 	"preview_mp_killhouse", 		"KILLHOUSE (mp_killhouse)",						"Ported from Call of Duty 4: Modern Warfare Multiplayer.")
+	MENU_CHOICE_BUTTON_VIS(4, 	;, "Cargoship",			setdvar ui_mapname mp_cargoship;		setdvar nextmap mp_cargoship;		setdvar mapname mp_cargoship;		setdvar party_mapname mp_cargoship;			exec "say !votemap mp_cargoship";		close settings_map;close self;, 1, ( dvarbool( "menu_ui_maps_cod4" ) ),		"preview_mp_cargoship", 		"CARGOSHIP (mp_cargoship)", 					"Ported from Call of Duty 4: Modern Warfare Multiplayer.")      		
+//	EDITED
+	MENU_CHOICE_BUTTON_VIS(0,	;, "Favela Tropical",	setdvar ui_mapname mp_fav_tropical;		setdvar nextmap mp_fav_tropical;	setdvar mapname mp_fav_tropical;	setdvar party_mapname mp_fav_tropical;		exec "say !votemap mp_fav_tropical";	close settings_map;close self;, 1, ( dvarbool( "menu_ui_maps_edited" ) ), 	"preview_mp_fav_tropical",		"Favela Tropical (mp_fav_tropical)",			"Tropical Favela...")      
+	MENU_CHOICE_BUTTON_VIS(1, 	;, "^8Crash Tropical",	setdvar ui_mapname mp_crash_trop;		setdvar nextmap mp_crash_trop;		setdvar mapname mp_crash_trop;		setdvar party_mapname mp_crash_trop;		exec "say !votemap mp_crash_trop";		close settings_map;close self;, 1, ( dvarbool( "menu_ui_maps_edited" ) ), 	"preview_mp_crash_trop", 		"Crash Tropical (mp_crash_trop)",				"Tropical Estate...")      
+	MENU_CHOICE_BUTTON_VIS(2, 	;, "Estate Tropical",	setdvar ui_mapname mp_estate_tropical;	setdvar nextmap mp_estate_tropical;	setdvar mapname mp_estate_tropical;	setdvar party_mapname mp_estate_tropical;	exec "say !votemap mp_estate_tropical";	close settings_map;close self;, 1, ( dvarbool( "menu_ui_maps_edited" ) ), 	"preview_mp_estate_tropical",	"Estate Tropical (mp_estate_tropical)",			"Tropical Crash...")      
+		HORIZONTAL_LINE(3, ( dvarbool( "menu_ui_maps_edited" ) ) )
+	MENU_CHOICE_BUTTON_VIS(3, 	;, "^8Storm Spring",	setdvar ui_mapname mp_storm_spring;		setdvar nextmap mp_storm_spring;	setdvar mapname mp_storm_spring;	setdvar party_mapname mp_storm_spring;		exec "say !votemap mp_storm_spring";	close settings_map;close self;, 1, ( dvarbool( "menu_ui_maps_edited" ) ), 	"preview_mp_storm_spring", 		"@MPUI_STORMSPRING",							"A cold version of Storm. (mp_storm_spring)")
+//	OTHER
+	MENU_CHOICE_BUTTON_VIS(0, 	;, "Nuketown",			setdvar ui_mapname mp_nuked;			setdvar nextmap mp_nuked;			setdvar mapname mp_nuked;			setdvar party_mapname mp_nuked;				exec "say !votemap mp_nuked";			close settings_map;close self;, 1, ( dvarbool( "menu_ui_maps_other" ) ), 	"preview_mp_nuked", 			"NUKETOWN (mp_nuked)",							"Nuclear testing site (Sedan crater) near Area 51")      
+		HORIZONTAL_LINE(1, ( dvarbool( "menu_ui_maps_other" ) ) )
+	MENU_CHOICE_BUTTON_VIS(1, 	;, "^8Ending",			setdvar ui_mapname ending;				setdvar nextmap ending;				setdvar mapname ending;				setdvar party_mapname ending;				exec "say !votemap ending";				close settings_map;close self;, 1, ( dvarbool( "menu_ui_maps_other" ) ), 	"preview_ending2", 				"Museum (ending)",								"Bonus Level of the single player.")
+		HORIZONTAL_LINE(2, ( dvarbool( "menu_ui_maps_other" ) ) )
+	MENU_CHOICE_BUTTON_VIS(2, 	;, "Credits",			setdvar ui_mapname iw4_credits;			setdvar nextmap iw4_credits;		setdvar mapname iw4_credits;		setdvar party_mapname iw4_credits;			exec "say !votemap iw4_credits";		close settings_map;close self;, 1, ( dvarbool( "menu_ui_maps_other" ) ), 	"preview_iw4_credits", 			"CREDITS (iw4_credits)",						"Map 'Surprise'. The big green box for the brutal massacre.")      
+		HORIZONTAL_LINE(3, ( dvarbool( "menu_ui_maps_other" ) ) )
+	MENU_CHOICE_BUTTON_VIS(3, 	;, "^8Hunted",			setdvar ui_mapname co_hunted;			setdvar nextmap co_hunted;			setdvar mapname co_hunted;			setdvar party_mapname co_hunted;			exec "say !votemap co_hunted";			close settings_map;close self;, 1, ( dvarbool( "menu_ui_maps_other" ) ), 	"preview_co_hunted", 			"HUNTED (co_hunted)", 							"")      
+	MENU_CHOICE_BUTTON_VIS(4, 	;, "Ghillies",			setdvar ui_mapname so_ghillies;			setdvar nextmap so_ghillies;		setdvar mapname so_ghillies;		setdvar party_mapname so_ghillies;			exec "say !votemap so_ghillies";		close settings_map;close self;, 1, ( dvarbool( "menu_ui_maps_other" ) ), 	"preview_so_ghillies", 			"GHILLIES (so_ghillies)", 						"Maybe you can hide.")
+		
+		itemDef
+		{
+			rect -292 28 292 356 3 1
+			style 3
+			border 0
+			ownerdraw 0
+			ownerdrawFlag 0
+			borderSize 0
+			foreColor 0 0 0 0.7
+			backColor 0 0 0 0
+			borderColor 0 0 0 0
+			outlineColor 0 0 0 0
+			background black
+			decoration 
+			type 0
+			align 0
+			textAlign 0
+			textAlignX 0
+			textAlignY 0
+			textScale 0.55
+			textStyle 0
+			textFont 0
+			feeder 0
+			visible 1
+		}
+		itemDef
+		{
+			name mapimage
+			rect -282 50 272 153 3 1
+			style 3
+			border 0
+			ownerdraw 0
+			ownerdrawFlag 0
+			borderSize 0
+			foreColor 1 1 1 1
+			backColor 0 0 0 0
+			borderColor 0 0 0 0
+			outlineColor 0 0 0 0
+			decoration 
+			type 0
+			align 0
+			textAlign 0
+			textAlignX 0
+			textAlignY 0
+			textScale 0.55
+			textStyle 0
+			textFont 0
+			feeder 0
+			visible 1
+			exp material ( localvarstring( "ui_info_icon" )  )
+		}
+		itemDef
+		{
+			name longname
+			rect -282 28 272 22 3 1
+			style 0
+			border 0
+			ownerdraw 0
+			ownerdrawFlag 0
+			borderSize 0
+			foreColor 1 1 1 1
+			backColor 0 0 0 0
+			borderColor 0 0 0 0
+			outlineColor 0 0 0 0
+			decoration 
+			type 0
+			align 0
+			textAlign 4
+			textAlignX 0
+			textAlignY 0
+			textScale 0.375
+			textStyle 0
+			textFont 9
+			feeder 0
+			visible 1
+			exp text ( "@" + localvarstring( "ui_info_name" )  )
+		}
+		itemDef
+		{
+			name description
+			rect -282 203 272 20 3 1
+			style 0
+			border 0
+			ownerdraw 0
+			ownerdrawFlag 0
+			borderSize 0
+			foreColor 1 1 1 0.65
+			backColor 0 0 0 0
+			borderColor 0 0 0 0
+			outlineColor 0 0 0 0
+			decoration 
+			autoWrapped 
+			type 0
+			align 0
+			textAlign 4
+			textAlignX 0
+			textAlignY 0
+			textScale 0.375
+			textStyle 0
+			textFont 3
+			feeder 0
+			visible 1
+			exp text ( "@" + localvarstring( "ui_info_desc" )  )
+		}
+		itemDef
+		{
+			name dev_map_selected
+			visible 1
+			rect 415 405 272 28 1 1
+			style 0
+			border 0
+			ownerdraw 0
+			ownerdrawFlag 0
+			borderSize 0
+			foreColor 1 1 1 1
+			backColor 0 0 0 0
+			borderColor 0 0 0 0
+			outlineColor 0 0 0 0
+			decoration 
+			type 0
+			align 0
+			textAlign 6
+			textAlignX -60
+			textAlignY 0
+			textScale 0.4
+			textStyle 0
+			textFont 9
+			feeder 0
+			exp text ( "Selected: " + getmapname( ) + " (" + dvarString( "ui_mapname" ) + ")")
+			visible when ( dvarbool( "developer" ) == "1" )
+		}

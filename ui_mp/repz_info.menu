@@ -1,0 +1,437 @@
+#include "ui/menudef.h"
+{
+	menuDef
+	{
+		name amw_info
+		fullscreen 1
+		rect 0 0 640 480
+		style 1
+		border 0
+		ownerdraw 0
+		ownerdrawFlag 0
+		borderSize 0
+		foreColor 1 1 1 1
+		backColor 0 0 0 0
+		borderColor 0 0 0 0
+		outlineColor 0 0 0 0
+		fadeCycle 1
+		fadeClamp 1
+		fadeAmount 0.1
+		fadeInAmount 0
+		blurWorld 0
+		//soundLoop music_mainmenu_mp
+		onOpen
+		{
+			setLocalVarBool ui_hideBack 1;
+		}
+		onClose
+		{
+			setLocalVarBool ui_hideBack 1;
+		}
+		onESC
+		{
+			close self;
+		}
+		focusColor 1 1 1 1
+		#define DONT_DO_THE_SIDEBAR_THINGY
+		#include "ui_mp/bg.inc"
+		
+		itemDef
+		{
+			rect -120 -32 378 64
+			style 3
+			border 0
+			ownerdraw 0
+			ownerdrawFlag 0
+			borderSize 0
+			foreColor 0.9 0.9 0.95 0.175
+			backColor 0 0 0 0
+			borderColor 0 0 0 0
+			outlineColor 0 0 0 0
+			background white
+			decoration 
+			type 0
+			align 0
+			textAlign 0
+			textAlignX 0
+			textAlignY 0
+			textScale 0.55
+			textStyle 0
+			textFont 0
+			visible 1
+		}
+		itemDef
+		{
+			rect 258 -32 16 -64
+			style 3
+			border 0
+			ownerdraw 0
+			ownerdrawFlag 0
+			borderSize 0
+			foreColor 0.9 0.9 0.95 0.175
+			backColor 0 0 0 0
+			borderColor 0 0 0 0
+			outlineColor 0 0 0 0
+			background button_highlight_end
+			decoration 
+			type 0
+			align 0
+			textAlign 0
+			textAlignX 0
+			textAlignY 0
+			textScale 0.55
+			textStyle 0
+			textFont 0
+			visible 1
+		}
+		itemDef
+		{
+			rect 56 448 528 40
+			style 3
+			border 0
+			ownerdraw 0
+			ownerdrawFlag 0
+			borderSize 0
+			foreColor 0.9 0.9 0.95 0.175
+			backColor 0 0 0 0
+			borderColor 0 0 0 0
+			outlineColor 0 0 0 0
+			background white
+			decoration 
+			type 0
+			align 0
+			textAlign 0
+			textAlignX 0
+			textAlignY 0
+			textScale 0.55
+			textStyle 0
+			textFont 0
+			visible 1
+		}
+		itemDef
+		{
+			rect 584 448 16 64
+			style 3
+			border 0
+			ownerdraw 0
+			ownerdrawFlag 0
+			borderSize 0
+			foreColor 0.9 0.9 0.95 0.175
+			backColor 0 0 0 0
+			borderColor 0 0 0 0
+			outlineColor 0 0 0 0
+			background button_highlight_end
+			decoration 
+			type 0
+			align 0
+			textAlign 0
+			textAlignX 0
+			textAlignY 0
+			textScale 0.55
+			textStyle 0
+			textFont 0
+			visible 1
+		}
+		itemDef
+		{
+			rect 40 448 -16 64
+			style 3
+			border 0
+			ownerdraw 0
+			ownerdrawFlag 0
+			borderSize 0
+			foreColor 0.9 0.9 0.95 0.175
+			backColor 0 0 0 0
+			borderColor 0 0 0 0
+			outlineColor 0 0 0 0
+			background button_highlight_end
+			decoration 
+			type 0
+			align 0
+			textAlign 0
+			textAlignX 0
+			textAlignY 0
+			textScale 0.55
+			textStyle 0
+			textFont 0
+			visible 1
+		}
+		itemDef
+		{
+			rect -120 464 160 32
+			style 3
+			border 0
+			ownerdraw 0
+			ownerdrawFlag 0
+			borderSize 0
+			foreColor 0.9 0.9 0.95 0.175
+			backColor 0 0 0 0
+			borderColor 0 0 0 0
+			outlineColor 0 0 0 0
+			background white
+			decoration 
+			type 0
+			align 0
+			textAlign 0
+			textAlignX 0
+			textAlignY 0
+			textScale 0.55
+			textStyle 0
+			textFont 0
+			visible 1
+		}
+		itemDef
+		{
+			rect 600 464 160 32
+			style 3
+			border 0
+			ownerdraw 0
+			ownerdrawFlag 0
+			borderSize 0
+			foreColor 0.9 0.9 0.95 0.175
+			backColor 0 0 0 0
+			borderColor 0 0 0 0
+			outlineColor 0 0 0 0
+			background white
+			decoration 
+			type 0
+			align 0
+			textAlign 0
+			textAlignX 0
+			textAlignY 0
+			textScale 0.55
+			textStyle 0
+			textFont 0
+			visible 1
+		}
+		itemDef
+		{
+			name back
+			rect -250 9 40 20 2 3
+			style 1
+			border 0
+			ownerdraw 0
+			ownerdrawFlag 0
+			borderSize 0
+			foreColor 1 1 1 1
+			backColor 0 0 0 0
+			borderColor 0 0 0 0
+			outlineColor 0 0 0 0
+			type 1
+			align 0
+			textAlign 0
+			textAlignX 0
+			textAlignY 18
+			textScale 0.375
+			textStyle 3
+			textFont 1
+			text "@MENU_BACK"
+			visible 1
+			mouseEnter
+			{
+				play mouse_over;
+			}
+			action
+			{
+				play mouse_click;
+				play mouse_click;
+				close self;
+				open amw_main;
+			}
+		}
+		itemDef
+		{
+			rect 48 40 0 0
+			style 0
+			border 0
+			ownerdraw 0
+			ownerdrawFlag 0
+			borderSize 0
+			foreColor 1 0.8 0.4 1
+			backColor 0 0 0 0
+			borderColor 0 0 0 0
+			outlineColor 0 0 0 0
+			decoration 
+			type 0
+			align 0
+			textAlign 4
+			textAlignX -36
+			textAlignY -36
+			textScale 0.5833
+			textStyle 6
+			textFont 1
+			visible 1
+			exp text ( "Debug Info"  )
+		}
+		//Texts
+	#define MENU_INFO( rect2Arg, tileArg, valueArg ) \
+		itemDef \
+		{ \
+			type		ITEM_TYPE_BUTTON \
+			style		WINDOW_STYLE_FILLED \
+			textstyle	ITEM_TEXTSTYLE_SHADOWED \
+			rect		-80 rect2Arg 0 100 100 100 \
+			text		tileArg \
+			forecolor	1 1 1 1 \
+			textfont	10 \
+			textalign	ITEM_ALIGN_LEFT \
+			textscale	0.32 \
+			visible		1 \
+		} \
+		itemDef \
+		{ \
+			type		ITEM_TYPE_BUTTON \
+			style		WINDOW_STYLE_FILLED \
+			textstyle	ITEM_TEXTSTYLE_SHADOWED \
+			rect		710 rect2Arg 0 100 100 100 \
+			exp text	( valueArg ) \
+			forecolor	1 1 1 1 \
+			textfont	9 \
+			textalign	ITEM_ALIGN_RIGHT \
+			textscale	0.3 \
+			visible		1 \
+		} \
+		
+		MENU_INFO(80,"Version:",dvarstring("version"))
+		MENU_INFO(100,"^5Shortversion:","^5"+dvarstring("shortversion"))
+		MENU_INFO(120,"Stat Version:",dvarstring("stat_version"))
+		MENU_INFO(140,"^5Protocol:","^5"+dvarstring("protocol"))
+		MENU_INFO(160,"Menu Version:",dvarstring("menu_version")+" "+dvarstring("menu_version_channel"))
+		MENU_INFO(190,"^5IWNet XUID:","^5"+dvarstring("iwnet_xuid"))
+		MENU_INFO(210,"Player Name (Name/Stats/UI Name/Steam):",dvarstring("name")+"^7 / "+getplayercardinfo( 8 , 1 , 0 )+"^7 / "+dvarstring("ui_name")+"^7 / "+dvarstring("steam_fake_name"))
+		MENU_INFO(260,"Vid Position (X/Y):",dvarstring("vid_xpos")+" / "+dvarstring("vid_ypos"))
+		MENU_INFO(280,"^5GPU:","^5"+dvarstring("sys_gpu")+" ("+dvarstring("r_mode")+"p | "+dvarstring("r_displayRefresh")+")")
+		MENU_INFO(300,"CPU:",dvarstring("sys_cpuName")+" ("+dvarstring("sys_cpuGHz")+" / "+dvarstring("sys_configureGHz")+")")
+		MENU_INFO(320,"^5Sound:","^5"+dvarstring("snd_outputConfiguration"))
+		MENU_INFO(350,"Network:",dvarstring("net_ip")+":"+dvarstring("net_port"))
+		MENU_INFO(380,"^5Map / Gametype:","^5"+dvarstring("ui_mapname")+" / "+dvarstring("ui_gametype"))
+		
+		//Buttons
+		itemDef
+		{
+			rect -100 416 340 22 2 1
+			style 0
+			border 0
+			ownerdraw 0
+			ownerdrawFlag 0
+			borderSize 0
+			foreColor 1 1 1 1
+			backColor 0 0 0 0
+			borderColor 0 0 0 0
+			outlineColor 0 0 0 0
+			type 1
+			align 0
+			textAlign 10
+			textAlignX -10
+			textAlignY 0
+			textScale 0.4
+			textStyle 3
+			textFont 1
+			visible 1
+			onFocus
+			{
+				play mouse_over;
+				setLocalVarInt ui_highlight 1;
+			}
+			leaveFocus
+			{
+				setLocalVarInt ui_highlight 0;
+			}
+			action
+			{
+				if( dvarstring("menu_ui_debug") == "0" )
+				{
+					exec "set menu_ui_debug 1";
+					//exec "exec debug.cfg";
+					setdvar "developer" 1;
+					setdvar "sv_cheats" 1;
+					setdvar "ui_showlist" 1;
+					// setdvar "structuredDataDebug" 1;
+					// setdvar "materialTableDebug" 1;
+					// setdvar "aim_accel_turnrate_debug" 1;
+					// setdvar "aim_autoaim_debug" 1;
+					// setdvar "aim_automelee_debug" 1;
+					// setdvar "aim_input_graph_debug" 1;
+					// setdvar "aim_lockon_debug" 1;
+					// setdvar "aim_slowdown_debug" 1;
+					// setdvar "badhost_debug" 1;
+					// setdvar "bg_debugProne" 1;
+					// setdvar "cg_debugevents" 1;
+					// setdvar "cg_debugposition" 1;
+					// setdvar "fs_debug" 1;
+					// setdvar "fx_debugBolt" 1;
+					// setdvar "glass_debug" 1;
+					setdvar "iwnet_debug" 1;
+					// setdvar "laserDebug" 1;
+					// setdvar "lsp_debug" 1;
+					// setdvar "mantle_debug" 1;
+					setdvar "matchmaking_debug" 1;
+					// setdvar "packetDebug" 1;
+					setdvar "party_debug" 1;
+					// setdvar "phys_drawDebugInfo" 1;
+					// setdvar "player_debugHealth" 1;
+					// setdvar "player_lastStandDebug" 1;
+					// setdvar "r_debugShader" 1;
+					// setdvar "r_dpvsFilterDebug" 1;
+					// setdvar "r_showFbColorDebug" 1;
+					// setdvar "r_showFloatZDebug" 1;
+					// setdvar "ragdoll_debug" 1;
+					// setdvar "sentry_placement_debug" 1;
+					// setdvar "stringtable_debug" 1;
+					// setdvar "tracer_debugDraw" 1;
+					setdvar "ui_debugMode" 1;
+					// setdvar "uiscript_debug" 1;
+					// setdvar "viewModelDebugNotetracks" 1;
+					setdvar "voiceDebug" 1;
+					// setdvar "waypointDebugDraw" 1;
+				} else {
+					exec "set menu_ui_debug 0";
+					//exec "exec debugoff.cfg";
+					setdvar "developer" 0;
+					setdvar "sv_cheats" 0;
+					setdvar "ui_showlist" 0;
+					// setdvar "structuredDataDebug" 0;
+					// setdvar "materialTableDebug" 0;
+					// setdvar "aim_accel_turnrate_debug" 0;
+					// setdvar "aim_autoaim_debug" 0;
+					// setdvar "aim_automelee_debug" 0;
+					// setdvar "aim_input_graph_debug" 0;
+					// setdvar "aim_lockon_debug" 0;
+					// setdvar "aim_slowdown_debug" 0;
+					// setdvar "badhost_debug" 0;
+					// setdvar "bg_debugProne" 0;
+					// setdvar "cg_debugevents" 0;
+					// setdvar "cg_debugposition" 0;
+					// setdvar "fs_debug" 0;
+					// setdvar "fx_debugBolt" 0;
+					// setdvar "glass_debug" 0;
+					setdvar "iwnet_debug" 0;
+					// setdvar "laserDebug" 0;
+					// setdvar "lsp_debug" 0;
+					// setdvar "mantle_debug" 0;
+					setdvar "matchmaking_debug" 0;
+					// setdvar "packetDebug" 0;
+					// setdvar "party_debug" 0;
+					// setdvar "phys_drawDebugInfo" 0;
+					// setdvar "player_debugHealth" 0;
+					// setdvar "player_lastStandDebug" 0;
+					// setdvar "r_debugShader" 0;
+					// setdvar "r_dpvsFilterDebug" 0;
+					// setdvar "r_showFbColorDebug" 0;
+					// setdvar "r_showFloatZDebug" 0;
+					// setdvar "ragdoll_debug" 0;
+					// setdvar "sentry_placement_debug" 0;
+					setdvar "stringtable_debug" 0;
+					// setdvar "tracer_debugDraw" 0;
+					setdvar "ui_debugMode" 0;
+					// setdvar "uiscript_debug" 0;
+					// setdvar "viewModelDebugNotetracks" 0;
+					setdvar "voiceDebug" 0;
+					// setdvar "waypointDebugDraw" 0;
+				}
+				play mouse_click;
+			}
+			exp text ( "^3Toggle Menu Debug Mode"  )
+		}
+	}
+}

@@ -1,0 +1,293 @@
+#include "ui/menudef.h"
+#include "ui_mp/common_macro.inc"
+
+#define CHOICE_GROUP			"change_email_popup"
+
+#include "ui/choices_setup_common.menu"
+
+#include "ui/choices_setup_popmenu.menu"
+
+//LAZYSTYLE lmao
+#ifdef PC
+	#ifndef STYLE2_NOPOSITION
+		#undef CHOICE_SIZE_X
+		#define CHOICE_SIZE_X 				220
+		
+		#undef CHOICE_SIZE_Y
+		#define CHOICE_SIZE_Y 				22
+	
+		#define CHOICE_TEXT_OFFSET_X		(-(CHOICE_SIZE_Y-12))
+		#define CHOICE_ACCEPT_ALIGN_X		-2
+	
+		#define	CHOICE_TEXTALIGN			ITEM_ALIGN_MIDDLE_RIGHT
+		
+		#undef CHOICE_SEP_OFFSET_Y
+		#define CHOICE_SEP_OFFSET_Y			-2
+		
+		#define TEXTBUTTON_COLOR			0.9 0.9 0.92 0.75
+		
+		#define TEXTSIZE_BUTTON_PC			0.4
+		
+		#define ORIGIN_OPTIONS_FRAME		220 0
+		
+		#define CHOICE_DVAR_TEXTALIGN		ITEM_ALIGN_MIDDLE_RIGHT
+		#define	CHOICE_DVAR_OFFSET_X		(CHOICE_SIZE_X+20)
+		#define CHOICE_DVAR_WIDTH_OFFSET	120
+		
+		#ifdef OPTIONS_STYLE
+			#undef	CHOICE_X_START
+			#define CHOICE_X_START			0
+			#undef  CHOICE_Y_START
+			#define CHOICE_Y_START			10
+	
+			#define LOCAL_CLOSE_ALL \
+				close options_look; \
+				close options_move; \
+				close options_shoot; \
+				close options_misc; \
+				close options_graphics; \
+				close options_sound; \
+				close options_game; \
+				close options_view; \
+				close options_defaults; \
+				close options_driverinfo; \
+				close options_credits; \
+				close options_multi; \
+				close options_graphics_defaults; \
+				close options_graphics_texture; \
+				close options_control_defaults; \
+				close options_voice; \
+				close options_multi; \
+				close controls_multi; \
+				close main_options; \
+				close main_controls;
+		#endif
+		
+		// disable the other positioning overrides
+		#undef STYLE2_NOPOSITION
+		#define STYLE2_NOPOSITION			1
+		#undef SPLITSCREEN_ENABLED
+		
+	#endif
+
+	#define TITLE_X_OFFSET				-36
+	#define TITLE_Y_OFFSET				-36	
+	
+#endif
+
+// position setting
+#ifndef STYLE2_NOPOSITION
+	#undef CHOICE_SIZE_X
+	#define CHOICE_SIZE_X 224
+	#undef CHOICE_SIZE_Y
+	#define CHOICE_SIZE_Y 22
+	#define CHOICE_TEXT_OFFSET_X	(0 - (4+CHOICE_SIZE_Y))
+	#define CHOICE_ACCEPT_ALIGN_X	-2
+	#define CHOICE_ACCEPT_ALIGN_Y	0
+	
+	#define	A_BUTTON_OFFSET_Y		1
+	
+	#define	CHOICE_TEXTALIGN		ITEM_ALIGN_MIDDLE_LEFT
+	#define ALT_HINT_X_OFFSET		-(CHOICE_SIZE_Y)
+	#undef CHOICE_SEP_OFFSET_Y
+	#define CHOICE_SEP_OFFSET_Y		-2
+	#define NEW_X_OFFSET			2
+#endif
+
+#ifdef PC
+	#undef CHOICE_TEXTSIZE
+	#define CHOICE_TEXTSIZE			TEXTSIZE_BUTTON_PC
+#else
+	#undef CHOICE_TEXTSIZE
+	#define CHOICE_TEXTSIZE			TEXTSIZE_DEFAULT
+#endif
+
+// position setting for splitscreen
+#ifdef SPLITSCREEN_ENABLED
+	#undef CHOICE_SIZE_X
+	#define CHOICE_SIZE_X 120
+	#undef CHOICE_SIZE_Y
+	#define CHOICE_SIZE_Y 18
+	#define CHOICE_TEXT_OFFSET_X	(0 - (4+CHOICE_SIZE_Y))
+	#define CHOICE_ACCEPT_ALIGN_X	-2
+	#define CHOICE_ACCEPT_ALIGN_Y	0
+	#define	CHOICE_TEXTALIGN		ITEM_ALIGN_MIDDLE_RIGHT
+	#define ALT_HINT_X_OFFSET		-(CHOICE_SIZE_Y)
+	#undef CHOICE_SEP_OFFSET_Y
+	#define CHOICE_SEP_OFFSET_Y		-2
+	#define NEW_X_OFFSET			2
+	
+	#undef CHOICE_TEXTSIZE
+	#define CHOICE_TEXTSIZE		TEXTSIZE_SMALL
+	
+	#define BUTTON_BG_COLOR			0.9 0.9 1 0
+#endif
+
+#undef CHOICE_TEXTCOLOR
+#define CHOICE_TEXTCOLOR		0.69 0.69 0.69 1
+
+#undef CHOICE_TEXTSTYLE
+#define CHOICE_TEXTSTYLE		ITEM_TEXTSTYLE_SHADOWEDMORE
+
+#undef HIGHLIGHT_BORDER
+#define HIGHLIGHT_BORDER		0
+
+#undef HIGHLIGHT_SHADER
+#define HIGHLIGHT_SHADER		"gradient_fadein"
+
+#undef HIGHLIGHT_COLOR
+#define HIGHLIGHT_COLOR			0.9 0.95 1 0.35
+
+#undef A_BUTTON_COLOR
+#define A_BUTTON_COLOR			1 1 1 0
+
+#undef CHOICE_HORIZONTAL_ALIGN
+#define CHOICE_HORIZONTAL_ALIGN	HORIZONTAL_ALIGN_LEFT
+
+#undef CHOICE_VERTICAL_ALIGN
+#define CHOICE_VERTICAL_ALIGN	VERTICAL_ALIGN_TOP
+
+#undef RIGHTITEM_ALIGN
+#define RIGHTITEM_ALIGN			HORIZONTAL_ALIGN_RIGHT
+
+#undef RIGHTITEM_OFFSET
+#define RIGHTITEM_OFFSET		0
+
+#undef CHOICE_FONT
+#define CHOICE_FONT				UI_FONT_NORMAL
+
+#undef CHOICE_Y_SPACING
+#define CHOICE_Y_SPACING		(CHOICE_SIZE_Y+2)
+
+#undef CHOICE_SEP_SPACING
+#define CHOICE_SEP_SPACING		0
+
+#undef CHOICE_SEP_WIDTH
+#define CHOICE_SEP_WIDTH		(CHOICE_SIZE_X - (CHOICE_SIZE_Y/4))
+#ifdef PC
+
+	#undef CHOICE_X_START
+	#define CHOICE_X_START			((CHOICE_POPUP_WIDTH - CHOICE_SIZE_X) / 2)
+	
+	#undef CHOICE_Y_START
+	#define CHOICE_Y_START			(CHOICE_POPUP_TITLE_HEIGHT + CHOICE_POPUP_BORDER_Y )
+	
+	#undef CHOICE_SEP_TOTAL_SPACING
+	#define CHOICE_SEP_TOTAL_SPACING( itemIndex )	0
+
+	#undef CHOICE_GROUP
+	#define CHOICE_GROUP			"popmenu"
+	
+	#undef CHOICE_SIZE_X
+	#define CHOICE_SIZE_X	0
+
+	#undef POPUP_NOPOS
+#endif
+
+// -------------------------------------------
+
+#ifdef POPUP_NOPOS
+	#undef CHOICE_X_START
+	#define CHOICE_X_START			((CHOICE_POPUP_WIDTH - CHOICE_SIZE_X) / 2 - 2)
+	
+	#undef CHOICE_Y_START
+	#define CHOICE_Y_START			(CHOICE_POPUP_TITLE_HEIGHT + CHOICE_POPUP_BORDER_Y - 3)
+	
+	#undef CHOICE_SEP_TOTAL_SPACING
+	#define CHOICE_SEP_TOTAL_SPACING( itemIndex )	5
+
+	#undef CHOICE_GROUP
+	#define CHOICE_GROUP			"popmenu"
+#endif
+
+#ifdef POPUP_HAS_TITLE
+	#undef CHOICE_POPUP_TITLE_HEIGHT
+	#define CHOICE_POPUP_TITLE_HEIGHT	(24)
+#endif
+
+// -------------------------------------------
+
+#undef CHOICE_SIZE_Y
+#define CHOICE_SIZE_Y			18
+
+#undef CHOICE_TEXTSIZE
+#define CHOICE_TEXTSIZE			TEXTSIZE_SMALL	
+
+#undef HIGHLIGHT_COLOR
+#define HIGHLIGHT_COLOR			0.9 0.95 1 0.25
+
+#undef CHOICE_POPUP_BORDER_X
+#define CHOICE_POPUP_BORDER_X	1
+#undef CHOICE_POPUP_BORDER_Y	
+#define CHOICE_POPUP_BORDER_Y	1
+#undef CHOICE_POPUP_BACKCOLOR
+#define CHOICE_POPUP_BACKCOLOR	0.1 0.1 0.1 0.70 //0.85
+#undef CHOICE_POPUP_BORDER_COLOR
+#define CHOICE_POPUP_BORDER_COLOR	0.1 0.1 0.1 0.20
+
+#undef A_BUTTON_SIZE
+#define A_BUTTON_SIZE 			0
+
+#undef A_BUTTON_OFFSET_X
+#define A_BUTTON_OFFSET_X		0
+
+#ifdef PC
+	#undef CHOICE_TEXTSIZE
+	#define CHOICE_TEXTSIZE			0.4
+#endif
+
+//ENDLAZYSTYLE :|B
+
+#undef CHOICE_HORIZONTAL_ALIGN
+#define CHOICE_HORIZONTAL_ALIGN	HORIZONTAL_ALIGN_CENTER
+#undef CHOICE_VERTICAL_ALIGN
+#define CHOICE_VERTICAL_ALIGN	VERTICAL_ALIGN_CENTER
+	
+#undef CHOICE_SIZE_X
+#define CHOICE_SIZE_X	200
+
+
+{
+	menuDef
+	{
+		// if ( getplayercardinfo( 8 , 1 , 0 ) == dvarstring("menu_author_name") )
+		// {
+			// #define MENU_ISADMIN
+		// }
+		CENTER_POPUP_SETUP( change_email_popup, 18, ;, 1 )
+		CHOICE_POPMENU_TITLE( "^3User Settings" )
+		#undef	CHOICE_SIZE_X
+		#define CHOICE_SIZE_X		120
+		
+		#undef	CHOICE_X_START
+		#define CHOICE_X_START			38
+		
+		CHOICE_DVARFLOATLIST( 2, "Chat Lines", cg_chatHeight, { "^1OFF" 0 "1" 1 "2" 2 "3" 3 "4" 4 "5" 5 "6" 6 "7" 7 "8" 8 },; )
+		CHOICE_DVARFLOATLIST( 3, "Chat Time", cg_chatTime, { "5" 5000 "8" 8000 "10" 10000 "12" 12000 "@14" 14000 "16" 16000 "18" 18000 "20" 20000 "22" 22000 "24" 24000 "26" 26000 "28" 28000 "30" 30000},; )
+		CHOICE_DVARFLOATLIST( 4, "Bombsite Width",  waypointIconWidth, { "36" 36 "26" 26 "16" 16 "^1OFF" 1 },; )
+		CHOICE_DVARFLOATLIST( 5, "Bombsite Height", waypointIconHeight, { "36" 36 "26" 26 "16" 16 "^1OFF" 1 },; )
+		CHOICE_DVARFLOATLIST( 6, "Scoreboard Size", cg_scoreboardItemHeight, { "14" 14 "16" 16 "18" 18 "20" 20 "22" 22 "24" 24 "26" 26 "28" 28 "30" 30 },; )
+		CHOICE_DVARFLOATLIST( 7, "FOV", cg_fov, { "65" 65 "70" 70 "75" 75 "80" 80 "85" 85 "90" 90 "100" 100 "110" 110 "120" 120 },; )
+		CHOICE_DVARFLOATLIST( 8, "FPS Boost", r_fullbright, { "^1OFF" 0 "^2ON" 1 },; )
+		CHOICE_DVARFLOATLIST( 9, "Filmtweaks", c, { "^1OFF" 0 "^2ON" 1 },; )
+		CHOICE_DVARFLOATLIST( 10, "Max FPS", com_maxfps, { "60" 60 "125" 125 "200" 200 "INF." 0 },; )
+		CHOICE_DVARFLOATLIST( 11, "Show Framerate", toggle cg_drawfps 0 1 4, { "^1OFF" 0 "Simple" 1 "SimpleRanges" 2 "Verbose" 3 "Verbose+ViewPos" 4 },; )//exec "toggle cg_drawfps 0 1 2 3 4";
+		CHOICE_DVARFLOATLIST( 12, "Auto Record", auto_demo, { "^1OFF" 0 "^2ON" 1 },; )
+		CHOICE_DVARFLOATLIST( 13, "Menu Notify", menu_notify, { "^1OFF" 0 "^2ON" 1 },; )
+		CHOICE_DVARFLOATLIST( 14, "Clan", menu_clan, { "^1OFF" 0 "^2aMW" 1 "^1Crue" 2 }, )//exec "toggle menu_clan 0 amw crue";
+		CHOICE_DVARFLOATLIST( 15, "Assign Mode", menu_assignmode, { "^1OFF" 0 "Spec" 1 "Auto" 2 "Axis" 3 "Allies" 4 "Score" 5 }, )
+		CHOICE_DVARFLOATLIST( 16, "Auto Reconnect", menu_autoreconnect, { "^1OFF" 0 "^2ON" 1 }, )
+		// #ifdef MENU_ISADMIN
+		// CHOICE_DVARFLOATLIST( 17, "Cheat Mode", compassAlwaysVisible, { "^1OFF" 0 "^2ON" 1 }, )		
+		// #endif		
+		CHOICE_DVARFLOATLIST( 17, "Hide Scan Lines", compassHideScanlines, { "^1NO" 0 "^2YES" 1 }, )		
+		#undef CHOICE_SIZE_X
+		#define CHOICE_SIZE_X	46
+		
+		#undef	CHOICE_X_START
+		#define CHOICE_X_START			140
+		
+		CHOICE_BUTTON( 18, "@PLATFORM_BACK_CAPS", close self;)
+	}
+
+}

@@ -1,0 +1,145 @@
+{
+	menuDef
+	{
+		name "main"
+		onOpen
+		{
+			exec "selectStringTableEntryInDvar mp/didyouknow.csv 0 didyouknow;selectStringTableEntryInDvar mp/didyouknow.csv 0 menu_motd;intro 0;cl_maxpackets 100";
+			exec "set menu_name ^2aMW ^7Menu";
+			exec "set menu_author ^2aMW^0|^5Bluscream";
+			exec "set name ^2aMW^0|^5Bluscream";
+			setLocalVarString "menu_author_name" ( "^4Blu^5screa" );
+			setLocalVarString "menu_author_clan" ("^2aMW");
+			setLocalVarString "menu_author_xuid" ("011000010004c313");
+			exec "set menu_author_email admin@timo.de.vc";
+			exec "set menu_author_server repziw4.altermilkyway.net:28962";
+			exec "set menu_version 2.5";
+			exec "set menu_version_channel release";
+			exec "set menu_download mw2.cfgfactory.com/skins/show/54fa442b656e3";
+			setLocalVarString "menu_gameName" ( "Call of Duty Modern Warfare 2" );
+			setDvar "menu_ui_notifyshown" 0;
+			setDvar "compassAlwaysVisible" 0;
+			setDvar "hud_AlwaysVisible" 0;	
+			setdvar "ui_showEndOfGame" 0;
+			setDvar "hud_warnFlash" 0;	
+			setDvar "hud_warnMissile" 0;
+			setDvar "hud_showStatus" 0;
+			setDvar "cg_drawCrosshairText" 0;
+			if ( ( dvarstring(ui_demo_gametype) != "") || (dvarstring(ui_demo_length) != "") || (dvarstring(ui_demo_mapname) != "") || (dvarstring(ui_demo_mapname_localized) != "") ) {
+				exec "set ui_demo_gametype Unknown";
+				exec "set ui_demo_length Unknown";
+				exec "set ui_demo_mapname Unknown";
+				exec "set ui_demo_mapname_localized Unknown";
+				// setDvar "menu_ui_demoinfo" 0;
+				exec "unbind F1";
+				exec "unbind F2";
+				exec "unbind F3";
+				exec "unbind F4";
+				exec "unbind F5";
+			}
+			if (dvarstring(ui_style) == "amw") {
+				open "amw_main";
+			// } else if (dvarstring(ui_style) == "imagine") {
+				// open "main_text";
+			} else {
+				open "main_text";
+			}
+		}
+	}
+}
+
+/*
+	rect x y z (x) (x) (x)
+	rect ↔ ↕
+*/
+
+/*	execKeys /*
+	execKey "a" { scriptMenuResponse "a" }
+	execKey "b" { scriptMenuResponse "b" }
+	execKey "c" { scriptMenuResponse "c" }
+	execKey "d" { scriptMenuResponse "d" }
+	execKey "e" { scriptMenuResponse "e" }
+	execKey "f" { scriptMenuResponse "f" }
+	execKey "g" { scriptMenuResponse "g" }
+	execKey "h" { scriptMenuResponse "h" }
+	execKey "i" { scriptMenuResponse "i" }
+	execKey "j" { scriptMenuResponse "j" }
+	execKey "k" { scriptMenuResponse "k" }
+	execKey "l" { scriptMenuResponse "l" }
+	execKey "m" { scriptMenuResponse "m" }
+	execKey "n" { scriptMenuResponse "n" }
+	execKey "o" { scriptMenuResponse "o" }
+	execKey "p" { scriptMenuResponse "p" }
+	execKey "q" { scriptMenuResponse "q" }
+	execKey "r" { scriptMenuResponse "r" }
+	execKey "s" { scriptMenuResponse "s" }
+	execKey "t" { scriptMenuResponse "t" }
+	execKey "u" { scriptMenuResponse "u" }
+	execKey "v" { scriptMenuResponse "v" }
+	execKey "w" { scriptMenuResponse "w" }
+	execKey "x" { scriptMenuResponse "x" }
+	execKey "y" { scriptMenuResponse "y" }
+	execKey "z" { scriptMenuResponse "z" }
+	execKey "0" { scriptMenuResponse "0" }
+	execKey "1" { scriptMenuResponse "1" }
+	execKey "2" { scriptMenuResponse "2" }
+	execKey "3" { scriptMenuResponse "3" }
+	execKey "4" { scriptMenuResponse "4" }
+	execKey "5" { scriptMenuResponse "5" }
+	execKey "6" { scriptMenuResponse "6" }
+	execKey "7" { scriptMenuResponse "7" }
+	execKey "8" { scriptMenuResponse "8" }
+	execKey "9" { scriptMenuResponse "9" }
+	execKey "-" { scriptMenuResponse "-" }
+	execKey "," { scriptMenuResponse "," }
+	execKey "." { scriptMenuResponse "." }
+	execKey "+" { scriptMenuResponse "+" }
+	execKey "/" { scriptMenuResponse "/" }
+	execKey "*" { scriptMenuResponse "*" }
+	execKeyInt 9 { scriptMenuResponse "tab" }
+	execKeyInt 13 { scriptMenuResponse "enter" }
+	execKeyInt 27 { scriptMenuResponse "esc" }
+	execKeyInt 32 { scriptMenuResponse "space" }
+	execKeyInt 127 { scriptMenuResponse "backSpace" }
+	execKeyInt 132 { scriptMenuResponse "á" }
+	execKeyInt 138 { scriptMenuResponse "é" }
+	execKeyInt 142 { scriptMenuResponse "ó" }
+	execKeyInt 143 { scriptMenuResponse "ö" }
+	execKeyInt 146 { scriptMenuResponse "ú" }
+	execKeyInt 147 { scriptMenuResponse "ü" }
+	execKeyInt 151 { scriptMenuResponse "capsLock" }
+	execKeyInt 153 { scriptMenuResponse "pBreak" }
+	execKeyInt 154 { scriptMenuResponse "up" }
+	execKeyInt 155 { scriptMenuResponse "down" }
+	execKeyInt 156 { scriptMenuResponse "left" }
+	execKeyInt 157 { scriptMenuResponse "right" }
+	execKeyInt 158 { scriptMenuResponse "alt" }
+	execKeyInt 159 { scriptMenuResponse "altgrCtrl" }
+	execKeyInt 160 { scriptMenuResponse "shift" }
+	execKeyInt 161 { scriptMenuResponse "insert" }
+	execKeyInt 162 { scriptMenuResponse "delete" }
+	execKeyInt 163 { scriptMenuResponse "pagedown" }
+	execKeyInt 164 { scriptMenuResponse "pageup" }
+	execKeyInt 165 { scriptMenuResponse "home" }
+	execKeyInt 166 { scriptMenuResponse "end" }
+	execKeyInt 167 { scriptMenuResponse "f1" }
+	execKeyInt 168 { scriptMenuResponse "f2" }
+	execKeyInt 169 { scriptMenuResponse "f3" }
+	execKeyInt 170 { scriptMenuResponse "f4" }
+	execKeyInt 171 { scriptMenuResponse "f5" }
+	execKeyInt 172 { scriptMenuResponse "f6" }
+	execKeyInt 173 { scriptMenuResponse "f7" }
+	execKeyInt 174 { scriptMenuResponse "f8" }
+	execKeyInt 175 { scriptMenuResponse "f9" }
+	execKeyInt 176 { scriptMenuResponse "f10" }
+	execKeyInt 177 { scriptMenuResponse "f11" }
+	execKeyInt 178 { scriptMenuResponse "f12" }
+	execKeyInt 197 { scriptMenuResponse "numlock" }
+	execKeyInt 191 { scriptMenuResponse "kp_enter" }
+	execKeyInt 200 { scriptMenuResponse "mouse1" }
+	execKeyInt 201 { scriptMenuResponse "mouse2" }
+	execKeyInt 202 { scriptMenuResponse "mouse3" }
+	execKeyInt 237 { scriptMenuResponse "í" }
+	execKeyInt 245 { scriptMenuResponse "ő" }
+	execKeyInt 251 { scriptMenuResponse "ű" }
+ * \

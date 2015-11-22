@@ -1,0 +1,14 @@
+#include "ui/menudef.h"
+
+{		
+	menuDef
+	{
+		name settings_map
+		onOpen
+		{
+			close self;
+			setdvar "menu_ui_maps" 1;
+			open "amw_main";
+		}
+	}
+}
