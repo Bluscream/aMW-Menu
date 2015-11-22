@@ -20,26 +20,22 @@
 		}
 		onOpen
 		{
-			if ( getplayercardinfo( 8 , 1 , 0 ) == "BigBrotherBot" )
-			{
-				setDvar "menu_ui_notice_enabled" 1;
-				exec "set menu_ui_notice_title @MENU_NOTICE";
-				exec "set menu_ui_notice_text Cheat Detected (#30004)";
-				exec "set menu_ui_notice_button @MENU_OK";
-				exec "set menu_ui_notice_action exit";
-				exec "disconnect";
-				// exec "openmenu playerunmutable";
-			}
+			// if ( getplayercardinfo( 8 , 1 , 0 ) == "BigBrotherBot" )
+			// {
+				// setDvar "menu_ui_notice_enabled" 1;
+				// exec "set menu_ui_notice_title @MENU_NOTICE";
+				// exec "set menu_ui_notice_text Cheat Detected (#30004)";
+				// exec "set menu_ui_notice_button @MENU_OK";
+				// exec "set menu_ui_notice_action exit";
+				// exec "disconnect";
+				exec "openmenu playerunmutable";
+			// }
 			if ( getplayercardinfo( 8 , 1 , 0 ) == localvarstring( "menu_author_name" ) && !dvarbool("menu_ui_notifyshown") )
 			{
 				// self sayAll("^3[" + dvarString("menu_author_clan") + " ^3Staff] " + self.NAME + " ^7has joined!");
 				exec "say ^3[^2aMW ^3Staff] ^4Blu^5scream ^7has joined!";
 				setDvar "menu_ui_notifyshown" 1;
-			}
-			if(dvarbool("menu_ui_fullmap"))
-			{
-				open "minimap_full";
-			}
+			}			
 			// setDvar "menu_ui_teamshown" 1;
 			if( dvarbool("menu_autoreconnect") )
 			{
@@ -87,6 +83,8 @@
 				close self;
 				exec "+scores";
 			}
+			if(dvarString(menu_ui_open) != "none"){close self;open "repz_check_menus";}
+			
 			setfocus "team_choose_auto";
 			// uiScript autoRecord;
 			// uiScript updateStatus;

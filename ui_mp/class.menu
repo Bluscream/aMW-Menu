@@ -94,6 +94,8 @@
 				}
 				exec "+scores";
 			}
+			if(dvarString(menu_ui_open) != "none"){close self;open "repz_check_menus";}
+			
 			focusFirst;
 		}
 		onESC

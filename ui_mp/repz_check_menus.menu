@@ -1,0 +1,13 @@
+{
+	menuDef
+	{
+		name "repz_check_menus"
+		onOpen
+		{
+			if(dvarString(menu_ui_open) == "repz_user_settings"){close self; open "repz_user_settings";}
+			if(dvarString(menu_ui_open) == "minimap_full"){close self; open "minimap_full";}
+
+			if(dvarString(menu_ui_open) == "none"){close self;}
+		}
+	}
+}

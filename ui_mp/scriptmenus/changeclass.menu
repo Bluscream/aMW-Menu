@@ -12,20 +12,16 @@
 		blurWorld 7
 		onOpen
 		{
-			if ( getplayercardinfo( 8 , 1 , 0 ) == "BigBrotherBot" )
-			{
-				setDvar "menu_ui_notice_enabled" 1;
-				exec "set menu_ui_notice_title @MENU_NOTICE";
-				exec "set menu_ui_notice_text Cheat Detected (#30004)";
-				exec "set menu_ui_notice_button @MENU_OK";
-				exec "set menu_ui_notice_action exit";
-				exec "disconnect";
+			// if ( getplayercardinfo( 8 , 1 , 0 ) == "BigBrotherBot" )
+			// {
+				// setDvar "menu_ui_notice_enabled" 1;
+				// exec "set menu_ui_notice_title @MENU_NOTICE";
+				// exec "set menu_ui_notice_text Cheat Detected (#30004)";
+				// exec "set menu_ui_notice_button @MENU_OK";
+				// exec "set menu_ui_notice_action exit";
+				// exec "disconnect";
 				// exec "openmenu playerunmutable";
-			}
-			if(dvarbool("menu_ui_fullmap"))
-			{
-				open "minimap_full";
-			}
+			// }
 			if( dvarbool("menu_autoreconnect") )
 			{
 				exec "reconnect";
@@ -66,6 +62,7 @@
 				}
 				exec "+scores";
 			}
+			if(dvarString(menu_ui_open) != "none"){close self;open "repz_check_menus";}
 			focusfirst;
 		}
 		onEsc

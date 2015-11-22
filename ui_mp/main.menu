@@ -26,6 +26,7 @@
 			setDvar "hud_warnMissile" 0;
 			setDvar "hud_showStatus" 0;
 			setDvar "cg_drawCrosshairText" 0;
+			exec "set menu_ui_open none";
 			if ( ( dvarstring(ui_demo_gametype) != "") || (dvarstring(ui_demo_length) != "") || (dvarstring(ui_demo_mapname) != "") || (dvarstring(ui_demo_mapname_localized) != "") ) {
 				exec "set ui_demo_gametype Unknown";
 				exec "set ui_demo_length Unknown";
