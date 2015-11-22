@@ -1,12 +1,4 @@
-/*
-**	hud_fullscreen.menu modified by banz
-**	- fixed > 200 tokens error 
-**	- moved 'follow previous / next player' - text to the right side
-**
-**
-** 	thx to aerosoul94 for dumping this (ps3 version)
-**	thx to NTA for full ui_mp dump
-*/
+//vim: set ft=cpp:
 #include "ui/menudef.h"
 
 {

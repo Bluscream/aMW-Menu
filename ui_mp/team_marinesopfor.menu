@@ -1,10 +1,4 @@
-/********************************************
-*          dumped by: aerosoul94            *
-*********************************************/
-				// close self;
-				// close "class";
-				// close "changeclass";
-
+//vim: set ft=cpp:
 {
 	menuDef
 	{
