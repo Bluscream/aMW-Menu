@@ -50,9 +50,25 @@
 	}
 }
 
-/*
+/* Colors:
+
+	forecolor 1 1 1 1
+	forecolor r g b t
+
+	0-1	| 0-1	| 0-1  | 0-1
+	red	| green | blue | transparency
+	
+	Transparency:
+	0 = Transparent
+	1 = Solid
+	
+*\
+
+/* Positions:
+
 	rect x y z (x) (x) (x)
 	rect ↔ ↕
+	
 */
 
 /*	execKeys /*

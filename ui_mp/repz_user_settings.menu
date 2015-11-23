@@ -23,6 +23,11 @@
 			Dvar "r_depthPrepassModels 1 set ui_zfeather 2";
 			ExecNow "profile_menuDvarsSetup; resetViewport";
 			exec "set menu_ui_open repz_user_settings";
+			// if ( dvarString ("cg_drawFPS") == Off ){setDvar "cg_drawFPS" 0;}
+			// if ( dvarString ("cg_drawFPS") == SimpleRanges ){setDvar "cg_drawFPS" 1;}
+			// if ( dvarString ("cg_drawFPS") == Simple ){setDvar "cg_drawFPS" 2;}
+			// if ( dvarString ("cg_drawFPS") == Verbose ){setDvar "cg_drawFPS" 3;}
+			// if ( dvarString ("cg_drawFPS") == Verbose+ViewPos ){setDvar "cg_drawFPS" 4;}
 		}
 		onClose
 		{
@@ -703,6 +708,33 @@
 			visible 1 \
 		} \
 		
+	#define MENU_USER_SETTING_TITLE_BUTTON( rectArg, textArg, actionArg ) \
+		itemDef \
+		{ \
+			rect 232 rectArg 344 20 1 1 \
+			foreColor 1 1 1 1 \
+			textAlign 6 \
+			textAlignX -180 \
+			textScale 0.375 \
+			textFont 3 \
+			text textArg \
+			visible 1 \
+			onFocus \
+			{ \
+				play "mouse_over"; \
+				setItemColor self "backcolor" 0 0 0 1 \
+			} \
+			leaveFocus \
+			{ \
+				setItemColor self "backcolor" 0 0 0 0; \
+			} \
+			action \
+			{ \
+				play "mouse_click"; \
+				actionArg \
+			} \
+		} \
+		
 	#define MENU_USER_SETTING_DVAR( rectArg, dvarArg ) \
 			itemDef \
 			{ \
@@ -747,7 +779,8 @@
 			visible 1 \
 			onFocus \
 			{ \
-				setItemColor self "backcolor" 0 0 0 1 play "mouse_over"; \
+				play "mouse_over"; \
+				setItemColor self "backcolor" 0 0 0 1 \
 			} \
 			leaveFocus \
 			{ \
@@ -765,7 +798,7 @@
 	#define MENU_USER_SETTING_DVARFLOAT( rectArg, dvarArg, rangeArg ) \
 		itemDef \
 		{ \
-			rect 412 rectArg 344 20 1 1 \
+			rect 412 rectArg 344 15 1 1 \
 			style 0 \
 			border 0 \
 			ownerdraw 0 \
@@ -793,78 +826,95 @@
 			dvarFloat dvarArg rangeArg \
 		} \
 		
-	#define MENU_USER_SETTING_DVARFLOAT_DVAR( rectArg, dvarArg ) \
+		#define MENU_USER_SETTING_DVARFLOAT_DVAR_EQUALS( rectArg, dvarArg, colorArg, visWhenArg ) \
 		itemDef \
 		{ \
 			rect 412 rectArg 0 0 1 1 \
-			foreColor 1 1 1 1 \
+			decoration \
+			foreColor colorArg \
 			textAlign 4 \
 			textAlignX 98 \
 			textScale 0.2 \
 			textFont 3 \
 			feeder 0 \
-			visible 1 \
 			exp text ( dvarstring (dvarArg) ) \
+			visible when ( visWhenArg ) \
 		} \
 
 /* ------------------------------------------------------------------------------- */
-		MENU_USER_SETTING_TITLE(28, "Chat Height")
-		MENU_USER_SETTING_STRLIST(28, "cg_chatHeight", "@MENU_OFF" 0 "1" 1 "2" 2 "3" 3 "4" 4 "5" 5 "6" 6 "8" 8, "" )
+		MENU_USER_SETTING_TITLE_BUTTON(28, "Chat Height", setDvar "cg_chatHeight" 6;)
+		MENU_USER_SETTING_DVARFLOAT(28, "cg_chatHeight", -8 0 8)
+		MENU_USER_SETTING_DVARFLOAT_DVAR_EQUALS(31, "cg_chatHeight", 1 0 0 1, dvarString("cg_chatHeight") == 0)
+		MENU_USER_SETTING_DVARFLOAT_DVAR_EQUALS(31, "cg_chatHeight", 1 1 1 1, dvarString("cg_chatHeight") > 0)
+		// MENU_USER_SETTING_STRLIST(28, "cg_chatHeight", "@MENU_OFF" 0 "1" 1 "2" 2 "3" 3 "4" 4 "5" 5 "6" 6 "7" 7 "8" 8, "" )
 
-		MENU_USER_SETTING_TITLE(48, "Chat Time")
-		MENU_USER_SETTING_STRLIST(48, "cg_chatTime", "1s" 1 "5s" 5000 "8s" 8000 "10s" 10000 "12s" 12000 "@14s" 14000 "16s" 16000 "18s" 18000 "20s" 20000 "22s" 22000 "24s" 24000 "26s" 26000 "28s" 28000 "30s" 30000 "1m" 60000, "")
+		MENU_USER_SETTING_TITLE_BUTTON(48, "Chat Time", setDvar "cg_chatTime" 14000;)
+		// MENU_USER_SETTING_DVARFLOAT(48, "cg_chatTime", -60000 0 60000)
+		// MENU_USER_SETTING_DVARFLOAT_DVAR_EQUALS(51, "cg_chatTime", 1 0 0 1, dvarString("cg_chatTime") == 0)
+		// MENU_USER_SETTING_DVARFLOAT_DVAR_EQUALS(51, "cg_chatTime", 1 1 1 1, dvarString("cg_chatTime") > 0)
+		MENU_USER_SETTING_STRLIST(48, "cg_chatTime", "@MENU_OFF" 0 "1ms" 1 "1s" 1000 "2s" 2000 "3s" 3000 "5s" 5000 "8s" 8000 "10s" 10000 "12s" 12000 "@14s" 14000 "15s" 15000 "16s" 16000 "18s" 18000 "20s" 20000 "22s" 22000 "24s" 24000 "26s" 26000 "28s" 28000 "30s" 30000 "45s" 30000 "1m" 60000, "")
 			
 		MENU_USER_SETTING_LINE(68) /* -------------------------------------------------------------------------------------------------------------------------------------*/
 
-		MENU_USER_SETTING_TITLE(68, "Objective Icon Size")
-		MENU_USER_SETTING_STRLIST(68, "waypointIconWidth", "Big" 46 "Default" 36 "Small" 26 "Tiny" 16 "Hidden" 0.1, 
+		MENU_USER_SETTING_TITLE_BUTTON(68, "Objective Icon Size", setDvar "waypointIconWidth" 36;setDvar "waypointIconHeight" 36;setDvar "compassObjectiveWidth" 20;setDvar "compassObjectiveHeight" 20;)
+		MENU_USER_SETTING_STRLIST(68, "waypointIconWidth", "Large" 46 "Default" 36 "Small" 26 "Tiny" 16 "Hidden" 0.1, 
 					if ( dvarString ("waypointIconWidth") == 46 ){setDvar "waypointIconHeight" 46;setDvar "compassObjectiveWidth" 25;setDvar "compassObjectiveHeight" 25;}
 					if ( dvarString ("waypointIconWidth") == 36 ){setDvar "waypointIconHeight" 36;setDvar "compassObjectiveWidth" 20;setDvar "compassObjectiveHeight" 20;}
 					if ( dvarString ("waypointIconWidth") == 26 ){setDvar "waypointIconHeight" 26;setDvar "compassObjectiveWidth" 15;setDvar "compassObjectiveHeight" 15;}
 					if ( dvarString ("waypointIconWidth") == 16 ){setDvar "waypointIconHeight" 15;setDvar "compassObjectiveWidth" 10;setDvar "compassObjectiveHeight" 10;}
 					if ( dvarString ("waypointIconWidth") == 0.1 ){setDvar "waypointIconHeight" 0.1;setDvar "compassObjectiveWidth" 0;setDvar "compassObjectiveHeight" 0;})
 
-		MENU_USER_SETTING_TITLE(88, "Scoreboard Size")
-		MENU_USER_SETTING_STRLIST(88, "cg_scoreboardItemHeight", "Small" 11 "Default" 18 "Large" 29, "")
+		MENU_USER_SETTING_TITLE_BUTTON(88, "Scoreboard Size", setDvar "cg_scoreboardItemHeight" 18;)
+		MENU_USER_SETTING_DVARFLOAT(88, "cg_scoreboardItemHeight", -40 8 40)
+		MENU_USER_SETTING_DVARFLOAT_DVAR_EQUALS(91, "cg_scoreboardItemHeight", 1 1 0 1, dvarString("cg_scoreboardItemHeight") < 18)
+		MENU_USER_SETTING_DVARFLOAT_DVAR_EQUALS(91, "cg_scoreboardItemHeight", 1 1 1 1, dvarString("cg_scoreboardItemHeight") == 18)
+		MENU_USER_SETTING_DVARFLOAT_DVAR_EQUALS(91, "cg_scoreboardItemHeight", 1 1 0 1, dvarString("cg_scoreboardItemHeight") > 18)
+		// MENU_USER_SETTING_STRLIST(88, "cg_scoreboardItemHeight", "Small" 11 "Default" 18 "Large" 29, "")
 		
 		MENU_USER_SETTING_LINE(108) /* -------------------------------------------------------------------------------------------------------------------------------------*/
 		
-		MENU_USER_SETTING_TITLE(108, "Field of View (FOV)")
+		MENU_USER_SETTING_TITLE_BUTTON(108, "Field of View (FOV)", setDvar "cg_fov" 65;)
 		MENU_USER_SETTING_DVARFLOAT(108, "cg_fov", 0 65 120)
-		MENU_USER_SETTING_DVARFLOAT_DVAR(111, "cg_fov")
+		MENU_USER_SETTING_DVARFLOAT_DVAR_EQUALS(111, "cg_fov", 1 1 1 1, dvarString("cg_fov") == 65)
+		MENU_USER_SETTING_DVARFLOAT_DVAR_EQUALS(111, "cg_fov", 1 1 0 1, dvarString("cg_fov") > 65)
+		// MENU_USER_SETTING_DVARFLOAT_DVAR_HIGHER(111, "cg_fov", 2 2 2 2, 77)
 		
-		MENU_USER_SETTING_TITLE(128, "FOV Scale")
-		MENU_USER_SETTING_DVARFLOAT(128, "cg_fovScale", 0 1 2)
-		MENU_USER_SETTING_DVARFLOAT_DVAR(131, "cg_fovScale")
+		MENU_USER_SETTING_TITLE_BUTTON(128, "FOV Scale", setDvar "cg_fovScale" 1;)
+		MENU_USER_SETTING_DVARFLOAT(128, "cg_fovScale", 0.2 1 2)
+		MENU_USER_SETTING_DVARFLOAT_DVAR_EQUALS(131, "cg_fovScale", 1 1 0 1, dvarString("cg_fovScale") < 1)
+		MENU_USER_SETTING_DVARFLOAT_DVAR_EQUALS(131, "cg_fovScale", 1 1 1 1, dvarString("cg_fovScale") == 1)
+		MENU_USER_SETTING_DVARFLOAT_DVAR_EQUALS(131, "cg_fovScale", 1 1 0 1, dvarString("cg_fovScale") > 1)
 		
 		MENU_USER_SETTING_LINE(148) /* -------------------------------------------------------------------------------------------------------------------------------------*/
 		
-		MENU_USER_SETTING_TITLE(148, "FPS Boost")
+		MENU_USER_SETTING_TITLE_BUTTON(148, "FPS Boost", setDvar "r_fullbright" 0;)
 		MENU_USER_SETTING_DVAR(148, "r_fullbright")
 		
-		MENU_USER_SETTING_TITLE(168, "FPS Limit")
-		MENU_USER_SETTING_STRLIST(168, "com_maxfps","1" 1 "2" 2 "3" 3 "5" 5 "10" 10 "50" 50 "60" 60 "90" 90 "125" 125 "200" 200 "Unlimited" 0, "")
+		MENU_USER_SETTING_TITLE_BUTTON(168, "FPS Limit", setDvar "com_maxfps" 0;)
+		MENU_USER_SETTING_DVARFLOAT(168, "com_maxfps", -100 0 200)
+		MENU_USER_SETTING_DVARFLOAT_DVAR_EQUALS(168, "com_maxfps", 1 1 1 1, dvarString("com_maxfps") == 0)
+		MENU_USER_SETTING_DVARFLOAT_DVAR_EQUALS(168, "com_maxfps", 1 1 0 1, dvarString("com_maxfps") > 0)
 		
 		MENU_USER_SETTING_LINE(188) /* -------------------------------------------------------------------------------------------------------------------------------------*/
 		
-		MENU_USER_SETTING_TITLE(188, "Show FPS")
-		MENU_USER_SETTING_STRLIST(188, "cg_drawFPS","Off" 0 "SimpleRanges" 1 "Simple" 2 "Verbose" 3 "Full" 4, "")
+		MENU_USER_SETTING_TITLE_BUTTON(188, "Show FPS", setDvar "cg_drawFPS" Off;)
+		MENU_USER_SETTING_STRLIST(188, "cg_drawFPS","@MENU_OFF" Off "SimpleRanges" SimpleRanges "Simple" Simple "Verbose" Verbose "Full" Verbose+ViewPos, "")
 		
-		MENU_USER_SETTING_TITLE(208, "Show FPS Labels")
+		MENU_USER_SETTING_TITLE_BUTTON(208, "Show FPS Labels", setDvar "cg_drawFPSLabels" 0;)
 		MENU_USER_SETTING_DVAR(208, "cg_drawFPSLabels")
 		
-		MENU_USER_SETTING_TITLE(228, "Lagometer")
+		MENU_USER_SETTING_TITLE_BUTTON(228, "Lagometer", setDvar "drawLagometer" 0;)
 		MENU_USER_SETTING_DVAR(228, "drawLagometer")
 		
-		MENU_USER_SETTING_TITLE(248, "Show Server Bandwith")
+		MENU_USER_SETTING_TITLE_BUTTON(248, "Show Server Bandwith", setDvar "drawServerBandwidth" 0;)
 		MENU_USER_SETTING_DVAR(248, "drawServerBandwidth")
 		
 		MENU_USER_SETTING_LINE(268) /* -------------------------------------------------------------------------------------------------------------------------------------*/
 		
-		MENU_USER_SETTING_TITLE(268, "Auto Record")
+		MENU_USER_SETTING_TITLE_BUTTON(268, "Auto Record", setDvar "auto_demo" 0;)
 		MENU_USER_SETTING_DVAR(268, "auto_demo")
 		
-		MENU_USER_SETTING_TITLE(288, "Filmtweaks")
+		MENU_USER_SETTING_TITLE_BUTTON(288, "Filmtweaks", setDvar "r_filmtweaks" 0;)
 		MENU_USER_SETTING_DVAR(288, "r_filmtweaks")
 			
 /* =============================================================================== */
