@@ -603,7 +603,7 @@
 #define TITLE_ORIGIN(i) 262 TITLE_Y(i)
 #define TITLE_RECT(i) TITLE_ORIGIN(i) 190 12 1 1
 
-#define CHOICE_UI_BUTTON( itemIndex, previewImg, actionArg, menuInfo) \
+#define CHOICE_UI_BUTTON( itemIndex, previewImg, uiStyle, menuInfo, actionArg) \
 		itemDef \
 		{ \
 			rect CHOICE_RECT(itemIndex) \
@@ -627,7 +627,8 @@
 			{ \
 				play mouse_click; \
 				open "repz_restart_game" \
-				setdvar ui_style actionArg \
+				setdvar ui_style uiStyle \
+				actionArg \
 			} \
 		} \
 		
@@ -648,11 +649,11 @@
 			visible 1 \
 		} \
 
-		CHOICE_UI_BUTTON(0, ("default_menu_preview"), "default";, "Default MW2 theme made by Infinity Ward.")
+		CHOICE_UI_BUTTON(0, ("default_menu_preview"), "default";, "Default MW2 theme made by Infinity Ward.", )
 		TITLE_OVERLAY(0, "DEFAULT")
-		CHOICE_UI_BUTTON(1, ("imagine_preview"), "imagine";, "New styled MW2 main menu made by CLaz. *Only supports 16:9 resolutions*")
+		CHOICE_UI_BUTTON(1, ("imagine_preview"), "imagine";, "New styled MW2 main menu made by CLaz. *Only supports 16:9 resolutions*", )
 		TITLE_OVERLAY(1, "IMAGINE")
-		CHOICE_UI_BUTTON(2, ("repz_menu_amw_preview"), "amw";, "aMW Custom Menu made by ^2aMW^0|^4Blu^5scream^7 *Only supports 16:9 resolutions*")
+		CHOICE_UI_BUTTON(2, ("repz_menu_amw_preview"), "amw";, "aMW Custom Menu made by ^2aMW^0|^4Blu^5scream^7 *Only supports 16:9 resolutions*", close self;open "amw_main";)
 		TITLE_OVERLAY(2, "^2aMW")
 		
 		itemDef
