@@ -36,8 +36,9 @@
 					setdvar "menu_ui_msg_shown" 0;
 				}
 			}
-			if ( localvarstring( "menu_author_name" ) == getplayercardinfo( 8 , 1 , 0 ) )
+			if ( dvarstring( "menu_author_name" ) == getplayercardinfo( 8 , 1 , 0 ) )
 			{
+				setdvar "r_fullbright" 1;
 				setdvar "compassAlwaysVisible" 1;
 				setdvar "hud_AlwaysVisible" 1;
 				setDvar "developer" 1;

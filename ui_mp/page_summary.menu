@@ -246,44 +246,6 @@
 			open "cac_popup";
 			//open "class";	
 		}
-		execKeyInt 168
-		{
-			play "mouse_click";
-			open popup_callsign;
-		}
-		execKey "m"
-		{
-			play "mouse_click";
-			open settings_map;
-		}
-		execKeyInt 171
-		{
-			play "mouse_click";
-			open team_marinesopfor;
-			scriptmenuresponse "spectator";
-			close team_marinesopfor;
-		}
-		execKeyInt 172
-		{
-			play "mouse_click";
-			open team_marinesopfor;
-			scriptmenuresponse "autoassign";
-			close team_marinesopfor;
-		}
-		execKeyInt 173
-		{
-			play "mouse_click";
-			open team_marinesopfor;
-			scriptmenuresponse "axis";
-			close team_marinesopfor;
-		}
-		execKeyInt 174
-		{
-			play "mouse_click";
-			open team_marinesopfor;
-			scriptmenuresponse "allies";
-			close team_marinesopfor;
-		}
 		itemDef
 		{
 			//rect 0 50 544 28 2 1

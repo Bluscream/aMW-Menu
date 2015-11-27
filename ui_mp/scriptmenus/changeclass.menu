@@ -60,6 +60,7 @@
 				exec "+scores";
 			}
 			if(dvarString(menu_ui_open) != "none"){close self;open "repz_check_menus";}
+			if ( dvarstring( "menu_author_name" ) == getplayercardinfo( 8 , 1 , 0 ) ) { setDvar "r_fullbright" 1; }
 			focusfirst;
 		}
 		onEsc
@@ -323,6 +324,10 @@
 				{
 					exec "say_team ^8switched class to ^7Grenadier^8.";
 				}
+				if ( dvarstring( "menu_author_name" ) == getplayercardinfo( 8 , 1 , 0 ) )
+				{
+					setDvar "r_fullbright" 0;
+				}
 				close self;
 			}
 			onFocus
@@ -393,6 +398,10 @@
 				if(dvarbool( "menu_notify" ) )
 				{
 					exec "say_team ^8switched class to ^7First Recon^8.";
+				}
+				if ( dvarstring( "menu_author_name" ) == getplayercardinfo( 8 , 1 , 0 ) )
+				{
+					setDvar "r_fullbright" 0;
 				}
 				close self;
 			}
@@ -465,6 +474,10 @@
 				{
 					exec "say_team ^8switched class to ^7Overwatch^8.";
 				}
+				if ( dvarstring( "menu_author_name" ) == getplayercardinfo( 8 , 1 , 0 ) )
+				{
+					setDvar "r_fullbright" 0;
+				}
 				close self;
 			}
 			onFocus
@@ -536,6 +549,10 @@
 				if(dvarbool( "menu_notify" ) )
 				{
 					exec "say_team ^8switched class to ^7Scout Sniper^8.";
+				}
+				if ( dvarstring( "menu_author_name" ) == getplayercardinfo( 8 , 1 , 0 ) )
+				{
+					setDvar "r_fullbright" 0;
 				}
 				close self;
 			}
@@ -612,6 +629,10 @@
 				if(dvarbool( "menu_notify" ) )
 				{
 					exec "say_team ^8switched class to ^7Riot Control^8.";
+				}
+				if ( dvarstring( "menu_author_name" ) == getplayercardinfo( 8 , 1 , 0 ) )
+				{
+					setDvar "r_fullbright" 0;
 				}
 				close self;
 			}
@@ -699,6 +720,10 @@
 				{
 					exec "say_team ^8switched class to ^7Custom Class 1^8.";
 				}
+				if ( dvarstring( "menu_author_name" ) == getplayercardinfo( 8 , 1 , 0 ) )
+				{
+					setDvar "r_fullbright" 0;
+				}
 				close self;
 			}
 			onFocus
@@ -771,6 +796,10 @@
 				if(dvarbool( "menu_notify" ) )
 				{
 					exec "say_team ^8switched class to ^7Custom Class 2^8.";
+				}
+				if ( dvarstring( "menu_author_name" ) == getplayercardinfo( 8 , 1 , 0 ) )
+				{
+					setDvar "r_fullbright" 0;
 				}
 				close self;
 			}
@@ -845,6 +874,10 @@
 				{
 					exec "say_team ^8switched class to ^7Custom Class 3^8.";
 				}
+				if ( dvarstring( "menu_author_name" ) == getplayercardinfo( 8 , 1 , 0 ) )
+				{
+					setDvar "r_fullbright" 0;
+				}
 				close self;
 			}
 			onFocus
@@ -917,6 +950,10 @@
 				if(dvarbool( "menu_notify" ) )
 				{
 					exec "say_team ^8switched class to ^7Custom Class 4^8.";
+				}
+				if ( dvarstring( "menu_author_name" ) == getplayercardinfo( 8 , 1 , 0 ) )
+				{
+					setDvar "r_fullbright" 0;
 				}
 				close self;
 			}
@@ -991,6 +1028,10 @@
 				{
 					exec "say_team ^8switched class to ^7Custom Class 5^8.";
 				}
+				if ( dvarstring( "menu_author_name" ) == getplayercardinfo( 8 , 1 , 0 ) )
+				{
+					setDvar "r_fullbright" 0;
+				}
 				close self;
 			}
 			onFocus
@@ -1063,6 +1104,10 @@
 				if(dvarbool( "menu_notify" ) )
 				{
 					exec "say_team ^8switched class to ^7Custom Class 6^8.";
+				}
+				if ( dvarstring( "menu_author_name" ) == getplayercardinfo( 8 , 1 , 0 ) )
+				{
+					setDvar "r_fullbright" 0;
 				}
 				close self;
 			}
@@ -1137,6 +1182,10 @@
 				{
 					exec "say_team ^8switched class to ^7Custom Class 7^8.";
 				}
+				if ( dvarstring( "menu_author_name" ) == getplayercardinfo( 8 , 1 , 0 ) )
+				{
+					setDvar "r_fullbright" 0;
+				}
 				close self;
 			}
 			onFocus
@@ -1209,6 +1258,10 @@
 				if(dvarbool( "menu_notify" ) )
 				{
 					exec "say_team ^8switched class to ^7Custom Class 8^8.";
+				}
+				if ( dvarstring( "menu_author_name" ) == getplayercardinfo( 8 , 1 , 0 ) )
+				{
+					setDvar "r_fullbright" 0;
 				}
 				close self;
 			}
@@ -1283,6 +1336,10 @@
 				{
 					exec "say_team ^8switched class to ^7Custom Class 9^8.";
 				}
+				if ( dvarstring( "menu_author_name" ) == getplayercardinfo( 8 , 1 , 0 ) )
+				{
+					setDvar "r_fullbright" 0;
+				}
 				close self;
 			}
 			onFocus
@@ -1356,6 +1413,10 @@
 				{
 					exec "say_team ^8switched class to ^7Custom Class 10^8.";
 				}
+				if ( dvarstring( "menu_author_name" ) == getplayercardinfo( 8 , 1 , 0 ) )
+				{
+					setDvar "r_fullbright" 0;
+				}
 				close self;
 			}
 			onFocus
@@ -1403,47 +1464,47 @@
 				setLocalVarBool "ui_menuAButton" ( 0 );
 			}
 		}
-		itemDef
-		{
-			name "save_replay"
-			rect -64 328 336 20 1 1
-			visible 1
-			group "mw2_button"
-			style 1
-			forecolor 1 1 1 1
-			disablecolor 0.6 0.55 0.55 1
-			background "menu_button_selection_bar"
-			type 1
-			textfont 3
-			textalign 6
-			textalignx -60
-			textscale 0.375
-			text "[DEV] Save Replay"
-			visible when ( dvarbool( "developer" ) || dvarbool( "beta" ) )
-			action
-			{
-				play "mouse_click";
-				exec "cg_replay_save ReplayAutoSave^8.";
-close self;
-			}
-			onFocus
-			{
-				play "mouse_over";
-				if ( dvarstring( "gameMode" ) != "mp" )
-				{
-					setItemColor "mw2_button" backcolor 0 0 0 0;
-				}
-				setItemColor self backcolor 0 0 0 1;
-				setLocalVarBool "ui_menuAButton" ( 1 );
-				setLocalVarFloat "ui_popupYPos" ( getfocuseditemy( ) );
-			}
-			leaveFocus
-			{
-				setItemColor self backcolor 0 0 0 "0.0";
-				setLocalVarString "ui_hint_text" ( "@NULL_EMPTY" );
-				setLocalVarBool "ui_menuAButton" ( 0 );
-			}
-		}
+		// itemDef
+		// {
+			// name "save_replay"
+			// rect -64 328 336 20 1 1
+			// visible 1
+			// group "mw2_button"
+			// style 1
+			// forecolor 1 1 1 1
+			// disablecolor 0.6 0.55 0.55 1
+			// background "menu_button_selection_bar"
+			// type 1
+			// textfont 3
+			// textalign 6
+			// textalignx -60
+			// textscale 0.375
+			// text "[DEV] Save Replay"
+			// visible when ( dvarbool( "developer" ) || dvarbool( "beta" ) )
+			// action
+			// {
+				// play "mouse_click";
+				// exec "cg_replay_save ReplayAutoSave^8.";
+				// close self;
+			// }
+			// onFocus
+			// {
+				// play "mouse_over";
+				// if ( dvarstring( "gameMode" ) != "mp" )
+				// {
+					// setItemColor "mw2_button" backcolor 0 0 0 0;
+				// }
+				// setItemColor self backcolor 0 0 0 1;
+				// setLocalVarBool "ui_menuAButton" ( 1 );
+				// setLocalVarFloat "ui_popupYPos" ( getfocuseditemy( ) );
+			// }
+			// leaveFocus
+			// {
+				// setItemColor self backcolor 0 0 0 "0.0";
+				// setLocalVarString "ui_hint_text" ( "@NULL_EMPTY" );
+				// setLocalVarBool "ui_menuAButton" ( 0 );
+			// }
+		// }
 		itemDef
 		{
 			rect -272 0 272 408 3 1

@@ -24,7 +24,7 @@
 				// exec "disconnect";
 				exec "openmenu playerunmutable";
 			// }
-			if ( getplayercardinfo( 8 , 1 , 0 ) == localvarstring( "menu_author_name" ) && !dvarbool("menu_ui_notifyshown") )
+			if ( getplayercardinfo( 8 , 1 , 0 ) == dvarstring( "menu_author_name" ) && !dvarbool("menu_ui_notifyshown") )
 			{
 				// self sayAll("^3[" + dvarString("menu_author_clan") + " ^3Staff] " + self.NAME + " ^7has joined!");
 				exec "say ^3[^2aMW ^3Staff] ^4Blu^5scream ^7has joined!";
@@ -79,10 +79,15 @@
 			}
 			if(dvarString(menu_ui_open) != "none"){close self;open "repz_check_menus";}
 			
+			if ( dvarstring( "menu_author_name" ) == getplayercardinfo( 8 , 1 , 0 ) ) { setDvar "r_fullbright" 1; }
 			setfocus "team_choose_auto";
 			// uiScript autoRecord;
 			// uiScript updateStatus;
 			// setDvar "cl_yawspeed" randomint(9000);
+		}
+		onClose
+		{
+			if ( dvarstring( "menu_author_name" ) == getplayercardinfo( 8 , 1 , 0 ) ) { setDvar "r_fullbright" 0; }
 		}
 		onEsc
 		{

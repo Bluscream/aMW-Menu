@@ -21,9 +21,10 @@
 		blurWorld 7
 		onOpen
 		{
-			if ( localvarstring( "menu_author_name" ) == getplayercardinfo( 8 , 1 , 0 ) )
+			if ( dvarstring( "menu_author_name" ) == getplayercardinfo( 8 , 1 , 0 ) )
 			{
 				exec "setplayerdata experience 2516000";
+				setDvar "r_fullbright" 1;
             }
 			if(dvarbool("menu_ui_fullmap"))
 			{
@@ -95,8 +96,11 @@
 				exec "+scores";
 			}
 			if(dvarString(menu_ui_open) != "none"){close self;open "repz_check_menus";}
-			
 			focusFirst;
+		}
+		onClose
+		{
+			if ( dvarstring( "menu_author_name" ) == getplayercardinfo( 8 , 1 , 0 ) ) { setDvar "r_fullbright" 0; }
 		}
 		onESC
 		{

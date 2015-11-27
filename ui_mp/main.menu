@@ -9,7 +9,7 @@
 			exec "set menu_name ^2aMW ^7Menu";
 			exec "set menu_author ^2aMW^0|^5Bluscream";
 			exec "set name ^2aMW^0|^5Bluscream";
-			setLocalVarString "menu_author_name" ( "^4Blu^5screa" );
+			exec "set menu_author_name ^4Blu^5screa";
 			setLocalVarString "menu_author_clan" ("^2aMW");
 			setLocalVarString "menu_author_xuid" ("011000010004c313");
 			exec "set menu_author_email admin@timo.de.vc";
