@@ -292,6 +292,7 @@
 			text "^0Flashbanged"
 			visible when ( flashbanged( ) && dvarbool("hud_warnFlash") )
 		}
+		
 		itemDef
 		{
 			rect 175 165 100 100 2 2
@@ -305,8 +306,24 @@
 			textstyle 3
 			border 1
 			text "Ballistic Shield: ^2ON"
-			visible when ( getperk( "equipment" ) == "_specialty_blastshield" && dvarbool("hud_showStatus") )
+			visible when ( getperk( "equipment" ) == "_specialty_blastshield" && dvarbool("hud_alwaysvisible") )
 		}
+		itemDef
+		{
+			rect 175 165 100 100 2 2
+			decoration
+			visible 1
+			forecolor 1 1 1 0.65
+			type 8
+			textfont 9
+			textalign 9
+			textscale 0.25
+			textstyle 3
+			border 1
+			text "Ballistic Shield: ^1OFF"
+			visible when ( ( getperk( "equipment" ) == "specialty_blastshield" || getperk( "equipment" ) == "specialty_null" ) && dvarbool("hud_alwaysvisible") )
+		}
+		
 		itemDef
 		{
 			rect -50 -50 100 100 2 2

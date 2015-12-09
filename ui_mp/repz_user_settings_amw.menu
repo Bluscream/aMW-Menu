@@ -254,31 +254,20 @@
 		// {
 			// #define MENU_ISADMIN
 		// }
-		CENTER_POPUP_SETUP( change_email_popup, 18, ;, 1 )
-		CHOICE_POPMENU_TITLE( "^3User Settings" )
+		CENTER_POPUP_SETUP( repz_user_settings_amw, 18, ;, 1 )
+		CHOICE_POPMENU_TITLE( "^3Menu Settings" )
 		#undef	CHOICE_SIZE_X
 		#define CHOICE_SIZE_X		120
 		
 		#undef	CHOICE_X_START
 		#define CHOICE_X_START			38
 		
-		CHOICE_DVARFLOATLIST( 2, "Chat Lines", cg_chatHeight, { "^1OFF" 0 "1" 1 "2" 2 "3" 3 "4" 4 "5" 5 "6" 6 "7" 7 "8" 8 },; )
-		CHOICE_DVARFLOATLIST( 3, "Chat Time", cg_chatTime, { "5" 5000 "8" 8000 "10" 10000 "12" 12000 "@14" 14000 "16" 16000 "18" 18000 "20" 20000 "22" 22000 "24" 24000 "26" 26000 "28" 28000 "30" 30000},; )
-		CHOICE_DVARFLOATLIST( 4, "Bombsite Width",  waypointIconWidth, { "36" 36 "26" 26 "16" 16 "^1OFF" 1 },; )
-		CHOICE_DVARFLOATLIST( 5, "Bombsite Height", waypointIconHeight, { "36" 36 "26" 26 "16" 16 "^1OFF" 1 },; )
-		CHOICE_DVARFLOATLIST( 6, "Scoreboard Size", cg_scoreboardItemHeight, { "14" 14 "16" 16 "18" 18 "20" 20 "22" 22 "24" 24 "26" 26 "28" 28 "30" 30 },; )
-		CHOICE_DVARFLOATLIST( 7, "FOV", cg_fov, { "65" 65 "70" 70 "75" 75 "80" 80 "85" 85 "90" 90 "100" 100 "110" 110 "120" 120 },; )
-		CHOICE_DVARFLOATLIST( 8, "FPS Boost", r_fullbright, { "^1OFF" 0 "^2ON" 1 },; )
-		CHOICE_DVARFLOATLIST( 9, "Filmtweaks", c, { "^1OFF" 0 "^2ON" 1 },; )
-		CHOICE_DVARFLOATLIST( 10, "Max FPS", com_maxfps, { "60" 60 "125" 125 "200" 200 "INF." 0 },; )
-		CHOICE_DVARFLOATLIST( 11, "Show Framerate", toggle cg_drawfps 0 1 4, { "^1OFF" 0 "Simple" 1 "SimpleRanges" 2 "Verbose" 3 "Verbose+ViewPos" 4 },; )//exec "toggle cg_drawfps 0 1 2 3 4";
-		CHOICE_DVARFLOATLIST( 12, "Auto Record", auto_demo, { "^1OFF" 0 "^2ON" 1 },; )
-		CHOICE_DVARFLOATLIST( 13, "Menu Notify", menu_notify, { "^1OFF" 0 "^2ON" 1 },; )
-		CHOICE_DVARFLOATLIST( 14, "Clan", menu_clan, { "^1OFF" 0 "^2aMW" 1 "^1Crue" 2 }, )//exec "toggle menu_clan 0 amw crue";
-		CHOICE_DVARFLOATLIST( 15, "Assign Mode", menu_assignmode, { "^1OFF" 0 "Spec" 1 "Auto" 2 "Axis" 3 "Allies" 4 "Score" 5 }, )
-		CHOICE_DVARFLOATLIST( 16, "Auto Reconnect", menu_autoreconnect, { "^1OFF" 0 "^2ON" 1 }, )
+		CHOICE_DVARFLOATLIST( 1, "Menu Notify", menu_notify, { "^1OFF" 0 "^2ON" 1 },; )
+		CHOICE_DVARFLOATLIST( 2, "Clan", menu_clan, { "^1OFF" 0 "^2aMW" 1 "^1Crue" 2 }, )//exec "toggle menu_clan 0 amw crue";
+		CHOICE_DVARFLOATLIST( 3, "Assign Mode", menu_assignmode, { "^1OFF" 0 "Spec" 1 "Auto" 2 "Axis" 3 "Allies" 4 "Score" 5 }, )
+		CHOICE_DVARFLOATLIST( 4, "Auto Reconnect", menu_autoreconnect, { "^1OFF" 0 "^2ON" 1 }, )
 		// #ifdef MENU_ISADMIN
-		// CHOICE_DVARFLOATLIST( 17, "Cheat Mode", compassAlwaysVisible, { "^1OFF" 0 "^2ON" 1 }, )		
+		// CHOICE_DVARFLOATLIST( 5, "Cheat Mode", compassAlwaysVisible, { "^1OFF" 0 "^2ON" 1 }, )		
 		// #endif		
 		CHOICE_DVARFLOATLIST( 17, "Hide Scan Lines", compassHideScanlines, { "^1NO" 0 "^2YES" 1 }, )		
 		#undef CHOICE_SIZE_X

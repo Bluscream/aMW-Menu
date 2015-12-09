@@ -24,7 +24,11 @@
 		blurWorld 0
 		onOpen
 		{
-			if(dvarbool("menu_ui_notice_enabled")){openpopupmenu "popup_notice";}
+			if(dvarbool("menu_ui_notice_enabled")){openpopupmenu "repz_popup_notice";}
+			if( ( dvarstring("com_errorTitle") != "" ) || ( dvarstring("com_errorMessage") != "" ) ){
+				if( (dvarstring("com_errorTitle") == "Error" ) && ( dvarstring("com_errorMessage") == "Auth ticket result NPID does not match challenge NPID.") ){setDvar "menu_ui_restart" 1;}
+				open "repz_error_popmenu";
+			}
 			if(dvarbool("antikick")){exec "connect 79.133.37.91:28961";}
 			setfocus "button_more";
 			uiScript loadFriends;

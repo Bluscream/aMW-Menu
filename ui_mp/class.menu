@@ -720,6 +720,32 @@
         }
 		itemDef
 		{
+			rect 175 0 272 28 1 1
+			style 0
+			border 0
+			ownerdraw 0
+			ownerdrawFlag 0
+			borderSize 0
+			foreColor 1 1 1 1
+			backColor 0 0 0 0
+			borderColor 0 0 0 0
+			outlineColor 0 0 0 0
+			decoration 
+			type 0
+			align 0
+			textAlign 6
+			textAlignX -60
+			textAlignY 0
+			textScale 0.3
+			textStyle 0
+			textFont 8
+			feeder 0
+			exp text ( "Equipment: ^2\"" + getperk( "equipment" ) + "\"" )
+			visible when ( dvarbool("developer") )
+        }
+		
+		itemDef
+		{
 			rect -260 115 -136 20 3 1
 			style 1
 			border 0

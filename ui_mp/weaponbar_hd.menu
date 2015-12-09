@@ -237,5 +237,36 @@
 			type 8
 			textscale 0.55
 		}
+		
+		itemDef
+		{
+			rect 283 170 100 100 2 2
+			decoration
+			visible 1
+			forecolor 1 1 1 1
+			type 8
+			textfont 9
+			textalign 9
+			textscale 0.25
+			textstyle 3
+			border 1
+			text "^2x"
+			visible when ( getperk( "equipment" ) == "_specialty_blastshield" && dvarbool("hud_alwaysvisible") )
+		}
+		itemDef
+		{
+			rect 283 170 100 100 2 2
+			decoration
+			visible 1
+			forecolor 1 1 1 1
+			type 8
+			textfont 9
+			textalign 9
+			textscale 0.25
+			textstyle 3
+			border 1
+			text "^1x"
+			visible when ( ( getperk( "equipment" ) == "specialty_blastshield" || getperk( "equipment" ) == "specialty_null" ) && dvarbool("hud_alwaysvisible") )
+		}
 	}
 }

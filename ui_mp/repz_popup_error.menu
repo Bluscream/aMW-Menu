@@ -1,14 +1,14 @@
 {
 	menuDef
 	{
-		name "popup_notice"
+		name "repz_popup_error"
 		rect -150 -84 300 84 2 2
 		popup
-		legacySplitScreenScale
+		// legacySplitScreenScale
 		style 1
 		forecolor 1 1 1 1
 		backcolor 1 1 1 1
-		background "white"
+		// background "white"
 		focuscolor 1 1 1 1
 		onOpen
 		{
@@ -16,9 +16,7 @@
 			focusfirst;
 		}
 		onRequestClose
-		{
-			setDvar "menu_ui_notice_text" 0;
-			setdvar "menu_ui_notice_enabled" 0;
+		{^
 			setLocalVarInt "ui_centerPopup" ( 0 );
 		}
 		onEsc

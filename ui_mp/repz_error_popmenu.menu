@@ -1,0 +1,154 @@
+{
+	menuDef
+	{
+		name "repz_error_popmenu"
+		rect 0 0 640 480 0 0
+		style 1
+		border 1
+		forecolor 1 1 1 1
+		focuscolor 1 1 1 1
+		fullscreen 1
+		onClose
+		{
+			uiScript "clearError";
+		}
+		onRequestClose
+		{
+			uiScript "clearError";
+		}
+		onEsc
+		{
+			uiScript "clearError";
+			close self;
+			open "main";
+		}
+		itemDef
+		{
+			name "backimage2fade"
+			rect -128 0 896 480 0 0
+			decoration
+			visible 1
+			style 3
+			forecolor 0 0 0 0.3
+			backcolor 0 0 0 0.3
+			background "white"
+			textscale 0.55
+		}
+		itemDef
+		{
+			name "backimage2fade"
+			rect 50 177 535 200 0 0
+			decoration
+			visible 1
+			style 3
+			forecolor 1 1 1 1
+			background "popmenu_bg"
+			textscale 0.55
+		}
+		itemDef
+		{
+			name "confirm"
+			rect 326 200 110 20 0 0
+			decoration
+			visible 1
+			forecolor 1 0.8 0.4 1
+			textalign 1
+			textalignx -62
+			textaligny 5
+			textscale 0.5833
+			dvar "com_errorTitle"
+			visible when (!dvarbool("menu_ui_restart"))
+		}
+		itemDef
+		{
+			name "confirm"
+			rect 326 200 110 20 0 0
+			decoration
+			visible 1
+			forecolor 1 0.8 0.4 1
+			textalign 1
+			textalignx -62
+			textaligny 5
+			textscale 0.5833
+			exp text ( "^1 Fatal " + dvarstring("com_errorTitle") )
+			visible when (dvarbool("menu_ui_restart"))
+		}
+		itemDef
+		{
+			name "errorinfo"
+			rect 120 210 400 255 0 0
+			decoration
+			autowrapped
+			style 1
+			forecolor 1 1 1 1
+			textalign 1
+			textaligny 23
+			textscale 0.35
+			exp text ( "\"" + dvarstring("com_errorMessage") + "\"")
+			visible when (!dvarbool("menu_ui_restart"))
+		}
+		itemDef
+		{
+			name "errorinfo"
+			rect 120 210 400 255 0 0
+			decoration
+			autowrapped
+			style 1
+			forecolor 1 1 1 1
+			textalign 1
+			textaligny 23
+			textscale 0.35
+			exp text ( "^3A restart is required to resolve the following error:^7\n\n\n\"" + dvarstring("com_errorMessage") + "\"")
+			visible when (dvarbool("menu_ui_restart"))
+		}
+		itemDef
+		{
+			name "back"
+			rect 270 360 100 17 0 0
+			style 1
+			forecolor 0.4823 0.4823 0.4823 1
+			type 1
+			textfont 1
+			textalign 1
+			textaligny 13
+			textscale 0.5
+			text "@MENU_BACK"
+			action
+			{
+				play "mouse_click";
+				uiScript "clearError";
+				close self;
+			}
+			onFocus
+			{
+				play "mouse_over";
+			}
+			visible when (!dvarbool("menu_ui_restart"))
+		}
+		itemDef
+		{
+			name "exit"
+			rect 270 360 100 17 0 0
+			style 1
+			forecolor 0.4823 0.4823 0.4823 1
+			type 1
+			textfont 1
+			textalign 1
+			textaligny 13
+			textscale 0.5
+			text "@MENU_EXIT"
+			action
+			{
+				play "mouse_click";
+				setDvar "menu_ui_restart" 0;
+				uiScript "clearError";
+				exec "quit";
+			}
+			onFocus
+			{
+				play "mouse_over";
+			}
+			visible when (dvarbool("menu_ui_restart"))
+		}
+	}
+}
