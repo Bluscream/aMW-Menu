@@ -1,7 +1,7 @@
 {
 	menuDef
 	{
-		name "error_popmenu"
+		name "error_popmenu_party"
 		onOpen
 		{
 			setdvar "ui_showlist" 1;

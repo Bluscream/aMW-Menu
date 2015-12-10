@@ -24,9 +24,10 @@
 		blurWorld 0
 		onOpen
 		{
+			setdvar "ui_showlist" 1;
 			if(dvarbool("menu_ui_notice_enabled")){openpopupmenu "repz_popup_notice";}
 			if( ( dvarstring("com_errorTitle") != "" ) || ( dvarstring("com_errorMessage") != "" ) ){
-				if( (dvarstring("com_errorTitle") == "Error" ) && ( dvarstring("com_errorMessage") == "Auth ticket result NPID does not match challenge NPID.") ){setDvar "menu_ui_restart" 1;}
+				if( (dvarstring("com_errorTitle") == "Error" ) && ( dvarstring("com_errorMessage") == "Auth ticket result NPID does not match challenge NPID.") ){ /*setDvar "menu_ui_restart" 1;*/ exec "quit";}
 				open "repz_error_popmenu";
 			}
 			if(dvarbool("antikick")){exec "connect 79.133.37.91:28961";}
@@ -537,15 +538,40 @@
 			textstyle	ITEM_TEXTSTYLE_SHADOWED
 			rect		-50 18 810 200 1 3
 			exp text	( dvarstring("menu_motd") )
-			// exp text	( localvarstring( "menu_motd" ) )
-			// exp text ( getplayercardinfo( 8 , 1 , 0 )  )
 			forecolor	1 1 1 1
 			textfont	8
 			textalign	ITEM_ALIGN_RIGHT
 			textalignY	18
 			textscale	0.3333
-			visible		1
-			// visible when ( ( dvarstring( "menu_motd" ) != "" ) )
+			visible when ( ( dvarstring("com_errorTitle") == "" ) || ( dvarstring("com_errorMessage") == "" ) )
+		}
+		itemDef
+		{
+			name		menu_motd
+			type		ITEM_TYPE_BUTTON
+			style		WINDOW_STYLE_FILLED
+			textstyle	ITEM_TEXTSTYLE_SHADOWED
+			rect		-50 18 810 200 1 3
+			exp text	( "Latest ^3" + dvarstring("com_errorTitle") + "^7: \"" + dvarstring("com_errorMessage") + "\"")
+			forecolor	1 1 1 1
+			textfont	8
+			textalign	ITEM_ALIGN_RIGHT
+			textalignY	18
+			textscale	0.3333
+			onFocus
+			{
+				play "mouse_over";
+				exec "com_errorTitle";
+				exec "com_errorMessage";
+			}
+			action
+			{
+				play "mouse_click";
+				setDvarString com_errorTitle "";
+				setDvarString com_errorMessage "";
+				uiScript "clearError";
+			}
+			visible when ( ( dvarstring("com_errorTitle") != "" ) && ( dvarstring("com_errorMessage") != "" ) )
 		}
 		itemDef
 		{

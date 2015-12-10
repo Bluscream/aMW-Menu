@@ -10,15 +10,15 @@
 		fullscreen 1
 		onClose
 		{
-			uiScript "clearError";
+			// uiScript "clearError";
 		}
 		onRequestClose
 		{
-			uiScript "clearError";
+			// uiScript "clearError";
 		}
 		onEsc
 		{
-			uiScript "clearError";
+			// uiScript "clearError";
 			close self;
 			open "main";
 		}
@@ -116,7 +116,7 @@
 			action
 			{
 				play "mouse_click";
-				uiScript "clearError";
+				// uiScript "clearError";
 				close self;
 			}
 			onFocus

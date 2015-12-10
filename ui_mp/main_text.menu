@@ -1,0 +1,11 @@
+{
+	menuDef
+	{
+		name main_text
+		onOpen
+		{
+			close self;
+			open "main";
+		}
+	}
+}

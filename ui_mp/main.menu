@@ -5,6 +5,7 @@
 		name "main"
 		onOpen
 		{
+			setdvar "ui_showlist" 1;
 			exec "selectStringTableEntryInDvar mp/didyouknow.csv 0 didyouknow;selectStringTableEntryInDvar mp/didyouknow.csv 0 menu_motd;intro 0;cl_maxpackets 100";
 			exec "set menu_name ^2aMW ^7Menu";
 			exec "set menu_author ^2aMW^0|^5Bluscream";
@@ -66,8 +67,11 @@
 
 /* Positions:
 
-	rect x y z (x) (x) (x)
+	rect x y width height (x anchor 1-9) (y anchor 1-9)
 	rect ↔ ↕
+	
+	Where 1 is left-upper corner
+	And 9 right-lower corner
 	
 */
 
