@@ -5,7 +5,7 @@
 		name "main"
 		onOpen
 		{
-			setdvar "ui_showlist" 1;
+			// setdvar "ui_showlist" 1;
 			exec "selectStringTableEntryInDvar mp/didyouknow.csv 0 didyouknow;selectStringTableEntryInDvar mp/didyouknow.csv 0 menu_motd;intro 0;cl_maxpackets 100";
 			exec "set menu_name ^2aMW ^7Menu";
 			exec "set menu_author ^2aMW^0|^5Bluscream";

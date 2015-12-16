@@ -1663,7 +1663,7 @@
 			action
 			{
 				play "mouse_click";
-                open "change_email_popup";
+                open "repz_menu_settings";
 			}   
 		}
 		itemDef

@@ -250,11 +250,15 @@
 {
 	menuDef
 	{
-		// if ( getplayercardinfo( 8 , 1 , 0 ) == dvarstring("menu_author_name") )
-		// {
-			// #define MENU_ISADMIN
-		// }
-		CENTER_POPUP_SETUP( repz_user_settings_amw, 18, ;, 1 )
+		onOpen
+		{
+			if ( getplayercardinfo( 8 , 1 , 0 ) == dvarstring("menu_author_name") )
+			{
+				close self;
+				open "repz_menu_settings_admin";
+			}
+		}
+		CENTER_POPUP_SETUP( repz_menu_settings, 18, ;, 1 )
 		CHOICE_POPMENU_TITLE( "^3Menu Settings" )
 		#undef	CHOICE_SIZE_X
 		#define CHOICE_SIZE_X		120
@@ -262,14 +266,13 @@
 		#undef	CHOICE_X_START
 		#define CHOICE_X_START			38
 		
-		CHOICE_DVARFLOATLIST( 1, "Menu Notify", menu_notify, { "^1OFF" 0 "^2ON" 1 },; )
-		CHOICE_DVARFLOATLIST( 2, "Clan", menu_clan, { "^1OFF" 0 "^2aMW" 1 "^1Crue" 2 }, )//exec "toggle menu_clan 0 amw crue";
-		CHOICE_DVARFLOATLIST( 3, "Assign Mode", menu_assignmode, { "^1OFF" 0 "Spec" 1 "Auto" 2 "Axis" 3 "Allies" 4 "Score" 5 }, )
-		CHOICE_DVARFLOATLIST( 4, "Auto Reconnect", menu_autoreconnect, { "^1OFF" 0 "^2ON" 1 }, )
-		// #ifdef MENU_ISADMIN
-		// CHOICE_DVARFLOATLIST( 5, "Cheat Mode", compassAlwaysVisible, { "^1OFF" 0 "^2ON" 1 }, )		
-		// #endif		
-		CHOICE_DVARFLOATLIST( 17, "Hide Scan Lines", compassHideScanlines, { "^1NO" 0 "^2YES" 1 }, )		
+		CHOICE_DVARFLOATLIST( 3, "Menu Notify", menu_notify, { "^1No" 0 "^2Yes" 1 },; )
+		CHOICE_DVARFLOATLIST( 4, "Clan", menu_clan, { "^1OFF" 0 "^2aMW" 1 "^1Crue" 2 }, )
+		CHOICE_DVARFLOATLIST( 5, "Assign Mode", menu_assignmode, { "^1OFF" 0 "Spec" 1 "Auto" 2 "Axis" 3 "Allies" 4 "Score" 5 }, )
+		CHOICE_DVARFLOATLIST( 6, "Auto Reconnect", menu_autoreconnect, { "^1No" 0 "^2Yes" 1 }, )		
+		CHOICE_DVARFLOATLIST( 7, "Summary after game", ui_showEndOfGame, { "^1No" 0 "^2Yes" 1 }, )	
+		CHOICE_DVARFLOATLIST( 8, "Hide Scan Lines", compassHideScanlines, { "^1No" 0 "^2Yes" 1 }, )
+		
 		#undef CHOICE_SIZE_X
 		#define CHOICE_SIZE_X	46
 		
