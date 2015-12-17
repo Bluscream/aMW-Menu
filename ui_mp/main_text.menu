@@ -5,7 +5,7 @@
 		onOpen
 		{
 			close self;
-			open "main";
+			open "amw_main";
 		}
 	}
 }

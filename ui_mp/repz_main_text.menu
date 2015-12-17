@@ -356,7 +356,7 @@
 		}
 		itemDef
 		{
-			rect 197 425 58 17
+			rect 300 425 58 17
 			style 1
 			border 0
 			borderSize 0

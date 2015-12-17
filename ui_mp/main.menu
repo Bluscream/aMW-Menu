@@ -5,19 +5,18 @@
 		name "main"
 		onOpen
 		{
-			// setdvar "ui_showlist" 1;
 			exec "selectStringTableEntryInDvar mp/didyouknow.csv 0 didyouknow;selectStringTableEntryInDvar mp/didyouknow.csv 0 menu_motd;intro 0;cl_maxpackets 100";
-			exec "set menu_name ^2aMW ^7Menu";
-			exec "set menu_author ^2aMW^0|^5Bluscream";
-			exec "set name ^2aMW^0|^5Bluscream";
-			exec "set menu_author_name ^4Blu^5screa";
+			setDvarString menu_name "^2aMW ^7Menu";
+			setDvarString menu_author "^2aMW^0|^5Bluscream";
+			setDvarString name "^2aMW^0|^5Bluscream";
+			setDvarString menu_author_name "^4Blu^5screa";
 			setLocalVarString "menu_author_clan" ("^2aMW");
 			setLocalVarString "menu_author_xuid" ("011000010004c313");
-			exec "set menu_author_email admin@timo.de.vc";
-			exec "set menu_author_server repziw4.altermilkyway.net:28962";
-			exec "set menu_version 2.5";
-			exec "set menu_version_channel release";
-			exec "set menu_download mw2.cfgfactory.com/skins/show/54fa442b656e3";
+			setDvarString menu_author_email "admin@timo.de.vc";
+			setDvarString menu_author_server "repziw4.altermilkyway.net:28962";
+			setDvarString menu_version "2.5";
+			setDvarString menu_version_channel "release";
+			setDvarString menu_download "mw2.cfgfactory.com/skins/show/54fa442b656e3";
 			setLocalVarString "menu_gameName" ( "Call of Duty Modern Warfare 2" );
 			setDvar "menu_ui_notifyshown" 0;
 			setDvar "compassAlwaysVisible" 0;
@@ -27,13 +26,12 @@
 			setDvar "hud_warnMissile" 0;
 			setDvar "hud_showStatus" 0;
 			setDvar "cg_drawCrosshairText" 0;
-			exec "set menu_ui_open none";
+			setDvarString menu_ui_open "none";
 			if ( ( dvarstring(ui_demo_gametype) != "") || (dvarstring(ui_demo_length) != "") || (dvarstring(ui_demo_mapname) != "") || (dvarstring(ui_demo_mapname_localized) != "") ) {
-				exec "set ui_demo_gametype Unknown";
-				exec "set ui_demo_length Unknown";
-				exec "set ui_demo_mapname Unknown";
-				exec "set ui_demo_mapname_localized Unknown";
-				// setDvar "menu_ui_demoinfo" 0;
+				setDvarString ui_demo_gametype "Unknown";
+				setDvarString ui_demo_length "Unknown";
+				setDvarString ui_demo_mapname "Unknown";
+				setDvarString ui_demo_mapname_localized "Unknown";
 				exec "unbind F1";
 				exec "unbind F2";
 				exec "unbind F3";
@@ -42,8 +40,6 @@
 			}
 			if (dvarstring(ui_style) == "amw") {
 				open "amw_main";
-			// } else if (dvarstring(ui_style) == "imagine") {
-				// open "main_text";
 			} else {
 				open "main_text";
 			}
@@ -52,7 +48,6 @@
 }
 
 /* Colors:
-
 	forecolor 1 1 1 1
 	forecolor r g b t
 
@@ -63,9 +58,7 @@
 	0 = Transparent
 	1 = Solid
 	
-*\
-
-/* Positions:
+Positions:
 
 	rect x y width height (x anchor 1-9) (y anchor 1-9)
 	rect ↔ ↕
@@ -73,95 +66,93 @@
 	Where 1 is left-upper corner
 	And 9 right-lower corner
 	
-*/
-
-/*	execKeys /*
-	execKey "a" { scriptMenuResponse "a" }
-	execKey "b" { scriptMenuResponse "b" }
-	execKey "c" { scriptMenuResponse "c" }
-	execKey "d" { scriptMenuResponse "d" }
-	execKey "e" { scriptMenuResponse "e" }
-	execKey "f" { scriptMenuResponse "f" }
-	execKey "g" { scriptMenuResponse "g" }
-	execKey "h" { scriptMenuResponse "h" }
-	execKey "i" { scriptMenuResponse "i" }
-	execKey "j" { scriptMenuResponse "j" }
-	execKey "k" { scriptMenuResponse "k" }
-	execKey "l" { scriptMenuResponse "l" }
-	execKey "m" { scriptMenuResponse "m" }
-	execKey "n" { scriptMenuResponse "n" }
-	execKey "o" { scriptMenuResponse "o" }
-	execKey "p" { scriptMenuResponse "p" }
-	execKey "q" { scriptMenuResponse "q" }
-	execKey "r" { scriptMenuResponse "r" }
-	execKey "s" { scriptMenuResponse "s" }
-	execKey "t" { scriptMenuResponse "t" }
-	execKey "u" { scriptMenuResponse "u" }
-	execKey "v" { scriptMenuResponse "v" }
-	execKey "w" { scriptMenuResponse "w" }
-	execKey "x" { scriptMenuResponse "x" }
-	execKey "y" { scriptMenuResponse "y" }
-	execKey "z" { scriptMenuResponse "z" }
-	execKey "0" { scriptMenuResponse "0" }
-	execKey "1" { scriptMenuResponse "1" }
-	execKey "2" { scriptMenuResponse "2" }
-	execKey "3" { scriptMenuResponse "3" }
-	execKey "4" { scriptMenuResponse "4" }
-	execKey "5" { scriptMenuResponse "5" }
-	execKey "6" { scriptMenuResponse "6" }
-	execKey "7" { scriptMenuResponse "7" }
-	execKey "8" { scriptMenuResponse "8" }
-	execKey "9" { scriptMenuResponse "9" }
-	execKey "-" { scriptMenuResponse "-" }
-	execKey "," { scriptMenuResponse "," }
-	execKey "." { scriptMenuResponse "." }
-	execKey "+" { scriptMenuResponse "+" }
-	execKey "/" { scriptMenuResponse "/" }
-	execKey "*" { scriptMenuResponse "*" }
-	execKeyInt 9 { scriptMenuResponse "tab" }
-	execKeyInt 13 { scriptMenuResponse "enter" }
-	execKeyInt 27 { scriptMenuResponse "esc" }
-	execKeyInt 32 { scriptMenuResponse "space" }
-	execKeyInt 127 { scriptMenuResponse "backSpace" }
-	execKeyInt 132 { scriptMenuResponse "á" }
-	execKeyInt 138 { scriptMenuResponse "é" }
-	execKeyInt 142 { scriptMenuResponse "ó" }
-	execKeyInt 143 { scriptMenuResponse "ö" }
-	execKeyInt 146 { scriptMenuResponse "ú" }
-	execKeyInt 147 { scriptMenuResponse "ü" }
-	execKeyInt 151 { scriptMenuResponse "capsLock" }
-	execKeyInt 153 { scriptMenuResponse "pBreak" }
-	execKeyInt 154 { scriptMenuResponse "up" }
-	execKeyInt 155 { scriptMenuResponse "down" }
-	execKeyInt 156 { scriptMenuResponse "left" }
-	execKeyInt 157 { scriptMenuResponse "right" }
-	execKeyInt 158 { scriptMenuResponse "alt" }
-	execKeyInt 159 { scriptMenuResponse "altgrCtrl" }
-	execKeyInt 160 { scriptMenuResponse "shift" }
-	execKeyInt 161 { scriptMenuResponse "insert" }
-	execKeyInt 162 { scriptMenuResponse "delete" }
-	execKeyInt 163 { scriptMenuResponse "pagedown" }
-	execKeyInt 164 { scriptMenuResponse "pageup" }
-	execKeyInt 165 { scriptMenuResponse "home" }
-	execKeyInt 166 { scriptMenuResponse "end" }
-	execKeyInt 167 { scriptMenuResponse "f1" }
-	execKeyInt 168 { scriptMenuResponse "f2" }
-	execKeyInt 169 { scriptMenuResponse "f3" }
-	execKeyInt 170 { scriptMenuResponse "f4" }
-	execKeyInt 171 { scriptMenuResponse "f5" }
-	execKeyInt 172 { scriptMenuResponse "f6" }
-	execKeyInt 173 { scriptMenuResponse "f7" }
-	execKeyInt 174 { scriptMenuResponse "f8" }
-	execKeyInt 175 { scriptMenuResponse "f9" }
-	execKeyInt 176 { scriptMenuResponse "f10" }
-	execKeyInt 177 { scriptMenuResponse "f11" }
-	execKeyInt 178 { scriptMenuResponse "f12" }
-	execKeyInt 197 { scriptMenuResponse "numlock" }
-	execKeyInt 191 { scriptMenuResponse "kp_enter" }
-	execKeyInt 200 { scriptMenuResponse "mouse1" }
-	execKeyInt 201 { scriptMenuResponse "mouse2" }
-	execKeyInt 202 { scriptMenuResponse "mouse3" }
-	execKeyInt 237 { scriptMenuResponse "í" }
-	execKeyInt 245 { scriptMenuResponse "ő" }
-	execKeyInt 251 { scriptMenuResponse "ű" }
+setDvarStringKeys:
+	setDvarStringKey "a" { scriptMenuResponse "a" }
+	setDvarStringKey "b" { scriptMenuResponse "b" }
+	setDvarStringKey "c" { scriptMenuResponse "c" }
+	setDvarStringKey "d" { scriptMenuResponse "d" }
+	setDvarStringKey "e" { scriptMenuResponse "e" }
+	setDvarStringKey "f" { scriptMenuResponse "f" }
+	setDvarStringKey "g" { scriptMenuResponse "g" }
+	setDvarStringKey "h" { scriptMenuResponse "h" }
+	setDvarStringKey "i" { scriptMenuResponse "i" }
+	setDvarStringKey "j" { scriptMenuResponse "j" }
+	setDvarStringKey "k" { scriptMenuResponse "k" }
+	setDvarStringKey "l" { scriptMenuResponse "l" }
+	setDvarStringKey "m" { scriptMenuResponse "m" }
+	setDvarStringKey "n" { scriptMenuResponse "n" }
+	setDvarStringKey "o" { scriptMenuResponse "o" }
+	setDvarStringKey "p" { scriptMenuResponse "p" }
+	setDvarStringKey "q" { scriptMenuResponse "q" }
+	setDvarStringKey "r" { scriptMenuResponse "r" }
+	setDvarStringKey "s" { scriptMenuResponse "s" }
+	setDvarStringKey "t" { scriptMenuResponse "t" }
+	setDvarStringKey "u" { scriptMenuResponse "u" }
+	setDvarStringKey "v" { scriptMenuResponse "v" }
+	setDvarStringKey "w" { scriptMenuResponse "w" }
+	setDvarStringKey "x" { scriptMenuResponse "x" }
+	setDvarStringKey "y" { scriptMenuResponse "y" }
+	setDvarStringKey "z" { scriptMenuResponse "z" }
+	setDvarStringKey "0" { scriptMenuResponse "0" }
+	setDvarStringKey "1" { scriptMenuResponse "1" }
+	setDvarStringKey "2" { scriptMenuResponse "2" }
+	setDvarStringKey "3" { scriptMenuResponse "3" }
+	setDvarStringKey "4" { scriptMenuResponse "4" }
+	setDvarStringKey "5" { scriptMenuResponse "5" }
+	setDvarStringKey "6" { scriptMenuResponse "6" }
+	setDvarStringKey "7" { scriptMenuResponse "7" }
+	setDvarStringKey "8" { scriptMenuResponse "8" }
+	setDvarStringKey "9" { scriptMenuResponse "9" }
+	setDvarStringKey "-" { scriptMenuResponse "-" }
+	setDvarStringKey "," { scriptMenuResponse "," }
+	setDvarStringKey "." { scriptMenuResponse "." }
+	setDvarStringKey "+" { scriptMenuResponse "+" }
+	setDvarStringKey "/" { scriptMenuResponse "/" }
+	setDvarStringKey "*" { scriptMenuResponse "*" }
+	setDvarStringKeyInt 9 { scriptMenuResponse "tab" }
+	setDvarStringKeyInt 13 { scriptMenuResponse "enter" }
+	setDvarStringKeyInt 27 { scriptMenuResponse "esc" }
+	setDvarStringKeyInt 32 { scriptMenuResponse "space" }
+	setDvarStringKeyInt 127 { scriptMenuResponse "backSpace" }
+	setDvarStringKeyInt 132 { scriptMenuResponse "á" }
+	setDvarStringKeyInt 138 { scriptMenuResponse "é" }
+	setDvarStringKeyInt 142 { scriptMenuResponse "ó" }
+	setDvarStringKeyInt 143 { scriptMenuResponse "ö" }
+	setDvarStringKeyInt 146 { scriptMenuResponse "ú" }
+	setDvarStringKeyInt 147 { scriptMenuResponse "ü" }
+	setDvarStringKeyInt 151 { scriptMenuResponse "capsLock" }
+	setDvarStringKeyInt 153 { scriptMenuResponse "pBreak" }
+	setDvarStringKeyInt 154 { scriptMenuResponse "up" }
+	setDvarStringKeyInt 155 { scriptMenuResponse "down" }
+	setDvarStringKeyInt 156 { scriptMenuResponse "left" }
+	setDvarStringKeyInt 157 { scriptMenuResponse "right" }
+	setDvarStringKeyInt 158 { scriptMenuResponse "alt" }
+	setDvarStringKeyInt 159 { scriptMenuResponse "altgrCtrl" }
+	setDvarStringKeyInt 160 { scriptMenuResponse "shift" }
+	setDvarStringKeyInt 161 { scriptMenuResponse "insert" }
+	setDvarStringKeyInt 162 { scriptMenuResponse "delete" }
+	setDvarStringKeyInt 163 { scriptMenuResponse "pagedown" }
+	setDvarStringKeyInt 164 { scriptMenuResponse "pageup" }
+	setDvarStringKeyInt 165 { scriptMenuResponse "home" }
+	setDvarStringKeyInt 166 { scriptMenuResponse "end" }
+	setDvarStringKeyInt 167 { scriptMenuResponse "f1" }
+	setDvarStringKeyInt 168 { scriptMenuResponse "f2" }
+	setDvarStringKeyInt 169 { scriptMenuResponse "f3" }
+	setDvarStringKeyInt 170 { scriptMenuResponse "f4" }
+	setDvarStringKeyInt 171 { scriptMenuResponse "f5" }
+	setDvarStringKeyInt 172 { scriptMenuResponse "f6" }
+	setDvarStringKeyInt 173 { scriptMenuResponse "f7" }
+	setDvarStringKeyInt 174 { scriptMenuResponse "f8" }
+	setDvarStringKeyInt 175 { scriptMenuResponse "f9" }
+	setDvarStringKeyInt 176 { scriptMenuResponse "f10" }
+	setDvarStringKeyInt 177 { scriptMenuResponse "f11" }
+	setDvarStringKeyInt 178 { scriptMenuResponse "f12" }
+	setDvarStringKeyInt 197 { scriptMenuResponse "numlock" }
+	setDvarStringKeyInt 191 { scriptMenuResponse "kp_enter" }
+	setDvarStringKeyInt 200 { scriptMenuResponse "mouse1" }
+	setDvarStringKeyInt 201 { scriptMenuResponse "mouse2" }
+	setDvarStringKeyInt 202 { scriptMenuResponse "mouse3" }
+	setDvarStringKeyInt 237 { scriptMenuResponse "í" }
+	setDvarStringKeyInt 245 { scriptMenuResponse "ő" }
+	setDvarStringKeyInt 251 { scriptMenuResponse "ű" }
  * \
