@@ -21,119 +21,11 @@
 		blurWorld 7
 		onOpen
 		{
-			if ( dvarstring( "menu_author_name" ) == getplayercardinfo( 8 , 1 , 0 ) )
-			{
-				exec "setplayerdata experience 2516000";
-				setDvar "r_fullbright" 1;
-            }
-			if(dvarbool("menu_ui_fullmap"))
-			{
-				open "minimap_full";
-			}
-			if( dvarstring("menu_assignmode") == "1" && !dvarbool("menu_ui_ignoreassign") )
-			{
-				// setDvar "menu_ui_ignoreassign" 0;
-				close self;
-				if ( team( "name" ) != "TEAM_SPECTATOR" )
-				{
-					open "team_marinesopfor";
-					scriptmenuresponse "spectator";
-					close "team_marinesopfor";
-				}
-			}
-			if( dvarstring("menu_assignmode") == "1" && !dvarbool("menu_ui_ignoreassign") )
-			{
-				// setDvar "menu_ui_ignoreassign" 0;
-				close self;
-				if ( team( "name" ) != "TEAM_SPECTATOR" )
-				{
-					open "team_marinesopfor";
-					scriptmenuresponse "spectator";
-					close "team_marinesopfor";
-				}
-			}
-			if(dvarstring("menu_assignmode") == "2")
-			{
-				close self;
-				if ( team( "name" ) != "TEAM_ALLIES" || team( "name" ) != "TEAM_AXIES" )
-				{
-					open "team_marinesopfor";
-					scriptmenuresponse "autoassign";
-					close "team_marinesopfor";
-				}
-			}
-			if(dvarstring("menu_assignmode") == "3")
-			{
-				close self;
-				if ( team( "name" ) != "TEAM_AXIES" )
-				{
-					open "team_marinesopfor";
-					scriptmenuresponse "axis";
-					close "team_marinesopfor";
-				}
-			}
-			if(dvarstring("menu_assignmode") == "4")
-			{
-				close self;
-				if ( team( "name" ) != "TEAM_ALLIES" )
-				{
-					open "team_marinesopfor";
-					scriptmenuresponse "allies";
-					close "team_marinesopfor";
-				}
-			}
-			if( dvarstring("menu_assignmode") == "5" && !dvarbool("menu_ui_ignoreassign") )
-			{
-				// setDvar "menu_ui_ignoreassign" 0;
-				// scriptmenuresponse "back";
-				close self;
-				if ( team( "name" ) != "TEAM_SPECTATOR" )
-				{
-					open "team_marinesopfor";
-					scriptmenuresponse "spectator";
-					close "team_marinesopfor";
-				}
-				exec "+scores";
-			}
-			if(dvarString(menu_ui_open) != "none"){close self;open "repz_check_menus";}
 			focusFirst;
-		}
-		onClose
-		{
-			if ( dvarstring( "menu_author_name" ) == getplayercardinfo( 8 , 1 , 0 ) ) { setDvar "r_fullbright" 0; }
 		}
 		onESC
 		{
 			scriptMenuResponse "back";
-		}
-		execKey "f"
-		{
-			play "mouse_click";
-			open popup_friends;
-		}
-		execKey "m"
-		{
-			play "mouse_click";
-			open settings_map;
-		}
-		execKey "n"
-		{
-			play "mouse_click";
-			exec "toggle r_fullbright 0 1";
-			if(dvarbool( "menu_notify" ) )
-			{
-				exec "say ^8toggled FPS Boost.";
-			}
-		}   
-		execKeyInt 167
-		{
-			play "mouse_click";
-			open cac_popup;
-		}
-		execKeyInt 168
-		{
-			play "mouse_click";
-			open popup_callsign;
 		}
 		focusColor 1 1 1 1
 		visible 1
@@ -270,12 +162,27 @@
 		{
 			rect -260 135 240 240 3 1
 			style 3
-			decoration
+			border 0
+			ownerdraw 0
+			ownerdrawFlag 0
+			borderSize 0
+			foreColor 0.89 0.98 0.95 0.05
+			backColor 0 0 0 0
+			borderColor 0 0 0 0
+			outlineColor 0 0 0 0
+			background minimap_scanlines
+			decoration 
+			type 0
+			align 0
+			textAlign 0
+			textAlignX 0
+			textAlignY 0
+			textScale 0.55
+			textStyle 0
+			textFont 0
+			feeder 0
 			visible 1
-			forecolor 0.89 0.98 0.95 0.05
-			background "minimap_scanlines"
-			textscale 0.55
-			visible when( !dvarbool("compassHideScanlines") );
+//			visible when ( (  )
 		}
 		itemDef
 		{
@@ -291,7 +198,7 @@
 			borderColor 0 0 0 0
 			outlineColor 0 0 0 0
 			background compass_map_default
-			//decoration 
+			decoration 
 			type 8
 			align 0
 			textAlign 0
@@ -302,22 +209,7 @@
 			textFont 0
 			feeder 0
 			visible 1
-			onFocus 
-			{
-				play mouse_click;
-				setItemColor self backColor 1 1 1 1; 
-			}
-			leaveFocus 
-			{
-				play mouse_click;
-				setItemColor self backColor 0.6 0.6 0.6 1; 
-			} 
-			action
-			{
-				play mouse_click;
-				play mouse_click;
-				open minimap_full;
-			}
+//			visible when ( (  )
 		}
 		itemDef
 		{
@@ -343,34 +235,8 @@
 			textFont 0
 			feeder 0
 			visible 1
-			visible when( dvarbool("compassAlwaysVisible") );
-		}
-		itemDef
-		{
-			name fullmap_friendlies
-			rect -260 135 240 240 3 1
-			style 0
-			border 0
-			ownerdraw 185
-			ownerdrawFlag 0
-			borderSize 0
-			foreColor 1 1 1 1
-			backColor 0 0 0 0
-			borderColor 0 0 0 0
-			outlineColor 0 0 0 0
-			decoration 
-			type 8
-			align 0
-			textAlign 0
-			textAlignX 0
-			textAlignY 0
-			textScale 0.55
-			textStyle 0
-			textFont 0
-			feeder 0
-			visible 1
-			visible when( FSM_VISIBILITY && !dvarbool("compassAlwaysVisible") );
-			exp forecolor a ( 1 - radarjamintensity( )  )
+//			visible when( FSM_VISIBILITY );
+//			exp forecolor a ( 1 - radarjamintensity( )  )
 		}
 		itemDef
 		{
@@ -396,34 +262,8 @@
 			textFont 0
 			feeder 0
 			visible 1
-			visible when( dvarbool("compassAlwaysVisible") );
-		}
-		itemDef
-		{
-			name fullmap_enemies
-			rect -260 135 240 240 3 1
-			style 0
-			border 0
-			ownerdraw 188
-			ownerdrawFlag 0
-			borderSize 0
-			foreColor 1 1 1 1
-			backColor 0 0 0 0
-			borderColor 0 0 0 0
-			outlineColor 0 0 0 0
-			decoration 
-			type 8
-			align 0
-			textAlign 0
-			textAlignX 0
-			textAlignY 0
-			textScale 0.55
-			textStyle 0
-			textFont 0
-			feeder 0
-			visible 1
-			visible when( FSM_VISIBILITY && !dvarbool("compassAlwaysVisible") );
-			exp forecolor a ( 1 - radarjamintensity( )  )
+//   		visible when( FSM_VISIBILITY );
+//			exp forecolor a ( 1 - radarjamintensity( )  )
 		}
 		itemDef
 		{
@@ -476,63 +316,10 @@
 			textFont 0
 			feeder 0
 			visible 1
-			visible when( dvarbool("compassAlwaysVisible") );
-		}
-		itemDef
-		{
-			name fullmap_sentries
-			rect -260 135 240 240 3 1
-			style 0
-			border 0
-			ownerdraw 189
-			ownerdrawFlag 0
-			borderSize 0
-			foreColor 1 1 1 1
-			backColor 0 0 0 0
-			borderColor 0 0 0 0
-			outlineColor 0 0 0 0
-			decoration 
-			type 8
-			align 0
-			textAlign 0
-			textAlignX 0
-			textAlignY 0
-			textScale 0.55
-			textStyle 0
-			textFont 0
-			feeder 0
-			visible 1
-			visible when( FSM_VISIBILITY && !dvarbool("compassAlwaysVisible") );
-			exp forecolor a ( 1 - radarjamintensity( )  )
-		}
-		itemDef
-		{
-			name fullmap_player
-			rect -260 135 240 240 3 1
-			style 0
-			border 0
-			ownerdraw 183
-			ownerdrawFlag 0
-			borderSize 0
-			foreColor 1 1 1 1
-			backColor 0 0 0 0
-			borderColor 0 0 0 0
-			outlineColor 0 0 0 0
-			background compassping_player
-			decoration 
-			type 8
-			align 0
-			textAlign 0
-			textAlignX 0
-			textAlignY 0
-			textScale 0.55
-			textStyle 0
-			textFont 0
-			feeder 0
-			visible 1
-			visible when( dvarbool("compassAlwaysVisible") );
+//			visible when( FSM_VISIBILITY );
 //			exp forecolor a ( 1 - radarjamintensity( )  )
-		}itemDef
+		}
+		itemDef
 		{
 			name fullmap_player
 			rect -260 135 240 240 3 1
@@ -557,8 +344,8 @@
 			textFont 0
 			feeder 0
 			visible 1
-			visible when( FSM_VISIBILITY && !dvarbool("compassAlwaysVisible") );
-			exp forecolor a ( 1 - radarjamintensity( )  )
+//			visible when( FSM_VISIBILITY );
+//			exp forecolor a ( 1 - radarjamintensity( )  )
 		}
 		itemDef // RADAR JAM CRAP
 		{
@@ -584,8 +371,8 @@
 			textFont 0
 			feeder 0
 			visible 0
-			visible when ( radarisjammed( ) && !dvarbool("compassAlwaysVisible") )
-			exp forecolor a ( radarjamintensity( )  )
+//			visible when ( radarisjammed( ) )
+//			exp forecolor a ( radarjamintensity( )  )
 		}
 		itemDef
 		{
@@ -611,8 +398,8 @@
 			textFont 0
 			feeder 0
 			visible 0
-			visible when ( radarisjammed( ) && !dvarbool("compassAlwaysVisible") )
-			exp forecolor a ( radarjamintensity( )  )
+//			visible when ( radarisjammed( ) )
+//			exp forecolor a ( radarjamintensity( )  )
 		}
 		itemDef
 		{
@@ -718,32 +505,6 @@
 			text "@MENU_OPTIONS_UPPER_CASE"
 			visible 1
         }
-		itemDef
-		{
-			rect 175 0 272 28 1 1
-			style 0
-			border 0
-			ownerdraw 0
-			ownerdrawFlag 0
-			borderSize 0
-			foreColor 1 1 1 1
-			backColor 0 0 0 0
-			borderColor 0 0 0 0
-			outlineColor 0 0 0 0
-			decoration 
-			type 0
-			align 0
-			textAlign 6
-			textAlignX -60
-			textAlignY 0
-			textScale 0.3
-			textStyle 0
-			textFont 8
-			feeder 0
-			exp text ( "Equipment: ^2\"" + getperk( "equipment" ) + "\"" )
-			visible when ( dvarbool("developer") )
-        }
-		
 		itemDef
 		{
 			rect -260 115 -136 20 3 1
@@ -1141,535 +902,31 @@
 		{
 			rect 0 68 216 1 1 1
 			style 3
-			decoration
+			border 0
+			ownerdraw 0
+			ownerdrawFlag 0
+			borderSize 0
+			foreColor 1 1 1 0.65
+			backColor 0 0 0 0
+			borderColor 0 0 0 0
+			outlineColor 0 0 0 0
+			background gradient_fadein
+			decoration 
+			type 0
+			align 0
+			textAlign 0
+			textAlignX 0
+			textAlignY 0
+			textScale 0.55
+			textStyle 0
+			textFont 0
+			feeder 0
 			visible 1
-			forecolor 1 1 1 0.65
-			background "gradient_fadein"
-			textscale 0.55
 		}
 		itemDef
 		{
 			name game_options
 			rect -64 68 336 20 1 1
-			style 1
-			border 0
-			ownerdraw 0
-			ownerdrawFlag 0
-			borderSize 0
-			foreColor 1 1 1 1
-			backColor 0 0 0 0
-			borderColor 0 0 0 0
-			outlineColor 0 0 0 0
-			background menu_button_selection_bar
-			group mw2_button
-			type 1
-			align 0
-			textAlign 6
-			textAlignX -60
-			textAlignY 0
-			textScale 0.375
-			textStyle 0
-			textFont 3
-			feeder 0
-			text "@MPUI_MUTE_PLAYERS"
-			visible 1
-			onFocus
-			{
-				play "mouse_over";
-				if ( dvarstring( "gameMode" ) != "mp"  )
-				{
-					setItemColor mw2_button "backcolor" 0 0 0 0;
-				}
-				setItemColor self "backcolor" 0 0 0 1;
-				setLocalVarBool ui_menuAButton 1;
-				setLocalVarFloat ui_popupYPos 0.000000;
-			}
-			leaveFocus
-			{
-				setItemColor self "backcolor" 0 0 0 "0.0";
-				setLocalVarString ui_hint_text "@NULL_EMPTY"  );
-				setLocalVarBool ui_menuAButton 1;
-			}
-			action
-			{
-				play "mouse_click";
-				close "self";
-				open "muteplayer";
-			}
-		}
-		itemDef
-		{
-			name demo_popup_button
-			rect -64 88 336 20 1 1
-			style 1
-			border 0
-			ownerdraw 0
-			ownerdrawFlag 0
-			borderSize 0
-			foreColor 1 1 1 1
-			backColor 0 0 0 0
-			borderColor 0 0 0 0
-			outlineColor 0 0 0 0
-			background menu_button_selection_bar
-			group mw2_button
-			type 1
-			align 0
-			textAlign 6
-			textAlignX -60
-			textAlignY 0
-			textScale 0.375
-			textStyle 0
-			textFont 3
-			feeder 0
-			text "Record demo"
-			visible 1
-			onFocus
-			{
-				play "mouse_over";
-				setItemColor self "backcolor" 0 0 0 1;
-				setLocalVarBool ui_menuAButton 1;
-				setLocalVarFloat ui_popupYPos 0.000000;
-			}
-			leaveFocus
-			{
-				setItemColor self "backcolor" 0 0 0 "0.0";
-				setLocalVarString ui_hint_text "@NULL_EMPTY"  );
-				setLocalVarBool ui_menuAButton 1;
-			}
-			action
-			{
-				play "mouse_click";
-                open "record_popmenu";
-			}   
-		}
-		itemDef
-		{
-			name barracks
-			rect -64 128 336 20 1 1
-			style 1
-			border 0
-			ownerdraw 0
-			ownerdrawFlag 0
-			borderSize 0
-			foreColor 1 1 1 1
-			backColor 0 0 0 0
-			borderColor 0 0 0 0
-			outlineColor 0 0 0 0
-			background menu_button_selection_bar
-			group mw2_button
-			type 1
-			align 0
-			textAlign 6
-			textAlignX -60
-			textAlignY 0
-			textScale 0.375
-			textStyle 0
-			textFont 3
-			feeder 0
-			text "@MENU_BARRACKS_CAPS"
-			visible 1
-			onFocus
-			{
-				play "mouse_over";
-				setItemColor self "backcolor" 0 0 0 1;
-				setLocalVarBool ui_menuAButton 1;
-				setLocalVarFloat ui_popupYPos 0.000000;
-			}
-			leaveFocus
-			{
-				setItemColor self "backcolor" 0 0 0 "0.0";
-				setLocalVarString ui_hint_text "@NULL_EMPTY"  );
-				setLocalVarBool ui_menuAButton 1;
-			}
-			action
-			{
-				play "mouse_click";
-				open "menu_online_barracks"
-			}
-		}
-		itemDef
-		{
-			name fav_message_pop
-			rect -64 148 336 20 1 1
-			style 1
-			border 0
-			ownerdraw 0
-			ownerdrawFlag 0
-			borderSize 0
-			foreColor 0 1 0.4 1
-			backColor 0 0 0 0
-			borderColor 0 0 0 0
-			outlineColor 0 0 0 0
-			background menu_button_selection_bar
-			group mw2_button
-			type 1
-			align 0
-			textAlign 6
-			textAlignX -60
-			textAlignY 0
-			textScale 0.375
-			textStyle 0
-			textFont 3
-			feeder 0
-			text "@MENU_ADD_TO_FAVORITES"
-			visible 1
-			dvarTest "ui_netSource"
-			hideDvar { "2" }
-			onFocus
-			{
-				play "mouse_over";
-				if ( dvarstring( "gameMode" ) != "mp"  )
-				{
-					setItemColor mw2_button "backcolor" 0 0 0 0;
-				}
-				setItemColor self "backcolor" 0 0 0 1;
-				setLocalVarBool ui_menuAButton 1;
-				setLocalVarFloat ui_popupYPos 0.000000;
-			}
-			leaveFocus
-			{
-				setItemColor self "backcolor" 0 0 0 "0.0";
-				setLocalVarString ui_hint_text "@NULL_EMPTY"  );
-				setLocalVarBool ui_menuAButton 1;
-			}
-			action
-			{
-				play "mouse_click";
-				exec "favorite";
-	            uiscript CreateListFavorite;
-                open "fav_message_popmenu";
-			}   
-		} 
-		itemDef
-		{
-			name fav_message_del_pop
-			rect -64 148 336 20 1 1
-			style 1
-			border 0
-			ownerdraw 0
-			ownerdrawFlag 0
-			borderSize 0
-			foreColor 1 1 1 1
-			backColor 0 0 0 0
-			borderColor 0 0 0 0
-			outlineColor 0 0 0 0
-			background menu_button_selection_bar
-			group mw2_button
-			type 1
-			align 0
-			textAlign 6
-			textAlignX -60
-			textAlignY 0
-			textScale 0.375
-			textStyle 0
-			textFont 3
-			feeder 0
-			text "@MENU_DEL_FAVORITE"
-			visible 0
-			dvarTest "ui_netSource"
-			hideDvar { "2" }
-			onFocus
-			{
-				play "mouse_over";
-				if ( dvarstring( "gameMode" ) != "mp"  )
-				{
-					setItemColor mw2_button "backcolor" 0 0 0 0;
-				}
-				setItemColor self "backcolor" 0 0 0 1;
-				setLocalVarBool ui_menuAButton 1;
-				setLocalVarFloat ui_popupYPos 0.000000;
-			}
-			leaveFocus
-			{
-				setItemColor self "backcolor" 0 0 0 "0.0";
-				setLocalVarString ui_hint_text "@NULL_EMPTY"  );
-				setLocalVarBool ui_menuAButton 1;
-			}
-			action
-			{
-				play "mouse_click";
-				exec "favorite";
-	            uiscript RemoveListFavorite;
-			}   
-		}
-		itemDef
-		{
-			name functions_lob
-			rect -64 168 336 20 1 1
-			style 1
-			border 0
-			ownerdraw 0
-			ownerdrawFlag 0
-			borderSize 0
-			foreColor 1 1 1 1
-			backColor 0 0 0 0
-			borderColor 0 0 0 0
-			outlineColor 0 0 0 0
-			background menu_button_selection_bar
-			group mw2_button
-			type 1
-			align 0
-			textAlign 6
-			textAlignX -60
-			textAlignY 0
-			textScale 0.375
-			textStyle 0
-			textFont 3
-			feeder 0
-			text "Server Info"
-			visible 1
-			onFocus
-			{
-				play "mouse_over";
-				setItemColor self "backcolor" 0 0 0 1;
-				setLocalVarBool ui_menuAButton 1;
-				setLocalVarFloat ui_popupYPos 0.000000;
-			}
-			leaveFocus
-			{
-				setItemColor self "backcolor" 0 0 0 "0.0";
-				setLocalVarString ui_hint_text "@NULL_EMPTY"  );
-				setLocalVarBool ui_menuAButton 1;
-			}
-			action
-			{
-				play "mouse_click";
-                open "serverinfo_popmenu";
-                //open "popup_gamesetup";
-			}
-            //visible when ( ( dvarbool( "xblive_privatematch" ) ) == 1 && ( ( dvarbool( "sv_running" ) ) == 1 ) && ( inprivateparty( ) || privatepartyhost( ) || privatepartyhostinlobby( ) )  )
-		}
-		itemDef
-		{
-			name settings_lob
-			rect -64 188 336 20 1 1
-			style 1
-			border 0
-			ownerdraw 0
-			ownerdrawFlag 0
-			borderSize 0
-			foreColor 1 1 1 1
-			backColor 0 0 0 0
-			borderColor 0 0 0 0
-			outlineColor 0 0 0 0
-			background menu_button_selection_bar
-			group mw2_button
-			type 1
-			align 0
-			textAlign 6
-			textAlignX -60
-			textAlignY 0
-			textScale 0.375
-			textStyle 0
-			textFont 3
-			feeder 0
-			text "Lobby Settings"
-			visible 1
-			onFocus
-			{
-				play "mouse_over";
-				setItemColor self "backcolor" 0 0 0 1;
-				setLocalVarBool ui_menuAButton 1;
-				setLocalVarFloat ui_popupYPos 0.000000;
-			}
-			leaveFocus
-			{
-				setItemColor self "backcolor" 0 0 0 "0.0";
-				setLocalVarString ui_hint_text "@NULL_EMPTY"  );
-				setLocalVarBool ui_menuAButton 1;
-			}
-			action
-			{
-				play "mouse_click";
-                //open "settings_lobby";
-                open "popup_gamesetup";
-			}
-            //visible when ( ( dvarbool( "xblive_privatematch" ) ) == 1 && ( ( dvarbool( "sv_running" ) ) == 1 ) && ( inprivateparty( ) || privatepartyhost( ) || privatepartyhostinlobby( ) )  )
-		}
-		itemDef
-		{
-			name serverbrowser_ingame_button
-			rect -64 228 336 20 1 1
-			style 1
-			border 0
-			ownerdraw 0
-			ownerdrawFlag 0
-			borderSize 0
-			foreColor 1 1 1 1
-			backColor 0 0 0 0
-			borderColor 0 0 0 0
-			outlineColor 0 0 0 0
-			background menu_button_selection_bar
-			group mw2_button
-			type 1
-			align 0
-			textAlign 6
-			textAlignX -60
-			textAlignY 0
-			textScale 0.375
-			textStyle 0
-			textFont 3
-			feeder 0
-			text "@MENU_JOIN_SERVER_CAP"
-			visible 1
-			onFocus
-			{
-				play "mouse_over";
-				setItemColor self "backcolor" 0 0 0 1;
-				setLocalVarBool ui_menuAButton 1;
-				setLocalVarFloat ui_popupYPos 0.000000;
-			}
-			leaveFocus
-			{
-				setItemColor self "backcolor" 0 0 0 "0.0";
-				setLocalVarString ui_hint_text "@NULL_EMPTY"  );
-				setLocalVarBool ui_menuAButton 1;
-			}
-			action
-			{
-				play "mouse_click";
-                open "serverbrowser_ingame";
-			}   
-		}
-		itemDef
-		{
-			name theatre_menu_button
-			rect -64 248 336 20 1 1
-			style 1
-			border 0
-			ownerdraw 0
-			ownerdrawFlag 0
-			borderSize 0
-			foreColor 1 1 1 1
-			backColor 0 0 0 0
-			borderColor 0 0 0 0
-			outlineColor 0 0 0 0
-			background menu_button_selection_bar
-			group mw2_button
-			type 1
-			align 0
-			textAlign 6
-			textAlignX -60
-			textAlignY 0
-			textScale 0.375
-			textStyle 0
-			textFont 3
-			feeder 0
-			text "Theatre"
-			visible 1
-			onFocus
-			{
-				play "mouse_over";
-				setItemColor self "backcolor" 0 0 0 1;
-				setLocalVarBool ui_menuAButton 1;
-				setLocalVarFloat ui_popupYPos 0.000000;
-			}
-			leaveFocus
-			{
-				setItemColor self "backcolor" 0 0 0 "0.0";
-				setLocalVarString ui_hint_text "@NULL_EMPTY"  );
-				setLocalVarBool ui_menuAButton 1;
-			}
-			action
-			{
-				play "mouse_click";
-                open "pc_theatre_menu";
-			}   
-		}
-		itemDef
-		{
-			name mod_button
-			rect -64 268 336 20 1 1
-			style 1
-			border 0
-			ownerdraw 0
-			ownerdrawFlag 0
-			borderSize 0
-			foreColor 1 1 1 1
-			backColor 0 0 0 0
-			borderColor 0 0 0 0
-			outlineColor 0 0 0 0
-			background menu_button_selection_bar
-			group mw2_button
-			type 1
-			align 0
-			textAlign 6
-			textAlignX -60
-			textAlignY 0
-			textScale 0.375
-			textStyle 0
-			textFont 3
-			feeder 0
-			text "@MENU_MODS"
-			visible 1
-			onFocus
-			{
-				play "mouse_over";
-				setItemColor self "backcolor" 0 0 0 1;
-				setLocalVarBool ui_menuAButton 1;
-				setLocalVarFloat ui_popupYPos 0.000000;
-			}
-			leaveFocus
-			{
-				setItemColor self "backcolor" 0 0 0 "0.0";
-				setLocalVarString ui_hint_text "@NULL_EMPTY"  );
-				setLocalVarBool ui_menuAButton 1;
-			}
-			action
-			{
-				play "mouse_click";
-                open "mods_menu";
-			}   
-		}
-		itemDef
-		{
-			name fav_message_pop
-			rect -64 -121 336 20 1 3
-			style 1
-			border 0
-			ownerdraw 0
-			ownerdrawFlag 0
-			borderSize 0
-			foreColor 1 1 1 1
-			backColor 0 0 0 0
-			borderColor 0 0 0 0
-			outlineColor 0 0 0 0
-			background menu_button_selection_bar
-			group mw2_button
-			type 1
-			align 0
-			textAlign 6
-			textAlignX -60
-			textAlignY 0
-			textScale 0.375
-			textStyle 0
-			textFont 3
-			feeder 0
-			text "Settings"
-			visible 1
-			onFocus
-			{
-				play "mouse_over";
-				setItemColor self "backcolor" 0 0 0 1;
-				setLocalVarBool ui_menuAButton 1;
-				setLocalVarFloat ui_popupYPos 0.000000;
-			}
-			leaveFocus
-			{
-				setItemColor self "backcolor" 0 0 0 "0.0";
-				setLocalVarString ui_hint_text "@NULL_EMPTY"  );
-				setLocalVarBool ui_menuAButton 1;
-			}
-			action
-			{
-				play "mouse_click";
-                open "repz_menu_settings";
-			}   
-		}
-		itemDef
-		{
-			name game_options
-			rect -64 -101 336 20 1 3
 			style 1
 			border 0
 			ownerdraw 0
@@ -1714,132 +971,185 @@
 				play "mouse_click";
 				close "self";
 				open "pc_options_video";
-				execnow "set ui_allow_graphic_change 1";
+				execnow "set ui_allow_graphic_change 0";
 			}
 		}
-		
 		itemDef
 		{
-			name game_endgame
-			rect -64 -81 336 20 1 3
-			style 1
-			border 0
-			ownerdraw 0
-			ownerdrawFlag 0
-			borderSize 0
-			foreColor 1 1 1 1
-			backColor 0 0 0 0
-			borderColor 0 0 0 0
-			outlineColor 0 0 0 0
-			background menu_button_selection_bar
-			group mw2_button
-			type 1
-			align 0
-			textAlign 6
-			textAlignX -60
-			textAlignY 0
-			textScale 0.375
-			textStyle 0
-			textFont 3
-			feeder 0
-			text "@MENU_END_GAME"
+			name "game_endgame"
+			rect -64 88 336 20 1 1
 			visible 1
-			onFocus
-			{
-				play "mouse_over";
-				if ( dvarstring( "gameMode" ) != "mp"  )
-				{
-					setItemColor mw2_button "backcolor" 0 0 0 0;
-				}
-				setItemColor self "backcolor" 0 0 0 1;
-				setLocalVarBool ui_menuAButton 1;
-				setLocalVarFloat ui_popupYPos 0.000000;
-			}
-			leaveFocus
-			{
-				setItemColor self "backcolor" 0 0 0 "0.0";
-				setLocalVarString ui_hint_text "@NULL_EMPTY"  );
-				setLocalVarBool ui_menuAButton 1;
-			}
+			group "mw2_button"
+			style 1
+			forecolor 1 1 1 1
+			disablecolor 0.6 0.55 0.55 1
+			background "menu_button_selection_bar"
+			type 1
+			textfont 3
+			textalign 6
+			textalignx -60
+			textscale 0.375
+			text "@MENU_END_GAME"
+			visible when ( !( dvarbool( "onlinegame" ) && !dvarbool( "xblive_privatematch" ) ) && ( dvarbool( "sv_running" ) ) )
 			action
 			{
 				play "mouse_click";
 				open "popup_endgame";
 			}
-			visible when ( !( dvarbool( "onlinegame" ) && !dvarbool( "xblive_privatematch" ) ) && ( dvarbool( "sv_running" ) )  )
-		}
-		itemDef
-		{
-			name game_leavegame
-			rect -64 -81 336 20 1 3
-			style 1
-			border 0
-			ownerdraw 0
-			ownerdrawFlag 0
-			borderSize 0
-			foreColor 1 1 1 1
-			backColor 0 0 0 0
-			borderColor 0 0 0 0
-			outlineColor 0 0 0 0
-			background menu_button_selection_bar
-			group mw2_button
-			type 1
-			align 0
-			textAlign 6
-			textAlignX -60
-			textAlignY 0
-			textScale 0.375
-			textStyle 0
-			textFont 3
-			feeder 0
-			text "@MENU_LEAVE_GAME"
-			visible 1
 			onFocus
 			{
 				play "mouse_over";
-				if ( dvarstring( "gameMode" ) != "mp"  )
+				if ( dvarstring( "gameMode" ) != "mp" )
 				{
-					setItemColor mw2_button "backcolor" 0 0 0 0;
+					setItemColor "mw2_button" backcolor 0 0 0 0;
 				}
-				setItemColor self "backcolor" 0 0 0 1;
-				setLocalVarBool ui_menuAButton 1;
-				setLocalVarFloat ui_popupYPos 0.000000;
+				setItemColor self backcolor 0 0 0 1;
+				setLocalVarBool "ui_menuAButton" ( 1 );
+				setLocalVarFloat "ui_popupYPos" ( getfocuseditemy( ) );
 			}
 			leaveFocus
 			{
-				setItemColor self "backcolor" 0 0 0 "0.0";
-				setLocalVarString ui_hint_text "@NULL_EMPTY"  );
-				setLocalVarBool ui_menuAButton 1;
+				setItemColor self backcolor 0 0 0 "0.0";
+				setLocalVarString "ui_hint_text" ( "@NULL_EMPTY" );
+				setLocalVarBool "ui_menuAButton" ( 0 );
 			}
+		}
+		itemDef
+		{
+			name "game_leavegame"
+			rect -64 88 336 20 1 1
+			visible 1
+			group "mw2_button"
+			style 1
+			forecolor 1 1 1 1
+			disablecolor 0.6 0.55 0.55 1
+			background "menu_button_selection_bar"
+			type 1
+			textfont 3
+			textalign 6
+			textalignx -60
+			textscale 0.375
+			text "@MENU_LEAVE_GAME"
+			visible when ( ( dvarbool( "onlinegame" ) && !dvarbool( "xblive_privatematch" ) ) || !( dvarbool( "sv_running" ) ) )
 			action
 			{
 				play "mouse_click";
-				if ( ( !dvarbool( "xblive_privatematch" ) ) == 0 && ( ( dvarbool( "sv_running" ) ) == 0 ) && ( inprivateparty( ) && !privatepartyhost( ) && privatepartyhostinlobby( ) )  )
+				if ( ( dvarbool( "onlinegame" ) && !dvarbool( "xblive_privatematch" ) ) == 0 && ( ( dvarbool( "sv_running" ) ) == 0 ) && ( inprivateparty( ) && !privatepartyhost( ) && privatepartyhostinlobby( ) ) )
 				{
 					open "popup_leavegameandparty";
 				}
-				if ( ( !dvarbool( "xblive_privatematch" ) ) == 0 && ( ( dvarbool( "sv_running" ) ) == 0 ) && ( !inprivateparty( ) || privatepartyhost( ) || !privatepartyhostinlobby( ) )  )
+				if ( ( dvarbool( "onlinegame" ) && !dvarbool( "xblive_privatematch" ) ) == 0 && ( ( dvarbool( "sv_running" ) ) == 0 ) && ( !inprivateparty( ) || privatepartyhost( ) || !privatepartyhostinlobby( ) ) )
 				{
 					open "popup_leavegame";
 				}
-				if ( ( dvarbool( "sv_running" ) )  )
+				if ( ( dvarbool( "onlinegame" ) && !dvarbool( "xblive_privatematch" ) ) && ( dvarbool( "sv_running" ) ) )
 				{
 					open "popup_endgame_ranked";
 				}
-				if ( ( dvarbool( "sv_running" ) ) == 0 && ( inprivateparty( ) && !privatepartyhost( ) && privatepartyhostinlobby( ) )  )
+				if ( ( dvarbool( "onlinegame" ) && !dvarbool( "xblive_privatematch" ) ) && ( dvarbool( "sv_running" ) ) == 0 && ( inprivateparty( ) && !privatepartyhost( ) && privatepartyhostinlobby( ) ) )
 				{
 					open "popup_leavegameandparty_ranked";
 				}
-				if ( ( dvarbool( "sv_running" ) ) == 0 && ( !inprivateparty( ) || privatepartyhost( ) || !privatepartyhostinlobby( ) )  )
+				if ( ( dvarbool( "onlinegame" ) && !dvarbool( "xblive_privatematch" ) ) && ( dvarbool( "sv_running" ) ) == 0 && ( !inprivateparty( ) || privatepartyhost( ) || !privatepartyhostinlobby( ) ) )
 				{
 					open "popup_leavegame_ranked";
 				}
 			}
-			visible when ( !( dvarbool( "sv_running" ) )  )
+			onFocus
+			{
+				play "mouse_over";
+				if ( dvarstring( "gameMode" ) != "mp" )
+				{
+					setItemColor "mw2_button" backcolor 0 0 0 0;
+				}
+				setItemColor self backcolor 0 0 0 1;
+				setLocalVarBool "ui_menuAButton" ( 1 );
+				setLocalVarFloat "ui_popupYPos" ( getfocuseditemy( ) );
+			}
+			leaveFocus
+			{
+				setItemColor self backcolor 0 0 0 "0.0";
+				setLocalVarString "ui_hint_text" ( "@NULL_EMPTY" );
+				setLocalVarBool "ui_menuAButton" ( 0 );
+			}
 		}
 		itemDef
 		{
-			rect -64 -61 336 20 1 3
+			rect 0 108 216 1 1 1
+			style 3
+			border 0
+			ownerdraw 0
+			ownerdrawFlag 0
+			borderSize 0
+			foreColor 1 1 1 0.65
+			backColor 0 0 0 0
+			borderColor 0 0 0 0
+			outlineColor 0 0 0 0
+			background gradient_fadein
+			decoration 
+			type 0
+			align 0
+			textAlign 0
+			textAlignX 0
+			textAlignY 0
+			textScale 0.55
+			textStyle 0
+			textFont 0
+			feeder 0
+			visible 1
+		}
+
+#define CHOICE_Y(i) ( 108 + ( i * 20 ) )
+#define CHOICE_ORIGIN(i) -64 CHOICE_Y(i)
+#define CHOICE_RECT(i) CHOICE_ORIGIN(i) 336 20 1 1
+
+#define CLASS_BUTTON( itemIndex, buttonName, textArg, actionArg, visArg) \
+		itemDef \
+		{ \
+			name buttonName \
+			rect CHOICE_RECT(itemIndex) \
+			foreColor 1 1 1 1 \
+			backColor 0 0 0 0 \
+			style 1 \
+			origin 0 0 \
+			background menu_button_selection_bar \
+			group mw2_button \
+			type 1 \
+			textAlign 6 \
+			textAlignX -60 \
+			textScale 0.375 \
+			textFont 3 \
+			text textArg \
+			onFocus \
+			{ \
+				play mouse_over; \
+				setItemColor self backcolor 0 0 0 1; \
+				setLocalVarBool ui_menuAButton 1; \
+				setLocalVarFloat ui_popupYPos 0.000000; \
+			} \
+			leaveFocus \
+			{ \
+				setItemColor self backcolor 0 0 0 0.0; \
+				setLocalVarBool ui_menuAButton 1; \
+			} \
+			action \
+			{ \
+				play mouse_click; \
+				actionArg \
+			} \
+			visible visArg \
+		}
+		
+		CLASS_BUTTON( 0, class_cac_editor, "Class Editor", open cac_popup;, 1 )
+		CLASS_BUTTON( 1, class_killstreak_editor, "Killstreak Editor", open popup_callsign;, 1 )
+		CLASS_BUTTON( 2, class_friends, "Friends", open repz_popup_friends;, 1 )
+		CLASS_BUTTON( 3, class_server_list, "Server List", open pc_join_unranked;, 1 )
+		CLASS_BUTTON( 4, class_favorite, "Favorite", exec "favorite"; uiscript CreateListFavorite; open "fav_message_popmenu";, 1 )
+		CLASS_BUTTON( 5, class_record, "Record Demo", open repz_record;, 1 )
+		
+		itemDef
+		{
+			rect -64 -20 336 20 1 3
 			style 1
 			border 0
 			ownerdraw 0
@@ -1885,10 +1195,10 @@
 				escape "self";
 			}
 			visible when ( "@PLATFORM_BACK_CAPS" == "@PLATFORM_BACK_CAPS"  )
-		}		
+		}
 		itemDef
 		{
-			rect -64 -31 825 20 1 3
+			rect -64 -20 336 20 1 3
 			style 1
 			border 0
 			ownerdraw 0
@@ -1909,7 +1219,7 @@
 			textStyle 0
 			textFont 3
 			feeder 0
-			text "^3<= ^1RECONNECT ^3=>"
+			text "@PLATFORM_BACK_CAPS"
 			visible 1
 			onFocus
 			{
@@ -1931,142 +1241,9 @@
 			{
 				play "mouse_click";
 				play "mouse_click";
-				if(dvarbool( "menu_notify" ) )
-				{
-					exec "say ^8is reconnecting.";
-				}
-				exec "reconnect";
+				open "popup_summary";
 			}
+			visible when ( "@PLATFORM_BACK_CAPS" == "@PLATFORM_GAME_SUMMARY_CAPS"  )
 		}
-		
-		itemDef
-		{
-			rect -64 -11 825 20 1 3
-			style 1
-			border 0
-			ownerdraw 0
-			ownerdrawFlag 0
-			borderSize 0
-			foreColor 1 1 1 1
-			backColor 0 0 0 0
-			borderColor 0 0 0 0
-			outlineColor 0 0 0 0
-			background menu_button_selection_bar
-			group mw2_button
-			type 1
-			align 0
-			textAlign 6
-			textAlignX -60
-			textAlignY 0
-			textScale 0.375
-			textStyle 0
-			textFont 3
-			feeder 0
-			text "^3<= ^1DISCONNECT ^3=>"
-			visible 1
-			onFocus
-			{
-				play "mouse_over";
-				if ( dvarstring( "gameMode" ) != "mp"  )
-				{
-					setItemColor mw2_button "backcolor" 0 0 0 0;
-				}
-				setItemColor self "backcolor" 0 0 0 1;
-				setLocalVarBool ui_menuAButton 1;
-			}
-			leaveFocus
-			{
-				setItemColor self "backcolor" 0 0 0 "0.0";
-				setLocalVarString ui_hint_text "@NULL_EMPTY"  );
-				setLocalVarBool ui_menuAButton 1;
-			}
-			action
-			{
-				play "mouse_click";
-				play "mouse_click";
-				if(dvarbool( "menu_notify" ) )
-				{
-					exec "say ^8disconnected.";
-				}
-				exec "disconnect";
-			}
-		}
-		itemDef
-		{
-			rect -64 9 850 20 1 3
-			style 3
-			border 0
-			ownerdraw 0
-			ownerdrawFlag 0
-			borderSize 0
-			foreColor 1 1 1 0.65
-			backColor 0 0 0 0
-			borderColor 0 0 0 0
-			outlineColor 0 0 0 0
-			background gradient_fadein
-			decoration 
-			type 0
-			align 0
-			textAlign 0
-			textAlignX 0
-			textAlignY 0
-			textScale 0.55
-			textStyle 0
-			textFont 0
-			feeder 0
-			visible 0
-		}
-		itemDef
-		{
-			rect -64 9 825 20 1 3
-			style 1
-			border 0
-			ownerdraw 0
-			ownerdrawFlag 0
-			borderSize 0
-			foreColor 1 1 1 1
-			backColor 0 0 0 0
-			borderColor 0 0 0 0
-			outlineColor 0 0 0 0
-			background menu_button_selection_bar
-			group mw2_button
-			type 1
-			align 0
-			textAlign 6
-			textAlignX -60
-			textAlignY 0
-			textScale 0.375
-			textStyle 0
-			textFont 3
-			feeder 0
-			text "^3=> ^1EXIT ^3<="
-			visible 1
-			onFocus
-			{
-				play "mouse_over";
-				if ( dvarstring( "gameMode" ) != "mp"  )
-				{
-					setItemColor mw2_button "backcolor" 0 0 0 0;
-				}
-				setItemColor self "backcolor" 0 0 0 1;
-				setLocalVarBool ui_menuAButton 1;
-			}
-			leaveFocus
-			{
-				setItemColor self "backcolor" 0 0 0 "0.0";
-				setLocalVarString ui_hint_text "@NULL_EMPTY"  );
-				setLocalVarBool ui_menuAButton 1;
-			}
-			action
-			{
-				play "mouse_click";
-				play "mouse_click";
-				if(dvarbool( "menu_notify" ) )
-				{
-					exec "say ^8quitted his game.";
-				}
-				exec "quit";
-			}
-		}		
 	}
 }	

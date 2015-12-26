@@ -1075,7 +1075,7 @@
 			{
 				play "mouse_click";
 				play "mouse_click";
-                exec "fs_game mods/^2aMW^7 Bot Match";
+                exec "set fs_game mods/bots";
 				exec "g_gametype sd";
                 exec "ui_gametype sd";
                 exec "scr_team_fftype 1";
