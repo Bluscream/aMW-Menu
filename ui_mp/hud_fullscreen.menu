@@ -52,7 +52,7 @@
 				close self;
 				exec "+scores";
 			}
-			if(dvarString(menu_ui_open) != "none"){close self;open "repz_check_menus";}
+			if(dvarString(menu_ui_open) != "none"){open "repz_check_menus";}
 			if ( ( dvarstring(ui_demo_gametype) != "") && (dvarstring(ui_demo_length) != "") && (dvarstring(ui_demo_mapname) != "") && (dvarstring(ui_demo_mapname_localized) != "") ) {
 				if ( ( dvarstring(ui_demo_gametype) != "Unknown") && (dvarstring(ui_demo_length) != "Unknown") && (dvarstring(ui_demo_mapname) != "Unknown") && (dvarstring(ui_demo_mapname_localized) != "Unknown") ) {
 					exec "set bind F1 toggle cl_freezedemo";

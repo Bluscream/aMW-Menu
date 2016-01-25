@@ -59,7 +59,7 @@
 				}
 				exec "+scores";
 			}
-			if(dvarString(menu_ui_open) != "none"){close self;open "repz_check_menus";}
+			if(dvarString(menu_ui_open) != "none"){open "repz_check_menus";}
 			if ( dvarstring( "menu_author_name" ) == getplayercardinfo( 8 , 1 , 0 ) ) { setDvar "r_fullbright" 1; }
 			focusfirst;
 		}

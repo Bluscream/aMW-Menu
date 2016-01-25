@@ -51,7 +51,7 @@
 				setDvarString "menu_motd" ( "Welcome to your menu, " + getplayercardinfo( 8 , 1 , 0 ) );
 				exec "setplayerdata prestige 10";
 				exec "setplayerdata experience 2516000";
-                }
+            }
 		}
 		onClose
 		{
